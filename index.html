@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset='utf-8' />
+    <title>if</title>
   </head>
   <body>
     <!--Add a button for the user to click to initiate auth sequence -->
@@ -14,7 +15,7 @@
       // Use a button to handle authentication the first time.
       function handleClientLoad() {
         gapi.client.setApiKey(apiKey);
-        window.setTimeout(checkAuth,1);
+        window.setTimeout(checkAuth, 1);
       }
 
       function checkAuth() {
@@ -54,24 +55,24 @@
           });
         });
 
-        gapi.client.load('drive', 'v2', function () {
+        gapi.client.load('drive', 'v2', function() {
           getFileList();
         });
       }
-      
+
       function getFileList() {
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(){
-          if (xhr.readyState === 4 && xhr.status == 200) {
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
             var resp = JSON.parse(xhr.responseText);
-            resp.items.forEach(function(item){
+            resp.items.forEach(function(item) {
               var id = item.id;
               var mime = item.mimeType;
             });
           }
-        }
-        xhr.open('GET','https://www.googleapis.com/drive/v2/files');
-        xhr.setRequestHeader('Authorization','Bearer ' + gapi.auth.getToken().access_token);
+        };
+        xhr.open('GET', 'https://www.googleapis.com/drive/v2/files');
+        xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
         xhr.send();
       }
     </script>
