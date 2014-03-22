@@ -95,23 +95,23 @@
         xhr.open('POST', 'https://www.googleapis.com/fusiontables/v1/tables');
         xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
         xhr.send(JSON.stringify({
-          "name": "Insects",
-          "columns": [
+          name: "Insects",
+          columns: [
             {
-              "name": "Species",
-              "type": "STRING"
+              name: "Species",
+              type: "STRING"
             },
             {
-              "name": "Elevation",
-              "type": "NUMBER"
+              name: "Elevation",
+              type: "NUMBER"
             },
             {
-              "name": "Year",
-              "type": "DATETIME"
+              name: "Year",
+              type: "DATETIME"
             }
           ],
-          "description": "Insect Tracking Information.",
-          "isExportable": true
+          description: "Insect Tracking Information.",
+          isExportable: true
         }));
       }
 
