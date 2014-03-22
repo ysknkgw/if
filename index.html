@@ -13,7 +13,8 @@
     <script type="text/javascript">
       var clientId = '1019598927602';
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
-      var scopes = 'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file';
+      var scopes = 'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/fusiontables';
+      var ifDbFolder;
 
       function handleClientLoad() {
         gapi.client.setApiKey(apiKey);
@@ -41,54 +42,12 @@
       }
 
       function displayList(result) {
-        var folderMap = {};
         for (var i = 0; i < result.length; i++) {
           if (result[i].mimeType === "application/vnd.google-apps.folder") {
-            folderMap[result[i].id] = {};
-            folderMap[result[i].id].title = result[i].title;
-            if (result[i].parents && result[i].parents.length > 0) {
-              folderMap[result[i].id].parentId = result[i].parents[0].id;
-              folderMap[result[i].id].parentIsRoot = result[i].parents[0].isRoot;
+            if ("ifdb" === result[i].title) {
+              ifDbFolder = result[i];
             } else {
-              folderMap[result[i].id].parentIsRoot = true;
-            }
-          }
-        }
-        var fullPath = "";
 
-        function makePath(id) {
-          if (!folderMap[id].parentIsRoot) {
-            if (folderMap[folderMap[id].parentId]) {
-              fullPath = folderMap[folderMap[id].parentId].title + "/" + fullPath;
-              makePath(folderMap[id].parentId);
-            }
-          }
-        }
-        for (var key in folderMap) {
-          fullPath = folderMap[key].title;
-          makePath(key);
-          folderMap[key].fullPath = fullPath;
-        }
-
-        var out = document.getElementById("out");
-
-        for (var i = 0; i < result.length; i++) {
-          if (result[i].mimeType !== "application/vnd.google-apps.folder") {
-            var path = "";
-            if (result[i].parents) {
-              if (!result[i].parents[0].isRoot) {
-                path = folderMap[result[i].parents[0].id].fullPath;
-              }
-            }
-            if (path !== "") {
-              out.appendChild(document.createTextNode(path + "/" + result[i].title + " (" + result[i].mimeType + ")"));
-              var br = document.createElement("br");
-              out.appendChild(br);
-
-            } else {
-              out.appendChild(document.createTextNode(result[i].title + " (" + result[i].mimeType + ")"));
-              var br = document.createElement("br");
-              out.appendChild(br);
             }
           }
         }
@@ -105,7 +64,6 @@
             image.src = resp.image.url;
             heading.appendChild(image);
             heading.appendChild(document.createTextNode(resp.displayName));
-
             document.getElementById('content').appendChild(heading);
           });
         });
@@ -115,6 +73,38 @@
             displayList(result);
           });
         });
+
+        gapi.client.load('tables', 'v1', function() {
+          retrieveAllTables(function(result) {
+            displayList(result);
+          });
+        });
+      }
+
+      function retrieveAllTables(callback) {
+        var retrievePageOfTables = function(xhr, result) {
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              var resp = JSON.parse(xhr.responseText);
+              result = result.concat(resp.items);
+              var nextPageToken = resp.nextPageToken;
+              if (nextPageToken) {
+                xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://www.googleapis.com/fusiontables/v1/tables?pageToken=' + encodeURIComponent(nextPageToken));
+                xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
+                xhr.send();
+                retrievePageOfFiles(request, result);
+              } else {
+                callback(result);
+              }
+            }
+          };
+          xhr.send();
+        };
+        var initialRequest = new XMLHttpRequest();
+        initialRequest.open('GET', 'https://www.googleapis.com/fusiontables/v1/tables');
+        initialRequest.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
+        retrievePageOfTables(initialRequest, []);
       }
 
       function retrieveAllFiles(callback) {
