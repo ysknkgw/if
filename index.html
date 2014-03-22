@@ -77,8 +77,8 @@
         gapi.client.load('tables', 'v1', function() {
           retrieveAllTables(function(result) {
             displayList(result);
-            createTable();
           });
+          createTable();
         });
       }
 
