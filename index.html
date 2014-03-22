@@ -83,12 +83,15 @@
 
       function createTable() {
         var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-              var resp = JSON.parse(xhr.responseText);
-              alert(resp.tableId);
-            }
-          };
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            var resp = JSON.parse(xhr.responseText);
+            alert(resp.tableId);
+          }
+        };
+        xhr.onerror = function(error) {
+          alert(error);
+        };
         xhr.open('POST', 'https://www.googleapis.com/fusiontables/v1/tables');
         xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
         xhr.send(JSON.stringify({
