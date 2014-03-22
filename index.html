@@ -60,7 +60,7 @@
           retrieveAllTables(function(result) {
             var isExistsIFTBL = false;
             for (var i = 0; i < result.length; i++) {
-              if (result.name === "IFTBL") {
+              if (result[i].name === "IFTBL") {
                 isExistsIFTBL = true;
                 break;
               }
