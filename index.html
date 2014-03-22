@@ -94,6 +94,7 @@
         };
         xhr.open('POST', 'https://www.googleapis.com/fusiontables/v1/tables');
         xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
+        xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
           name: "Insects",
           columns: [
