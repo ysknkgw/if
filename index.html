@@ -41,18 +41,6 @@
         return false;
       }
 
-      function displayList(result) {
-        for (var i = 0; i < result.length; i++) {
-          if (result[i].mimeType === "application/vnd.google-apps.folder") {
-            if ("ifdb" === result[i].title) {
-              ifDbFolder = result[i];
-            } else {
-
-            }
-          }
-        }
-      }
-
       function makeApiCall() {
         gapi.client.load('plus', 'v1', function() {
           var request = gapi.client.plus.people.get({
@@ -68,16 +56,19 @@
           });
         });
 
-        gapi.client.load('drive', 'v2', function() {
-          retrieveAllFiles(function(result) {
-            displayList(result);
-          });
-        });
-
         gapi.client.load('tables', 'v1', function() {
           retrieveAllTables(function(result) {
+            var isExistsIFTBL = false;
+            for (var i = 0; i < result.length; i++) {
+              if (result.name === "IFTBL") {
+                isExistsIFTBL = true;
+                break;
+              }
+            }
+            if (!isExistsIFTBL) {
+              createTable();
+            }
           });
-          createTable();
         });
       }
 
@@ -89,29 +80,20 @@
             alert(resp.tableId);
           }
         };
-        xhr.onerror = function(error) {
-          alert(error);
-        };
         xhr.open('POST', 'https://www.googleapis.com/fusiontables/v1/tables');
         xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
-          name: "Insects",
+          name: "IFTBL",
           columns: [
-            {
-              name: "Species",
-              type: "STRING"
-            },
-            {
-              name: "Elevation",
-              type: "NUMBER"
-            },
-            {
-              name: "Year",
-              type: "DATETIME"
-            }
+            {name: "Date", type: "DATETIME"},
+            {name: "Weight", type: "NUMBER"},
+            {name: "LBM", type: "NUMBER"},
+            {name: "Fat", type: "NUMBER"},
+            {name: "BFP", type: "NUMBER"},
+            {name: "TDEE", type: "NUMBER"}
           ],
-          description: "Insect Tracking Information.",
+          description: "Body Information.",
           isExportable: true
         }));
       }
@@ -140,32 +122,6 @@
         initialRequest.open('GET', 'https://www.googleapis.com/fusiontables/v1/tables');
         initialRequest.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
         retrievePageOfTables(initialRequest, []);
-      }
-
-      function retrieveAllFiles(callback) {
-        var retrievePageOfFiles = function(xhr, result) {
-          xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-              var resp = JSON.parse(xhr.responseText);
-              result = result.concat(resp.items);
-              var nextPageToken = resp.nextPageToken;
-              if (nextPageToken) {
-                xhr = new XMLHttpRequest();
-                xhr.open('GET', 'https://www.googleapis.com/drive/v2/files?pageToken=' + encodeURIComponent(nextPageToken));
-                xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
-                xhr.send();
-                retrievePageOfFiles(request, result);
-              } else {
-                callback(result);
-              }
-            }
-          };
-          xhr.send();
-        };
-        var initialRequest = new XMLHttpRequest();
-        initialRequest.open('GET', 'https://www.googleapis.com/drive/v2/files');
-        initialRequest.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
-        retrievePageOfFiles(initialRequest, []);
       }
     </script>
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
