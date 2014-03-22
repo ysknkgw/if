@@ -10,20 +10,24 @@
     <!--Add a button for the user to click to initiate auth sequence -->
     <button id="authorize-button" style="visibility: hidden">Authorize</button>
     <div id="content"></div>
-    <p>Retrieves your profile name using the Google Plus API.</p>
-    <div class="input-group">
-      <span class="input-group-addon">Date</span>
-      <input type="text" class="form-control date-picker" placeholder="">
-    </div>
-    <div class="input-group">
-      <span class="input-group-addon">Weight</span>
-      <input type="text" class="form-control" placeholder="">
-      <span class="input-group-addon">kg</span>
-    </div>
-    <div class="input-group">
-      <span class="input-group-addon">Body Fat</span>
-      <input type="text" class="form-control" placeholder="">
-      <span class="input-group-addon">%</span>
+    <div class="container">
+      <form class="form-control" role="form">
+        <div class="input-group">
+          <span class="input-group-addon">Date</span>
+          <input type="text" class="form-control date-picker" placeholder="">
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">Weight</span>
+          <input type="text" class="form-control" placeholder="">
+          <span class="input-group-addon">kg</span>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">Body Fat</span>
+          <input type="text" class="form-control" placeholder="">
+          <span class="input-group-addon">%</span>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Regist</button>        
+      </form>
     </div>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
     <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
