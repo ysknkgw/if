@@ -14,7 +14,7 @@
       var clientId = '1019598927602';
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
       var scopes = 'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/fusiontables';
-      var ifDbFolder;
+      var IFTBLID;
 
       function handleClientLoad() {
         gapi.client.setApiKey(apiKey);
@@ -77,7 +77,7 @@
         xhr.onreadystatechange = function() {
           if (xhr.readyState === 4 && xhr.status === 200) {
             var resp = JSON.parse(xhr.responseText);
-            alert(resp.tableId);
+            IFTBLID = resp.tableId;
           }
         };
         xhr.open('POST', 'https://www.googleapis.com/fusiontables/v1/tables');
