@@ -3,14 +3,32 @@
   <head>
     <meta charset='utf-8' />
     <title>if</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
   </head>
   <body>
     <!--Add a button for the user to click to initiate auth sequence -->
     <button id="authorize-button" style="visibility: hidden">Authorize</button>
     <div id="content"></div>
     <p>Retrieves your profile name using the Google Plus API.</p>
-    <div id="out"></div>
+    <div class="input-group">
+      <span class="input-group-addon">Date</span>
+      <input type="text" class="form-control date-picker" placeholder="">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon">Weight</span>
+      <input type="text" class="form-control" placeholder="">
+      <span class="input-group-addon">kg</span>
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon">Body Fat</span>
+      <input type="text" class="form-control" placeholder="">
+      <span class="input-group-addon">%</span>
+    </div>
+    <script src="//code.jquery.com/jquery-1.11.0.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+      $(".date-picker").datepicker();
       var clientId = '1019598927602';
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
       var scopes = 'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/fusiontables';
