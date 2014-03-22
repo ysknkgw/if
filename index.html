@@ -77,8 +77,34 @@
         gapi.client.load('tables', 'v1', function() {
           retrieveAllTables(function(result) {
             displayList(result);
+            createTable();
           });
         });
+      }
+
+      function createTable() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'https://www.googleapis.com/fusiontables/v1/tables');
+        xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
+        xhr.send(JSON.stringify({
+          "name": "Insects",
+          "columns": [
+            {
+              "name": "Species",
+              "type": "STRING"
+            },
+            {
+              "name": "Elevation",
+              "type": "NUMBER"
+            },
+            {
+              "name": "Year",
+              "type": "DATETIME"
+            }
+          ],
+          "description": "Insect Tracking Information.",
+          "isExportable": true
+        }));
       }
 
       function retrieveAllTables(callback) {
