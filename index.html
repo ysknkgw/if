@@ -138,8 +138,8 @@
           xhr.send();
         };
         var initialRequest = new XMLHttpRequest();
-        xhr.open('GET', 'https://www.googleapis.com/drive/v2/files?pageToken=' + encodeURIComponent(nextPageToken));
-        xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
+        initialRequest.open('GET', 'https://www.googleapis.com/drive/v2/files?pageToken=' + encodeURIComponent(nextPageToken));
+        initialRequest.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
         retrievePageOfFiles(initialRequest, []);
       }
     </script>
