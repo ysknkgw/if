@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
     <meta charset='utf-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,76 +11,76 @@
     <div class="container">
       <button id="authorize-button" style="visibility: hidden">Authorize</button>
       <div id="content"></div>
-        <form class="form-horizontal" role="form">
-          <div class="form-group">
-            <label class="control-label col-sm-2">Gender</label>
-            <div class="col-sm-10">
-              <label class="radio-inline">
-                <input type="radio" name="gender" value="male" /> Male
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="gender" value="female" /> Female
-              </label>
-            </div>
-          </div>
-          <div class="form-group input-group">
-            <span class="input-group-addon">Height</span>
-                <input name="height" type="text" class="form-control" placeholder="">
-                <span class="input-group-addon">cm</span>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">Age</label>
-            <div class="col-sm-10">
-              <input name="age" type="text" class="form-control" placeholder="" />
-            </div>
-            <label class="col-sm-2">years</label>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">Activity</label>
-            <div class="col-sm-5">
-              <select name="activity" class="form-control">
-                <option value="1.2">Sedentary</option>
-                <option value="1.375">Lightly Active</option>
-                <option value="1.55">Moderately Active</option>
-                <option value="1.725">Very Active</option>
-                <option value="1.9">Extra Active</option>
-              </select>
-            </div>
-            <div class="col-sm-5">
-              <input name="activityLevelFactor" type="text" class="form-control" />
-            </div>
-            <div class="col-sm-offset-2 col-sm-10">
-              <span class="help-block">TDEE = BMR * Activity Level Factor</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">Weight</label>
-            <div class="col-sm-8">
-              <input name="weight" type="text" class="form-control" placeholder="">
-            </div>
-              <label class="col-sm-2">kg</label>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">Body Fat</label>
-            <div class="col-sm-8">
-              <input name="bodyfat" type="text" class="form-control" placeholder="">
-            </div>
-            <label class="col-sm-2">%</label>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">Date</label>
-            <div class="col-sm-10">
-              <input name="date" type="text" class="form-control date-picker" placeholder="">
-            </div>
-          </div>
-          <!--
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button class="btn btn-default" type="submit">Submit</button>        
-            </div>
-          </div>
-          -->
-        </form>
+      <!--
+            <form class="form-horizontal" role="form">
+      -->
+      <div class="form-group">
+        <label class="control-label col-sm-6">性別</label>
+        <div class="col-sm-6">
+          <label class="radio-inline">
+            <input type="radio" name="gender" value="male" /> 男性
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="gender" value="female" /> 女性
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-6">身長(cm)</label>
+        <div class="col-sm-6">
+          <input name="height" type="number" class="form-control" placeholder="">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-6">年齢(歳)</label>
+        <div class="col-sm-6">
+          <input name="age" type="number" class="form-control" placeholder="" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-6">生活習慣での運動</label>
+        <div class="col-sm-3">
+          <select name="activity" class="form-control">
+            <option value="1.2">あまりない</option>
+            <option value="1.375">軽くある</option>
+            <option value="1.55">適度に</option>
+            <option value="1.725">結構ある</option>
+            <option value="1.9">かなりある</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <input name="activityLevelFactor" type="number" class="form-control" />
+        </div>
+        <div class="col-sm-offset-6 col-sm-6">
+          <span class="help-block">TDEE = BMR * Activity Level Factor</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-6">日付</label>
+        <div class="col-sm-6">
+          <input name="date" type="date" class="form-control date-picker" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-6">体重(kg)</label>
+        <div class="col-sm-6">
+          <input name="weight" type="number" class="form-control" placeholder="" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-6">体脂肪率(%)</label>
+        <div class="col-sm-6">
+          <input name="bodyfat" type="number" class="form-control" placeholder="" />
+        </div>
+      </div>
+      <!--
+      <div class="form-group">
+        <div class="col-sm-offset-6 col-sm-6">
+          <button class="btn btn-default" type="submit">Submit</button>        
+        </div>
+      </div>
+    </form>
+      -->
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
