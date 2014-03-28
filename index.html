@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset='utf-8' />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>if</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
@@ -10,11 +11,10 @@
     <div class="container">
       <button id="authorize-button" style="visibility: hidden">Authorize</button>
       <div id="content"></div>
-      <div class="col-sm-6">
         <form class="form-horizontal" role="form">
           <div class="form-group">
-            <label class="control-label col-sm-2">Gender</label>
-            <div class="col-sm-10">
+            <label class="control-label col-xs-2">Gender</label>
+            <div class="col-xs-10">
               <label class="radio-inline">
                 <input type="radio" name="gender" value="male" /> Male
               </label>
@@ -24,23 +24,22 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-sm-2">Height</label>
-            <div class="col-sm-10">
-              <label>
-                <input name="height" type="text" class="form-control" placeholder="">cm
-              </label>
+            <label class="control-label col-xs-2">Height</label>
+            <div class="col-xs-8">
+                <input name="height" type="text" class="form-control" placeholder="">
             </div>
+            <label class="col-xs-2">cm</label>
           </div>
           <div class="form-group">
-            <label class="control-label col-sm-2">Age</label>
-            <div class="col-sm-10">
+            <label class="control-label col-xs-2">Age</label>
+            <div class="col-xs-10">
               <input name="age" type="text" class="form-control" placeholder="" />
-              <label>years</label>
             </div>
+            <label class="col-xs-2">years</label>
           </div>
           <div class="form-group">
-            <label class="control-label col-sm-2">Activity</label>
-            <div class="col-sm-5">
+            <label class="control-label col-xs-2">Activity</label>
+            <div class="col-xs-5">
               <select name="activity" class="form-control">
                 <option value="1.2">Sedentary</option>
                 <option value="1.375">Lightly Active</option>
@@ -49,38 +48,39 @@
                 <option value="1.9">Extra Active</option>
               </select>
             </div>
-            <div class="col-sm-5">
+            <div class="col-xs-5">
               <input name="activityLevelFactor" type="text" class="form-control" />
+            </div>
+            <div class="col-xs-offset-2 col-xs-10">
               <span class="help-block">TDEE = BMR * Activity Level Factor</span>
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-sm-2">Date</label>
-            <div class="col-sm-10">
+            <label class="control-label col-xs-2">Date</label>
+            <div class="col-xs-10">
               <input name="date" type="text" class="form-control date-picker" placeholder="">
             </div>
           </div>
           <div class="form-group">
-            <label class="control-label col-sm-2">Weight</label>
-            <div class="col-sm-10">
+            <label class="control-label col-xs-2">Weight</label>
+            <div class="col-xs-8">
               <input name="weight" type="text" class="form-control" placeholder="">
-              <label>kg</label>
             </div>
+              <label class="col-xs-2">kg</label>
           </div>
           <div class="form-group">
-            <label class="control-label col-sm-2">Body Fat</label>
-            <div class="col-sm-10">
+            <label class="control-label col-xs-2">Body Fat</label>
+            <div class="col-xs-8">
               <input name="bodyfat" type="text" class="form-control" placeholder="">
-              <label>%</label>
             </div>
+            <label class="col-xs-2">%</label>
           </div>
           <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
+            <div class="col-xs-offset-2 col-xs-10">
               <button class="btn btn-default" type="submit">Submit</button>        
             </div>
           </div>
         </form>
-      </div>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
