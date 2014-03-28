@@ -9,8 +9,6 @@
   </head>
   <body>
     <div class="container">
-      <button id="authorize-button" style="visibility: hidden">Authorize</button>
-      <div id="content"></div>
       <!--
             <form class="form-horizontal" role="form">
       -->
@@ -81,6 +79,21 @@
       </div>
     </form>
       -->
+      <!--
+            <button id="authorize-button" style="visibility: hidden" class="btn btn-default">Googleログイン</button>
+            <div id="content"></div>
+      -->
+      <span id="signinButton">
+        <span
+          class="g-signin"
+          data-callback="signinCallback"
+          data-clientid="1019598927602"
+          data-cookiepolicy="single_host_origin"
+          data-requestvisibleactions="http://schemas.google.com/AddActivity"
+          data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/fusiontables">
+        </span>
+      </span>
+
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
@@ -201,6 +214,31 @@
         retrievePageOfTables(initialRequest, []);
       }
     </script>
+    <!--
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    -->
+    <script type="text/javascript">
+      (function() {
+        var po = document.createElement('script');
+        po.type = 'text/javascript';
+        po.async = true;
+        po.src = 'https://apis.google.com/js/client:plusone.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(po, s);
+      })();
+      function signinCallback(authResult) {
+        if (authResult['access_token']) {
+          // 正常に承認されました
+          // ユーザーが認証されたのでログイン ボタンを非表示にします。例:
+          document.getElementById('signinButton').setAttribute('style', 'display: none');
+        } else if (authResult['error']) {
+          // エラーが発生しました。
+          // 可能性のあるエラー コード:
+          //   「access_denied」 - ユーザーがアプリへのアクセスを拒否しました
+          //   「immediate_failed」 - ユーザーを自動的にログインできませんでした
+          // console.log（「There was an error: 」 + authResult[「エラー」]）;
+        }
+      }
+    </script>
   </body>
 </html>
