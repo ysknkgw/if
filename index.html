@@ -12,7 +12,7 @@
       <!--
             <form class="form-horizontal" role="form">
       -->
-      <div class="form-group">
+      <div class="form-group row">
         <label class="control-label col-sm-6">性別</label>
         <div class="col-sm-6">
           <label class="radio-inline">
@@ -23,19 +23,19 @@
           </label>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group row">
         <label class="control-label col-sm-6">身長(cm)</label>
         <div class="col-sm-6">
           <input name="height" type="number" class="form-control" placeholder="">
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group row">
         <label class="control-label col-sm-6">年齢(歳)</label>
         <div class="col-sm-6">
           <input name="age" type="number" class="form-control" placeholder="" />
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group row">
         <label class="control-label col-sm-6">生活習慣での運動</label>
         <div class="col-sm-3">
           <select name="activity" class="form-control">
@@ -53,19 +53,19 @@
           <span class="help-block">TDEE = BMR * Activity Level Factor</span>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group row">
         <label class="control-label col-sm-6">日付</label>
         <div class="col-sm-6">
           <input name="date" type="date" class="form-control date-picker" />
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group row">
         <label class="control-label col-sm-6">体重(kg)</label>
         <div class="col-sm-6">
           <input name="weight" type="number" class="form-control" placeholder="" />
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group row">
         <label class="control-label col-sm-6">体脂肪率(%)</label>
         <div class="col-sm-6">
           <input name="bodyfat" type="number" class="form-control" placeholder="" />
@@ -79,21 +79,16 @@
       </div>
     </form>
       -->
-      <!--
-            <button id="authorize-button" style="visibility: hidden" class="btn btn-default">Googleログイン</button>
-            <div id="content"></div>
-      -->
-      <span id="signinButton">
-        <span
-          class="g-signin"
-          data-callback="signinCallback"
-          data-clientid="1019598927602"
-          data-cookiepolicy="single_host_origin"
-          data-requestvisibleactions="http://schemas.google.com/AddActivity"
-          data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/fusiontables">
-        </span>
-      </span>
-
+      <div id="account">
+        <div id="unauthorized" style="visibility: hidden">
+          <span class="glyphicon glyphicon-question-sign"></span>
+          <button id="authorize-button" class="btn primary">Google認証</button>
+        </div>
+        <div id="authorized" style="visibility: hidden">
+          <img id="account-img" src="" alt="" class="img-rounded" />
+          <span id="account-name"></span>
+        </div>
+      </div>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
@@ -116,13 +111,13 @@
       }
 
       function handleAuthResult(authResult) {
-        var authorizeButton = document.getElementById('authorize-button');
+        var unauthorized = document.getElementById('unauthorized');
         if (authResult && !authResult.error) {
-          authorizeButton.style.visibility = 'hidden';
+          unauthorized.style.visibility = 'hidden';
           makeApiCall();
         } else {
-          authorizeButton.style.visibility = '';
-          authorizeButton.onclick = handleAuthClick;
+          unauthorized.style.visibility = '';
+          document.getElementById('authorize-button').onclick = handleAuthClick;
         }
       }
 
@@ -137,12 +132,9 @@
             'userId': 'me'
           });
           request.execute(function(resp) {
-            var heading = document.createElement('h4');
-            var image = document.createElement('img');
-            image.src = resp.image.url;
-            heading.appendChild(image);
-            heading.appendChild(document.createTextNode(resp.displayName));
-            document.getElementById('content').appendChild(heading);
+            document.getElementById('account-img').src = resp.image.url;
+            document.getElementById('account-name').innerHTML = resp.displayName;
+            document.getElementById('authorized').style.visibility = '';
           });
         });
 
@@ -214,31 +206,6 @@
         retrievePageOfTables(initialRequest, []);
       }
     </script>
-    <!--
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-    -->
-    <script type="text/javascript">
-      (function() {
-        var po = document.createElement('script');
-        po.type = 'text/javascript';
-        po.async = true;
-        po.src = 'https://apis.google.com/js/client:plusone.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(po, s);
-      })();
-      function signinCallback(authResult) {
-        if (authResult['access_token']) {
-          // 正常に承認されました
-          // ユーザーが認証されたのでログイン ボタンを非表示にします。例:
-          document.getElementById('signinButton').setAttribute('style', 'display: none');
-        } else if (authResult['error']) {
-          // エラーが発生しました。
-          // 可能性のあるエラー コード:
-          //   「access_denied」 - ユーザーがアプリへのアクセスを拒否しました
-          //   「immediate_failed」 - ユーザーを自動的にログインできませんでした
-          // console.log（「There was an error: 」 + authResult[「エラー」]）;
-        }
-      }
-    </script>
   </body>
 </html>
