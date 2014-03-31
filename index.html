@@ -66,7 +66,7 @@
       <div class="form-group row">
         <label class="control-label col-sm-6">生活習慣での運動</label>
         <div class="col-sm-3">
-          <select name="activity" class="form-control">
+          <select name="activity" class="form-control" data-bind="value: activity">
             <option value="1.2">あまりない</option>
             <option value="1.375">軽くある</option>
             <option value="1.55">適度に</option>
@@ -75,11 +75,13 @@
           </select>
         </div>
         <div class="col-sm-3">
-          <input name="activityLevelFactor" type="number" class="form-control" />
+          <input name="activityLevelFactor" type="number" class="form-control" data-bind="value: activityLevelFactor" />
         </div>
+        <!--
         <div class="col-sm-offset-6 col-sm-6">
           <span class="help-block">TDEE = BMR * Activity Level Factor</span>
         </div>
+        -->
       </div>
       <div class="form-group row">
         <label class="control-label col-sm-6">日付</label>
@@ -103,6 +105,12 @@
         <label class="control-label col-sm-6">基礎代謝量(kcal/日)</label>
         <div class="col-sm-6">
           <input name="bmr" type="number" class="form-control" placeholder="" data-bind="value: bmr" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="control-label col-sm-6">総エネルギー消費量(kcal/日)</label>
+        <div class="col-sm-6">
+          <input name="tdee" type="number" class="form-control" placeholder="" data-bind="value: tdee" />
         </div>
       </div>
       <!--
@@ -271,10 +279,17 @@
 
 
       function AppViewModel() {
-        this.age = ko.observable(33);
-        this.weight = ko.observable(64);
+        this.age = ko.observable();
+        this.weight = ko.observable();
+        this.activity = ko.observable();
+        this.activityLevelFactor = ko.computed(function() {
+          return this.activity();
+        }, this);
         this.bmr = ko.computed(function() {
           return IFCalc.calcBmr(this.age(), this.weight());
+        }, this);
+        this.tdee = ko.computed(function() {
+          return this.bmr() * this.activity();
         }, this);
       }
 
