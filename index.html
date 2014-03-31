@@ -271,8 +271,8 @@
 
 
       function AppViewModel() {
-        this.age = ko.observable("");
-        this.weight = ko.observable("");
+        this.age = ko.observable("33");
+        this.weight = ko.observable("64");
         this.bmr = ko.computed(function() {
           return IFCalc.calcBmr(this.age, this.weight);
         }, this);
