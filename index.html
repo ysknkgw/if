@@ -255,7 +255,7 @@
         this.age = ko.observable("");
         this.weight = ko.observable("");
         this.bmr = ko.computed(function() {
-          return calcBmr(this.age, this.weight)
+          return calcBmr(this.age, this.weight);
         }, this);
       }
 
