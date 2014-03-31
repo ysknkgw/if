@@ -163,6 +163,9 @@
         gapi.client.load('tables', 'v1', function() {
           retrieveAllTables(function(result) {
             var isExistsIFTBL = false;
+            if (!result) {
+              return;
+            }
             for (var i = 0; i < result.length; i++) {
               if (result[i].name === "IFTBL") {
                 isExistsIFTBL = true;
