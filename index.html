@@ -303,9 +303,9 @@
         this.weight = ko.observable();
         this.activity = ko.observable();
         this.gender = ko.observable();
-        this.activityLevelFactor = ko.observable(ko.computed(function() {
+        this.activityLevelFactor = ko.computed(function() {
           return this.activity();
-        }, this));
+        }, this);
         this.bmr = ko.computed(function() {
           return IFCalc.calcBmr(this.gender(), this.age(), this.weight());
         }, this);
