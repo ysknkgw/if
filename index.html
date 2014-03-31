@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>if</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <style type="text/css">
+    @media (max-width: @screen-xs-max){
+      .container { margin-left: 0px; margin-right: 0px; } 
+    };
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -44,10 +49,10 @@
         <label class="control-label col-sm-6">性別</label>
         <div class="col-sm-6">
           <label class="radio-inline">
-            <input type="radio" name="gender" value="male" /> 男性
+            <input type="radio" name="gender" value="male" data-bind="checked: gender" /> 男性
           </label>
           <label class="radio-inline">
-            <input type="radio" name="gender" value="female" /> 女性
+            <input type="radio" name="gender" value="female" data-bind="checked: gender" /> 女性
           </label>
         </div>
       </div>
@@ -242,30 +247,34 @@
       }
 
       var IFCalc = (function() {
+        var fatCaloriePerKg = 7200;
         var ageSpecificBsalMetabolicUnit = [
-          {min: 0, max: 2, val: 61.0},
-          {min: 3, max: 5, val: 54.8},
-          {min: 6, max: 7, val: 44.3},
-          {min: 8, max: 9, val: 40.8},
-          {min: 10, max: 11, val: 37.4},
-          {min: 12, max: 14, val: 31.0},
-          {min: 15, max: 17, val: 27.0},
-          {min: 18, max: 29, val: 24.0},
-          {min: 30, max: 49, val: 22.3},
-          {min: 50, max: 99, val: 21.5}
+          {min: 0, max: 2, male: 61.0, female: 59.7},
+          {min: 3, max: 5, male: 54.8, female: 52.2},
+          {min: 6, max: 7, male: 44.3, female: 41.9},
+          {min: 8, max: 9, male: 40.8, female: 38.3},
+          {min: 10, max: 11, male: 37.4, female: 34.8},
+          {min: 12, max: 14, male: 31.0, female: 29.6},
+          {min: 15, max: 17, male: 27.0, female: 25.3},
+          {min: 18, max: 29, male: 24.0, female: 22.1},
+          {min: 30, max: 49, male: 22.3, female: 21.7},
+          {min: 50, max: 99, male: 21.5, female: 20.7}
         ];
 
         // constructor
         function IFCalc() {
         }
 
-        IFCalc.calcBmr = function(age, weight) {
+        IFCalc.calcBmr = function(gender, age, weight) {
           if (isNaN(age) || isNaN(weight)) {
             return "";
           }
           var bsalMetabolicUnit = 0;
           for (var i = 0; i < ageSpecificBsalMetabolicUnit.length; i++) {
             if (ageSpecificBsalMetabolicUnit[i].min <= age && age <= ageSpecificBsalMetabolicUnit[i].max) {
+              if (gender === "male") {
+                
+              }
               bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].val;
               break;
             }
@@ -273,8 +282,14 @@
           return weight * bsalMetabolicUnit;
         };
 
-        return IFCalc;
+        IFCalc.calcTdee = function(gender, bmr, activityLevel) {
+          if (isNaN(bmr) || isNaN(activityLevel)) {
+            return "";
+          }
+          return brm * activityLevel;
+        };
 
+        return IFCalc;
       }());
 
 
@@ -282,14 +297,15 @@
         this.age = ko.observable();
         this.weight = ko.observable();
         this.activity = ko.observable();
+        this.gender = ko.observable();
         this.activityLevelFactor = ko.computed(function() {
           return this.activity();
         }, this);
         this.bmr = ko.computed(function() {
-          return IFCalc.calcBmr(this.age(), this.weight());
+          return IFCalc.calcBmr(this.gender(), this.age(), this.weight());
         }, this);
         this.tdee = ko.computed(function() {
-          return this.bmr() * this.activity();
+          return IFCalc.calcTdee(this.gender(), this.bmr(), this.activityLevelFactor());
         }, this);
       }
 
