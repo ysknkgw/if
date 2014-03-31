@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>if</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <style type="text/css">
-        .container { padding-left: 0px; padding-right: 0px; }
-    </style>
+    <!--
+        <style type="text/css">
+            .container { padding-left: 0px; padding-right: 0px; }
+        </style>
+    -->
   </head>
   <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -43,87 +45,89 @@
       <!--
             <form class="form-horizontal" role="form">
       -->
-      <div class="form-group row">
-        <label class="control-label col-sm-6">性別</label>
-        <div class="col-sm-6">
-          <label class="radio-inline">
-            <input type="radio" name="gender" value="male" data-bind="checked: gender" /> 男性
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="gender" value="female" data-bind="checked: gender" /> 女性
-          </label>
+      <div class="form-horizonal">
+        <div class="form-group row">
+          <label class="control-label col-sm-6">性別</label>
+          <div class="col-sm-6">
+            <label class="radio-inline">
+              <input type="radio" name="gender" value="male" data-bind="checked: gender" /> 男性
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="gender" value="female" data-bind="checked: gender" /> 女性
+            </label>
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label class="control-label col-sm-6">身長(cm)</label>
-        <div class="col-sm-6">
-          <input name="height" type="number" class="form-control" placeholder="">
+        <div class="form-group row">
+          <label class="control-label col-sm-6">身長(cm)</label>
+          <div class="col-sm-6">
+            <input name="height" type="number" class="form-control" placeholder="">
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label class="control-label col-sm-6">年齢(歳)</label>
-        <div class="col-sm-6">
-          <input name="age" type="number" class="form-control" placeholder="" data-bind="value: age" />
+        <div class="form-group row">
+          <label class="control-label col-sm-6">年齢(歳)</label>
+          <div class="col-sm-6">
+            <input name="age" type="number" class="form-control" placeholder="" data-bind="value: age" />
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label class="control-label col-sm-6">生活習慣での運動</label>
-        <div class="col-sm-3">
-          <select name="activity" class="form-control" data-bind="value: activity">
-            <option value="1.2">あまりない</option>
-            <option value="1.375">軽くある</option>
-            <option value="1.55">適度に</option>
-            <option value="1.725">結構ある</option>
-            <option value="1.9">かなりある</option>
-          </select>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">生活習慣での運動</label>
+          <div class="col-sm-3">
+            <select name="activity" class="form-control" data-bind="value: activity">
+              <option value="1.2">あまりない</option>
+              <option value="1.375">軽くある</option>
+              <option value="1.55">適度に</option>
+              <option value="1.725">結構ある</option>
+              <option value="1.9">かなりある</option>
+            </select>
+          </div>
+          <div class="col-sm-3">
+            <input name="activityLevelFactor" type="number" class="form-control" data-bind="value: activityLevelFactor" />
+          </div>
+          <!--
+          <div class="col-sm-offset-6 col-sm-6">
+            <span class="help-block">TDEE = BMR * Activity Level Factor</span>
+          </div>
+          -->
         </div>
-        <div class="col-sm-3">
-          <input name="activityLevelFactor" type="number" class="form-control" data-bind="value: activityLevelFactor" />
+        <div class="form-group row">
+          <label class="control-label col-sm-6">日付</label>
+          <div class="col-sm-6">
+            <input name="date" type="date" class="form-control date-picker" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">体重(kg)</label>
+          <div class="col-sm-6">
+            <input name="weight" type="number" class="form-control" placeholder="" data-bind="value: weight" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">体脂肪率(%)</label>
+          <div class="col-sm-6">
+            <input name="bodyfat" type="number" class="form-control" placeholder="" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">基礎代謝量(kcal/日)</label>
+          <div class="col-sm-6">
+            <input name="bmr" type="number" class="form-control" placeholder="" data-bind="value: bmr" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">総エネルギー消費量(kcal/日)</label>
+          <div class="col-sm-6">
+            <input name="tdee" type="number" class="form-control" placeholder="" data-bind="value: tdee" />
+          </div>
         </div>
         <!--
-        <div class="col-sm-offset-6 col-sm-6">
-          <span class="help-block">TDEE = BMR * Activity Level Factor</span>
+        <div class="form-group">
+          <div class="col-sm-offset-6 col-sm-6">
+            <button class="btn btn-default" type="submit">Submit</button>        
+          </div>
         </div>
+      </form>
         -->
       </div>
-      <div class="form-group row">
-        <label class="control-label col-sm-6">日付</label>
-        <div class="col-sm-6">
-          <input name="date" type="date" class="form-control date-picker" />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="control-label col-sm-6">体重(kg)</label>
-        <div class="col-sm-6">
-          <input name="weight" type="number" class="form-control" placeholder="" data-bind="value: weight" />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="control-label col-sm-6">体脂肪率(%)</label>
-        <div class="col-sm-6">
-          <input name="bodyfat" type="number" class="form-control" placeholder="" />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="control-label col-sm-6">基礎代謝量(kcal/日)</label>
-        <div class="col-sm-6">
-          <input name="bmr" type="number" class="form-control" placeholder="" data-bind="value: bmr" />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="control-label col-sm-6">総エネルギー消費量(kcal/日)</label>
-        <div class="col-sm-6">
-          <input name="tdee" type="number" class="form-control" placeholder="" data-bind="value: tdee" />
-        </div>
-      </div>
-      <!--
-      <div class="form-group">
-        <div class="col-sm-offset-6 col-sm-6">
-          <button class="btn btn-default" type="submit">Submit</button>        
-        </div>
-      </div>
-    </form>
-      -->
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
@@ -280,14 +284,14 @@
               break;
             }
           }
-          return weight * bsalMetabolicUnit;
+          return Math.ceil(weight * bsalMetabolicUnit);
         };
 
         IFCalc.calcTdee = function(bmr, activityLevel) {
           if (isNaN(bmr) || isNaN(activityLevel)) {
             return "";
           }
-          return bmr * activityLevel;
+          return Math.ceil(bmr * activityLevel);
         };
 
         return IFCalc;
