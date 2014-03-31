@@ -246,21 +246,29 @@
           {min: 30, max: 49, val: 22.3},
           {min: 50, max: 99, val: 21.5}
         ];
-      })();
 
-      IFCalc.calcBmr = function(age, weight) {
-        if (isNaN(age) || isNaN(weight)) {
-          return "";
+        // constructor
+        function IFCalc() {
         }
-        var bsalMetabolicUnit = 0;
-        for (var i = 0; i < ageSpecificBsalMetabolicUnit.length; i++) {
-          if (ageSpecificBsalMetabolicUnit[i].min <= age && age <= ageSpecificBsalMetabolicUnit[i].max) {
-            bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].val;
-            break;
+
+        IFCalc.calcBmr = function(age, weight) {
+          if (isNaN(age) || isNaN(weight)) {
+            return "";
           }
-        }
-        return weight * bsalMetabolicUnit;
-      };
+          var bsalMetabolicUnit = 0;
+          for (var i = 0; i < ageSpecificBsalMetabolicUnit.length; i++) {
+            if (ageSpecificBsalMetabolicUnit[i].min <= age && age <= ageSpecificBsalMetabolicUnit[i].max) {
+              bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].val;
+              break;
+            }
+          }
+          return weight * bsalMetabolicUnit;
+        };
+
+        return IFCalc;
+
+      }());
+
 
       function AppViewModel() {
         this.age = ko.observable("");
