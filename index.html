@@ -81,7 +81,7 @@
             </select>
           </div>
           <div class="col-sm-3">
-            <input name="activityLevelFactor" type="number" class="form-control" data-bind="value: activityLevelFactor" />
+            <input name="activityLevelFactor" type="number" class="form-control" data-bind="value: activity" />
           </div>
           <!--
           <div class="col-sm-offset-6 col-sm-6">
@@ -303,14 +303,11 @@
         this.weight = ko.observable();
         this.activity = ko.observable();
         this.gender = ko.observable();
-        this.activityLevelFactor = ko.computed(function() {
-          return this.activity();
-        }, this).extend(ko.observable());
         this.bmr = ko.computed(function() {
           return IFCalc.calcBmr(this.gender(), this.age(), this.weight());
         }, this);
         this.tdee = ko.computed(function() {
-          return IFCalc.calcTdee(this.bmr(), this.activityLevelFactor());
+          return IFCalc.calcTdee(this.bmr(), this.activity());
         }, this);
       }
 
