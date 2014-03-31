@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>if</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" />
   </head>
   <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -61,7 +60,7 @@
       <div class="form-group row">
         <label class="control-label col-sm-6">年齢(歳)</label>
         <div class="col-sm-6">
-          <input name="age" type="number" class="form-control" placeholder="" />
+          <input name="age" type="number" class="form-control" placeholder="" data-bind="value: age" />
         </div>
       </div>
       <div class="form-group row">
@@ -91,13 +90,19 @@
       <div class="form-group row">
         <label class="control-label col-sm-6">体重(kg)</label>
         <div class="col-sm-6">
-          <input name="weight" type="number" class="form-control" placeholder="" />
+          <input name="weight" type="number" class="form-control" placeholder="" data-bind="value: weight" />
         </div>
       </div>
       <div class="form-group row">
         <label class="control-label col-sm-6">体脂肪率(%)</label>
         <div class="col-sm-6">
           <input name="bodyfat" type="number" class="form-control" placeholder="" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="control-label col-sm-6">基礎代謝量(kcal/日)</label>
+        <div class="col-sm-6">
+          <input name="bmr" type="number" class="form-control" placeholder="" data-bind="value: bmr" />
         </div>
       </div>
       <!--
@@ -111,10 +116,8 @@
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
-    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-      $(".date-picker").datepicker();
       var clientId = '1019598927602';
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
       var scopes = 'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/fusiontables';
@@ -224,6 +227,38 @@
         initialRequest.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
         retrievePageOfTables(initialRequest, []);
       }
+
+      function calcBmr(age, weight) {
+        var ageSpecificBsalMetabolicUnit = [
+          {min: 0, max: 2, val: 61.0},
+          {min: 3, max: 5, val: 54.8},
+          {min: 6, max: 7, val: 44.3},
+          {min: 8, max: 9, val: 40.8},
+          {min: 10, max: 11, val: 37.4},
+          {min: 12, max: 14, val: 31.0},
+          {min: 15, max: 17, val: 27.0},
+          {min: 18, max: 29, val: 24.0},
+          {min: 30, max: 49, val: 22.3},
+          {min: 50, max: 99, val: 21.5}
+        ];
+        var bsalMetabolicUnit = 0;
+        for (var i = 0; i < ageSpecificBsalMetabolicUnit.length; i++) {
+          if (ageSpecificBsalMetabolicUnit[i].min <= age && age <= ageSpecificBsalMetabolicUnit[i].max) {
+            bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].val;
+            break;
+          }
+        }
+        return weight * bsalMetabolicUnit;
+      }
+
+      function AppViewModel() {
+        this.age = ko.observable("");
+        this.weight = ko.observable("");
+        this.bmr = ko.computed(calcBmr(this.age, this.weight), this);
+      }
+
+      // Activates knockout.js
+      ko.applyBindings(new AppViewModel());
     </script>
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
   </body>
