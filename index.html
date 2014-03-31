@@ -6,9 +6,9 @@
     <title>if</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
     <style type="text/css">
-    @media (max-width: @screen-xs-max){
-      .container { margin-left: 0px; margin-right: 0px; } 
-    };
+      @media (max-width: @screen-xs-max){
+        .container { margin-left: 0px; margin-right: 0px; } 
+      };
     </style>
   </head>
   <body>
@@ -273,16 +273,19 @@
           for (var i = 0; i < ageSpecificBsalMetabolicUnit.length; i++) {
             if (ageSpecificBsalMetabolicUnit[i].min <= age && age <= ageSpecificBsalMetabolicUnit[i].max) {
               if (gender === "male") {
-                
+                bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].male;
+              } else if (gender === "female") {
+                bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].female;
+              } else {
+                bsalMetabolicUnit = (ageSpecificBsalMetabolicUnit[i].male + ageSpecificBsalMetabolicUnit[i].female) * 0.5;
               }
-              bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].val;
               break;
             }
           }
           return weight * bsalMetabolicUnit;
         };
 
-        IFCalc.calcTdee = function(gender, bmr, activityLevel) {
+        IFCalc.calcTdee = function(bmr, activityLevel) {
           if (isNaN(bmr) || isNaN(activityLevel)) {
             return "";
           }
@@ -305,7 +308,7 @@
           return IFCalc.calcBmr(this.gender(), this.age(), this.weight());
         }, this);
         this.tdee = ko.computed(function() {
-          return IFCalc.calcTdee(this.gender(), this.bmr(), this.activityLevelFactor());
+          return IFCalc.calcTdee(this.bmr(), this.activityLevelFactor());
         }, this);
       }
 
