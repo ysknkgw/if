@@ -308,7 +308,7 @@
             return this.activity();
           },
           write: function(value) {
-            this.tdee = IFCalc.calcTdee(this.bmr(), value);
+            this.tdee(IFCalc.calcTdee(this.bmr(), value));
           },
           owner: this
         });
