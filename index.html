@@ -306,7 +306,7 @@
         this.activityLevelFactor = ko.observable();
         this.activity = ko.observable();
         this.activity.subscribe(function(value) {
-          self.activityLevelFactor = value;
+          self.activityLevelFactor(value);
         });
         this.bmr = ko.computed(function() {
           return IFCalc.calcBmr(this.gender(), this.age(), this.weight());
