@@ -268,7 +268,7 @@
         }
 
         IFCalc.calcBmr = function(gender, age, weight) {
-          if (isNaN(age) || isNaN(weight)) {
+          if (!age || !weight || isNaN(age) || isNaN(weight)) {
             return "";
           }
           var bsalMetabolicUnit = 0;
@@ -288,7 +288,7 @@
         };
 
         IFCalc.calcTdee = function(bmr, activityLevel) {
-          if (!isFinite(bmr) || !isFinite(activityLevel)) {
+          if (!bmr || !activityLevel || isNaN(bmr) || isNaN(activityLevel)) {
             return "";
           }
           return Math.ceil(bmr * activityLevel);
