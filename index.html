@@ -32,18 +32,18 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
           <div class="navbar-text navbar-right">
             <button id="signinButton">Sign in with Google</button>
-<!--
-            <div id="account">
-              <span id="unauthorized" style="visibility: hidden">
-                <img id="guest-img" src="" alt="" class="img-circle" />
-                <button id="authorize-button" class="btn btn-primary">Google認証</button>
-              </span>
-              <span id="authorized" style="visibility: hidden">
-                <img id="account-img" src="" alt="" class="img-circle" />
-                <span id="account-name"></span>
-              </span>
-            </div>
--->
+            <!--
+                        <div id="account">
+                          <span id="unauthorized" style="visibility: hidden">
+                            <img id="guest-img" src="" alt="" class="img-circle" />
+                            <button id="authorize-button" class="btn btn-primary">Google認証</button>
+                          </span>
+                          <span id="authorized" style="visibility: hidden">
+                            <img id="account-img" src="" alt="" class="img-circle" />
+                            <span id="account-name"></span>
+                          </span>
+                        </div>
+            -->
           </div>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -140,30 +140,6 @@
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-      (function() {
-        var po = document.createElement('script');
-        po.type = 'text/javascript';
-        po.async = true;
-        po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(po, s);
-      })();
-
-      /* Executed when the APIs finish loading */
-      function render() {
-
-        // Additional params including the callback, the rest of the params will
-        // come from the page-level configuration.
-        var additionalParams = {
-          'callback': signinCallback
-        };
-
-        // Attach a click listener to a button to trigger the flow.
-        var signinButton = document.getElementById('signinButton');
-        signinButton.addEventListener('click', function() {
-          gapi.auth.signIn(additionalParams); // Will use page level configuration
-        });
-      }
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
       var IFTBLID;
 
@@ -346,6 +322,46 @@
 
       // Activates knockout.js
       ko.applyBindings(new AppViewModel());
+
+      (function() {
+        var po = document.createElement('script');
+        po.type = 'text/javascript';
+        po.async = true;
+        po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(po, s);
+      })();
+
+      /* Executed when the APIs finish loading */
+      function render() {
+
+        // Additional params including the callback, the rest of the params will
+        // come from the page-level configuration.
+        var additionalParams = {
+          'callback': signinCallback
+        };
+
+        // Attach a click listener to a button to trigger the flow.
+        var signinButton = document.getElementById('signinButton');
+        signinButton.addEventListener('click', function() {
+          gapi.auth.signIn(additionalParams); // Will use page level configuration
+        });
+      }
+
+      function signinCallback(authResult) {
+        if (authResult['status']['signed_in']) {
+          // Update the app to reflect a signed in user
+          // Hide the sign-in button now that the user is authorized, for example:
+          document.getElementById('signinButton').setAttribute('style', 'display: none');
+        } else {
+          // Update the app to reflect a signed out user
+          // Possible error values:
+          //   "user_signed_out" - User is signed-out
+          //   "access_denied" - User denied access to your app
+          //   "immediate_failed" - Could not automatically log in the user
+          console.log('Sign-in state: ' + authResult['error']);
+        }
+      }
 
       (function() {
         var po = document.createElement('script');
