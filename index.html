@@ -10,6 +10,10 @@
             .container { padding-left: 0px; padding-right: 0px; }
         </style>
     -->
+    <meta name="google-signin-clientid" content="1019598927602.apps.googleusercontent.com" />
+    <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/fusiontables" />
+    <meta name="google-signin-requestvisibleactions" content="http://schemas.google.com/AddActivity" />
+    <meta name="google-signin-cookiepolicy" content="single_host_origin" />
   </head>
   <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -27,6 +31,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
           <div class="navbar-text navbar-right">
+            <button id="signinButton">Sign in with Google</button>
+<!--
             <div id="account">
               <span id="unauthorized" style="visibility: hidden">
                 <img id="guest-img" src="" alt="" class="img-circle" />
@@ -37,6 +43,7 @@
                 <span id="account-name"></span>
               </span>
             </div>
+-->
           </div>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -133,9 +140,31 @@
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-      var clientId = '1019598927602';
+      (function() {
+        var po = document.createElement('script');
+        po.type = 'text/javascript';
+        po.async = true;
+        po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(po, s);
+      })();
+
+      /* Executed when the APIs finish loading */
+      function render() {
+
+        // Additional params including the callback, the rest of the params will
+        // come from the page-level configuration.
+        var additionalParams = {
+          'callback': signinCallback
+        };
+
+        // Attach a click listener to a button to trigger the flow.
+        var signinButton = document.getElementById('signinButton');
+        signinButton.addEventListener('click', function() {
+          gapi.auth.signIn(additionalParams); // Will use page level configuration
+        });
+      }
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
-      var scopes = 'https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/fusiontables';
       var IFTBLID;
 
       function handleClientLoad() {
@@ -297,7 +326,6 @@
         return IFCalc;
       }());
 
-
       function AppViewModel() {
         var self = this;
         this.age = ko.observable();
@@ -318,7 +346,18 @@
 
       // Activates knockout.js
       ko.applyBindings(new AppViewModel());
+
+      (function() {
+        var po = document.createElement('script');
+        po.type = 'text/javascript';
+        po.async = true;
+        po.src = 'https://apis.google.com/js/client:plusone.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(po, s);
+      })();
     </script>
-    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    <!--
+       <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    -->
   </body>
 </html>
