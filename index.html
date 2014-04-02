@@ -130,6 +130,34 @@
             <input name="tdee" type="number" class="form-control" placeholder="" data-bind="value: tdee" />
           </div>
         </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">プラン</label>
+          <div class="col-sm-6">
+            <select name="actionPlan" class="form-control" data-bind="value: actionPlan">
+              <option value="-20/20">肉体改造</option>
+              <option value="-20/0">減量</option>
+              <option value="-10/30">増量</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">休息日</label>
+          <div class="col-sm-6">
+            <input name="restDayPercentage" type="number" class="form-control" data-bind="value: restDayPercentage" />
+          </div>
+          <div class="col-sm-6">
+            <input name="restDayCalories" type="number" class="form-control" data-bind="value: restDayCalories" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">トレーニング日</label>
+          <div class="col-sm-6">
+            <input name="workoutDayPercentage" type="number" class="form-control" data-bind="value: workoutDayPercentage" />
+          </div>
+          <div class="col-sm-6">
+            <input name="workoutDayCalories" type="number" class="form-control" data-bind="value: workoutDayCalories" />
+          </div>
+        </div>
         <!--
         <div class="form-group">
           <div class="col-sm-offset-6 col-sm-6">
@@ -322,6 +350,22 @@
         this.tdee = ko.computed(function() {
           return IFCalc.calcTdee(this.bmr(), this.activityLevelFactor());
         }, this);
+        this.actionPlan = ko.observable();
+        this.actionPlan.subscribe(function(value) {
+          if (value) {
+            var vals = value.split("/");
+            self.restDayPercentage(vals[0]);
+            self.workoutDayPercentage(vals[1]);
+          }
+        });
+        this.restDayPercentage = ko.observable();
+        this.workoutDayPercentage = ko.observable();
+        this.restDayCalories = ko.computed(function(){
+          return this.tdee * ((100 + this.restDayPercentage)/100);
+        });
+        this.workoutCalories = ko.computed(function(){
+          return this.tdee * ((100 + this.workoutDayPercentage)/100);
+        });
       }
 
       // Activates knockout.js
