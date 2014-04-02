@@ -361,10 +361,10 @@
         this.restDayPercentage = ko.observable();
         this.workoutDayPercentage = ko.observable();
         this.restDayCalories = ko.computed(function(){
-          return this.tdee * ((100 + this.restDayPercentage)/100);
+          return this.tdee() * ((100 + this.restDayPercentage())/100);
         });
-        this.workoutCalories = ko.computed(function(){
-          return this.tdee * ((100 + this.workoutDayPercentage)/100);
+        this.workoutDayCalories = ko.computed(function(){
+          return this.tdee() * ((100 + this.workoutDayPercentage())/100);
         });
       }
 
