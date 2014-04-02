@@ -337,9 +337,19 @@
           }
           return Math.ceil(tdee + tdee * percentage / 100);
         };
-        
+
         return IFCalc;
       }());
+
+      function zeroPadding(val, digit) {
+        if (!val || !digit || isNaN(digit)) {
+          return val;
+        }
+        while (val.length < digit) {
+          val = "0" + val;
+        }
+        return val;
+      }
 
       function AppViewModel() {
         var self = this;
@@ -374,7 +384,7 @@
           return IFCalc.getCaloriesPercentageOfTdee(this.tdee(), this.workoutDayPercentage());
         }, this);
         var today = new Date();
-        this.date = ko.observable(today.getYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate());
+        this.date = ko.observable(today.getYear() + "/" + zeroPadding((today.getMonth() + 1), 2) + "/" + zeroPadding(today.getDate(), 2));
       }
 
       // Activates knockout.js
