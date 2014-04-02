@@ -101,12 +101,6 @@
           -->
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">日付</label>
-          <div class="col-sm-6">
-            <input name="date" type="date" class="form-control" />
-          </div>
-        </div>
-        <div class="form-group row">
           <label class="control-label col-sm-6">体重(kg)</label>
           <div class="col-sm-6">
             <input name="weight" type="number" class="form-control" placeholder="" data-bind="value: weight" />
@@ -156,6 +150,12 @@
           </div>
           <div class="col-sm-3">
             <input name="workoutDayCalories" type="number" class="form-control" data-bind="value: workoutDayCalories" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">日付</label>
+          <div class="col-sm-6">
+            <input name="date" type="date" class="form-control" data-bind="value: date" />
           </div>
         </div>
         <!--
@@ -335,7 +335,7 @@
           if (!tdee || !percentage || isNaN(tdee) || isNaN(percentage)) {
             return "";
           }
-          return tdee + tdee * percentage / 100;
+          return Math.ceil(tdee + tdee * percentage / 100);
         };
         
         return IFCalc;
@@ -373,6 +373,8 @@
         this.workoutDayCalories = ko.computed(function() {
           return IFCalc.getCaloriesPercentageOfTdee(this.tdee(), this.workoutDayPercentage());
         }, this);
+        var today = new Date();
+        this.date = ko.observable(today.toLocaleTimeString("en-US"));
       }
 
       // Activates knockout.js
