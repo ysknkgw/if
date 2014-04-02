@@ -331,6 +331,13 @@
           return Math.ceil(bmr * activityLevel);
         };
 
+        IFCalc.getCaloriesPercentageOfTdee = function(tdee, percentage) {
+          if (!tdee || !percentage || isNaN(tdee) || isNaN(percentage)) {
+            return "";
+          }
+          return tdee + tdee * percentage / 100;
+        };
+        
         return IFCalc;
       }());
 
@@ -360,12 +367,12 @@
         });
         this.restDayPercentage = ko.observable();
         this.workoutDayPercentage = ko.observable();
-        this.restDayCalories = ko.computed(function(){
-          return this.tdee() * ((100 + this.restDayPercentage())/100);
-        });
-        this.workoutDayCalories = ko.computed(function(){
-          return this.tdee() * ((100 + this.workoutDayPercentage())/100);
-        });
+        this.restDayCalories = ko.computed(function() {
+          return IFCalc.getCaloriesPercentageOfTdee(this.tdee(), this.restDayPercentage());
+        }, this);
+        this.workoutDayCalories = ko.computed(function() {
+          return IFCalc.getCaloriesPercentageOfTdee(this.tdee(), this.workoutDayPercentage());
+        }, this);
       }
 
       // Activates knockout.js
