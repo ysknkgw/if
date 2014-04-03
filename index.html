@@ -345,7 +345,7 @@
         if (!val || !digit || isNaN(digit)) {
           return val;
         }
-        while (val.length < digit) {
+        while (String(val).length < digit) {
           val = "0" + val;
         }
         return val;
