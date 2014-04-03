@@ -384,7 +384,7 @@
           return IFCalc.getCaloriesPercentageOfTdee(this.tdee(), this.workoutDayPercentage());
         }, this);
         var today = new Date();
-        this.date = ko.observable(today.getYear() + "/" + zeroPadding((today.getMonth() + 1), 2) + "/" + zeroPadding(today.getDate(), 2));
+        this.date = ko.observable(today.getYear() + "-" + zeroPadding((today.getMonth() + 1), 2) + "-" + zeroPadding(today.getDate(), 2));
       }
 
       // Activates knockout.js
