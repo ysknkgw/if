@@ -386,7 +386,7 @@
           if (!weight || isNaN(weight)) {
             return "";
           }
-          if (!percentageOfBodyFat || inNaN(percentageOfBodyFat)) {
+          if (!percentageOfBodyFat || isNaN(percentageOfBodyFat)) {
             return Math.ceil(weight * 2.0);
           }
           return Math.ceil((weight - (weight * percentageOfBodyFat / 100)) * 2.5);
