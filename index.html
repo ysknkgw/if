@@ -469,7 +469,7 @@
           return IFCalc.getCarbGrams(this.tdee(), this.restDayProtein(), this.restDayFat());
         }, this);
         this.workoutDayProtein = ko.computed(function() {
-          return IFCalc.getDailyProteinsGrams(this.weight, this.bodyfat);
+          return IFCalc.getDailyProteinsGrams(this.weight(), this.bodyfat());
         });
         this.workoutDayFat = ko.computed(function() {
           return IFCalc.getWorkoutDayFatGrams(this.tdee());
