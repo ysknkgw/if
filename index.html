@@ -109,7 +109,7 @@
         <div class="form-group row">
           <label class="control-label col-sm-6">体脂肪率(%)</label>
           <div class="col-sm-6">
-            <input name="bodyfat" type="number" class="form-control" placeholder="" />
+            <input name="bodyfat" type="number" class="form-control" placeholder="" data-bind="value: bodyfat" />
           </div>
         </div>
         <div class="form-group row">
@@ -128,28 +128,69 @@
           <label class="control-label col-sm-6">プラン</label>
           <div class="col-sm-6">
             <select name="actionPlan" class="form-control" data-bind="value: actionPlan">
+              <option value="-30/10">減量</option>
               <option value="-20/20">肉体改造</option>
-              <option value="-20/0">減量</option>
               <option value="-10/30">増量</option>
             </select>
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">休息日</label>
+          <label class="control-label col-sm-6">休息日/トレーニング日(%)</label>
           <div class="col-sm-3">
             <input name="restDayPercentage" type="number" class="form-control" data-bind="value: restDayPercentage" />
           </div>
           <div class="col-sm-3">
+            <input name="workoutDayPercentage" type="number" class="form-control" data-bind="value: workoutDayPercentage" />
+          </div>
+        </div>
+        <h3>休息日の栄養</h3>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">カロリー</label>
+          <div class="col-sm-6">
             <input name="restDayCalories" type="number" class="form-control" data-bind="value: restDayCalories" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">トレーニング日</label>
-          <div class="col-sm-3">
-            <input name="workoutDayPercentage" type="number" class="form-control" data-bind="value: workoutDayPercentage" />
+          <label class="control-label col-sm-6">蛋白質(g)</label>
+          <div class="col-sm-6">
+            <input name="restDayProtein" type="number" class="form-control" placeholder="" data-bind="value: restDayProtein" />
           </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">脂質(g)</label>
+          <div class="col-sm-6">
+            <input name="restDayFat" type="number" class="form-control" placeholder="" data-bind="value: restDayFat" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">炭水化物(g)</label>
+          <div class="col-sm-6">
+            <input name="restDayCarb" type="number" class="form-control" placeholder="" data-bind="value: restDayCarb" />
+          </div>
+        </div>
+        <h3>トレーニング日の栄養</h3>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">カロリー</label>
           <div class="col-sm-3">
             <input name="workoutDayCalories" type="number" class="form-control" data-bind="value: workoutDayCalories" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">蛋白質(g)</label>
+          <div class="col-sm-6">
+            <input name="workoutDayProtein" type="number" class="form-control" placeholder="" data-bind="value: workoutDayProtein" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">脂質(g)</label>
+          <div class="col-sm-6">
+            <input name="workoutDayFat" type="number" class="form-control" placeholder="" data-bind="value: workoutDayFat" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6">炭水化物(g)</label>
+          <div class="col-sm-6">
+            <input name="workoutDayCarb" type="number" class="form-control" placeholder="" data-bind="value: workoutDayCarb" />
           </div>
         </div>
         <div class="form-group row">
@@ -286,7 +327,10 @@
       }
 
       var IFCalc = (function() {
-        var fatCaloriePerKg = 7200;
+        var fatCaloriesPerKg = 7200;
+        var proteinCaloriesPerGram = 4;
+        var carbCaloriesPerGram = 4;
+        var fatCaloriesPerGram = 9;
         var ageSpecificBsalMetabolicUnit = [
           {min: 0, max: 2, male: 61.0, female: 59.7},
           {min: 3, max: 5, male: 54.8, female: 52.2},
@@ -338,7 +382,38 @@
           return Math.ceil(tdee + tdee * percentage / 100);
         };
 
+        IFCalc.getDailyProteinsGrams = function(weight, percentageOfBodyFat) {
+          if (!weight || inNaN(weight)) {
+            return "";
+          }
+          if (!percentageOfBodyFat || inNaN(percentageOfBodyFat)) {
+            return Math.ceil(weight * 2.0);
+          }
+          return Math.ceil((weight - (weight * percentageOfBodyFat / 100)) * 2.5);
+        };
+
+        IFCalc.getRestDayFatGrams = function(tdee) {
+          if (!tdee || isNaN(tdee)) {
+            return "";
+          }
+          return Math.ceil(tdee * 0.2 / fatCaloriesPerGram);
+        };
+
+        IFCalc.getWorkoutDayFatGrams = function(tdee) {
+          if (!tdee || isNaN(tdee)) {
+            return "";
+          }
+          return Math.ceil(tdee * 0.3 / fatCaloriesPerGram);
+        };
+
+        IFCalc.getCarbGrams = function(tdee, protein, fat) {
+          if (!tdee || !protein || !fat || isNaN(tdee) || isNaN(protein) || isNaN(fat)) {
+            return "";
+          }
+          return Math.ceil((tdee - protein * proteinCaloriesPerGram - fat * fatCaloriesPerGram) / carbCaloriesPerGram);
+        };
         return IFCalc;
+
       }());
 
       function zeroPadding(val, digit) {
@@ -356,6 +431,7 @@
         this.age = ko.observable();
         this.weight = ko.observable();
         this.gender = ko.observable();
+        this.bodyfat = ko.observable();
         this.activityLevelFactor = ko.observable();
         this.activity = ko.observable();
         this.activity.subscribe(function(value) {
@@ -382,6 +458,24 @@
         }, this);
         this.workoutDayCalories = ko.computed(function() {
           return IFCalc.getCaloriesPercentageOfTdee(this.tdee(), this.workoutDayPercentage());
+        }, this);
+        this.restDayProtein = ko.computed(function() {
+          return IFCalc.getDailyProteinsGrams(this.weight(), this.bodyfat());
+        }, this);
+        this.restDayFat = ko.computed(function() {
+          return IFCalc.getRestDayFatGrams(this.tdee());
+        }, this);
+        this.restDayCarb = ko.computed(function() {
+          return IFCalc.getCarbGrams(this.tdee(), this.restDayProtein(), this.restDayFat());
+        }, this);
+        this.workoutDayProtein = ko.computed(function() {
+          return IFCalc.getDailyProteinsGrams(this.weight, this.bodyfat);
+        });
+        this.workoutDayFat = ko.computed(function() {
+          return IFCalc.getWorkoutDayFatGrams(this.tdee());
+        }, this);
+        this.workoutDayCarb = ko.computed(function() {
+          return IFCalc.getCarbGrams(this.tdee(), this.workoutDayProtein(), this.workoutDayFat());
         }, this);
         var today = new Date();
         this.date = ko.observable(today.getFullYear() + "-" + zeroPadding((today.getMonth() + 1), 2) + "-" + zeroPadding(today.getDate(), 2));
