@@ -470,7 +470,7 @@
         }, this);
         this.workoutDayProtein = ko.computed(function() {
           return IFCalc.getDailyProteinsGrams(this.weight(), this.bodyfat());
-        });
+        }, this);
         this.workoutDayFat = ko.computed(function() {
           return IFCalc.getWorkoutDayFatGrams(this.tdee());
         }, this);
