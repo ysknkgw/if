@@ -396,14 +396,14 @@
           if (!tdee || isNaN(tdee)) {
             return "";
           }
-          return Math.ceil(tdee * 0.2 / fatCaloriesPerGram);
+          return Math.ceil(tdee * 0.3 / fatCaloriesPerGram);
         };
 
         IFCalc.getWorkoutDayFatGrams = function(tdee) {
           if (!tdee || isNaN(tdee)) {
             return "";
           }
-          return Math.ceil(tdee * 0.3 / fatCaloriesPerGram);
+          return Math.ceil(tdee * 0.2 / fatCaloriesPerGram);
         };
 
         IFCalc.getCarbGrams = function(tdee, protein, fat) {
