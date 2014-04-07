@@ -383,7 +383,7 @@
         };
 
         IFCalc.getDailyProteinsGrams = function(weight, percentageOfBodyFat) {
-          if (!weight || inNaN(weight)) {
+          if (!weight || isNaN(weight)) {
             return "";
           }
           if (!percentageOfBodyFat || inNaN(percentageOfBodyFat)) {
