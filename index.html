@@ -53,12 +53,13 @@
       </div><!-- /.container-fluid -->
     </nav>
     <div class="container">
-      <!--
+<h3>身体の状態</h3>
+<!--
             <form class="form-horizontal" role="form">
       -->
       <div class="form-horizonal">
         <div class="form-group row">
-          <label class="control-label col-sm-6">性別</label>
+          <label class="control-label col-sm-6 text-right">性別</label>
           <div class="col-sm-6">
             <label class="radio-inline">
               <input type="radio" name="gender" value="male" data-bind="checked: gender" /> 男性
@@ -69,22 +70,22 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">身長(cm)</label>
+          <label class="control-label col-sm-6 text-right">身長(cm)</label>
           <div class="col-sm-6">
             <input name="height" type="number" class="form-control" placeholder="">
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">年齢(歳)</label>
+          <label class="control-label col-sm-6 text-right">年齢(歳)</label>
           <div class="col-sm-6">
             <input name="age" type="number" class="form-control" placeholder="" data-bind="value: age" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">生活習慣での運動</label>
+          <label class="control-label col-sm-6 text-right">生活習慣での運動</label>
           <div class="col-sm-3">
             <select name="activity" class="form-control" data-bind="value: activity">
-              <option value="1.2">あまりない</option>
+              <option value="1.2">座りがち</option>
               <option value="1.375">軽くある</option>
               <option value="1.55">適度に</option>
               <option value="1.725">結構ある</option>
@@ -101,31 +102,31 @@
           -->
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">体重(kg)</label>
+          <label class="control-label col-sm-6 text-right">体重(kg)</label>
           <div class="col-sm-6">
             <input name="weight" type="number" class="form-control" placeholder="" data-bind="value: weight" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">体脂肪率(%)</label>
+          <label class="control-label col-sm-6 text-right">体脂肪率(%)</label>
           <div class="col-sm-6">
             <input name="bodyfat" type="number" class="form-control" placeholder="" data-bind="value: bodyfat" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">基礎代謝量(kcal/日)</label>
+          <label class="control-label col-sm-6 text-right">基礎代謝量(kcal/日)</label>
           <div class="col-sm-6">
             <input name="bmr" type="number" class="form-control" placeholder="" data-bind="value: bmr" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">総エネルギー消費量(kcal/日)</label>
+          <label class="control-label col-sm-6 text-right">総エネルギー消費量(kcal/日)</label>
           <div class="col-sm-6">
             <input name="tdee" type="number" class="form-control" placeholder="" data-bind="value: tdee" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">プラン</label>
+          <label class="control-label col-sm-6 text-right">プラン</label>
           <div class="col-sm-6">
             <select name="actionPlan" class="form-control" data-bind="value: actionPlan">
               <option value="-30/10">減量</option>
@@ -135,7 +136,7 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">休息日/トレーニング日(%)</label>
+          <label class="control-label col-sm-6 text-right">休息日/トレーニング日(%)</label>
           <div class="col-sm-3">
             <input name="restDayPercentage" type="number" class="form-control" data-bind="value: restDayPercentage" />
           </div>
@@ -145,56 +146,63 @@
         </div>
         <h3>休息日の栄養</h3>
         <div class="form-group row">
-          <label class="control-label col-sm-6">カロリー</label>
+          <label class="control-label col-sm-6 text-right">カロリー</label>
           <div class="col-sm-6">
             <input name="restDayCalories" type="number" class="form-control" data-bind="value: restDayCalories" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">蛋白質(g)</label>
+          <label class="control-label col-sm-6 text-right">蛋白質(g)</label>
           <div class="col-sm-6">
             <input name="restDayProtein" type="number" class="form-control" placeholder="" data-bind="value: restDayProtein" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">脂質(g)</label>
+          <label class="control-label col-sm-6 text-right">脂質(g)</label>
           <div class="col-sm-6">
             <input name="restDayFat" type="number" class="form-control" placeholder="" data-bind="value: restDayFat" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">炭水化物(g)</label>
+          <label class="control-label col-sm-6 text-right">炭水化物(g)</label>
           <div class="col-sm-6">
             <input name="restDayCarb" type="number" class="form-control" placeholder="" data-bind="value: restDayCarb" />
           </div>
         </div>
         <h3>トレーニング日の栄養</h3>
         <div class="form-group row">
-          <label class="control-label col-sm-6">カロリー</label>
-          <div class="col-sm-3">
+          <label class="control-label col-sm-6 text-right">カロリー</label>
+          <div class="col-sm-6">
             <input name="workoutDayCalories" type="number" class="form-control" data-bind="value: workoutDayCalories" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">蛋白質(g)</label>
+          <label class="control-label col-sm-6 text-right">蛋白質(g)</label>
           <div class="col-sm-6">
             <input name="workoutDayProtein" type="number" class="form-control" placeholder="" data-bind="value: workoutDayProtein" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">脂質(g)</label>
+          <label class="control-label col-sm-6 text-right">脂質(g)</label>
           <div class="col-sm-6">
             <input name="workoutDayFat" type="number" class="form-control" placeholder="" data-bind="value: workoutDayFat" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="control-label col-sm-6">炭水化物(g)</label>
+          <label class="control-label col-sm-6 text-right">炭水化物(g)</label>
           <div class="col-sm-6">
             <input name="workoutDayCarb" type="number" class="form-control" placeholder="" data-bind="value: workoutDayCarb" />
           </div>
         </div>
+        <h3>予定</h3>
         <div class="form-group row">
-          <label class="control-label col-sm-6">日付</label>
+          <label class="control-label col-sm-6 text-right">目標</label>
+          <div class="col-sm-6">
+            <input name="dest" type="dest" class="form-control" data-bind="value: dest" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="control-label col-sm-6 text-right">日付</label>
           <div class="col-sm-6">
             <input name="date" type="date" class="form-control" data-bind="value: date" />
           </div>
