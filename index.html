@@ -545,8 +545,8 @@
             while (days < duration) {
               destWeight += IFCalc.getFatWeightOfCalories(destTdee * cycleDays - IFCalc.getCaloriesPerCycle(cycleDays, workoutDaysPerCycle, destWorkoutDayCalories, destRestDayCalories));
               destTdee = IFCalc.calcTdee(IFCalc.calcBmr(self.gender(), self.age(), destWeight), self.activityLevelFactor());
-              destWorkoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, this.workoutDayPercentage());
-              destRestDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, this.restDayPercentage());
+              destWorkoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.workoutDayPercentage());
+              destRestDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.restDayPercentage());
               days += duration;
             }
             self.targetWeight(destWeight);
