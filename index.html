@@ -537,10 +537,10 @@
             duration++;
             var cycleDays = 7;
             var workoutDaysPerCycle = 3;
-            var destWeight = self.weight();
-            var destTdee = self.tdee();
-            var destWorkoutDayCalories = self.workoutDayCalories();
-            var destRestDayCalories = self.restDayCalories();
+            var destWeight = new Number(self.weight());
+            var destTdee = new Number(self.tdee());
+            var destWorkoutDayCalories = new Number(self.workoutDayCalories());
+            var destRestDayCalories = new Number(self.restDayCalories());
             var bodyFatWeight = destWeight - IFCalc.getLBM(destWeight, self.bodyfat());
             var days = 0;
             while (days < duration) {
