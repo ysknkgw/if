@@ -401,7 +401,7 @@
           if (!weight || !bodyFatPercentage || isNaN(weight) || isNaN(bodyFatPercentage)) {
             return "";
           }
-          return weight * (100 - bodyFatPercentage / 100);
+          return weight * (100 - bodyFatPercentage) / 100;
         };
 
         IFCalc.getCaloriesPercentageOfTdee = function(tdee, percentage) {
