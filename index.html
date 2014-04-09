@@ -446,7 +446,7 @@
           if (!cycleDays || !workoutDays || !workoutDayCalories || !restDayCalories || isNaN(cycleDays) || isNaN(workoutDays) || isNaN(workoutDayCalories) || isNaN(restDayCalories)) {
             return "";
           }
-          return Math.ceil(workoutDays * workoutDayCalories - (cycleDays - workoutDays) * restDayCalories);
+          return Math.ceil((workoutDays * workoutDayCalories) - ((cycleDays - workoutDays) * restDayCalories));
         };
 
         IFCalc.getFatWeightOfCalories = function(fatCalories) {
