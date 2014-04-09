@@ -534,6 +534,7 @@
             var duration = (endDate.getTime() - beginDate.getTime()) / 24 / 60 / 60 / 1000;
             if (duration < 1)
               return;
+            duration++;
             var cycleDays = 7;
             var workoutDaysPerCycle = 3;
             var destWeight = self.weight();
@@ -543,7 +544,7 @@
             var bodyFatWeight = destWeight - IFCalc.getLBM(destWeight, self.bodyfat());
             var days = 0;
             while (days < duration) {
-              destWeight += IFCalc.getFatWeightOfCalories(destTdee * cycleDays - IFCalc.getCaloriesPerCycle(cycleDays, workoutDaysPerCycle, destWorkoutDayCalories, destRestDayCalories));
+              destWeight += IFCalc.getFatWeightOfCalories(IFCalc.getCaloriesPerCycle(cycleDays, workoutDaysPerCycle, destWorkoutDayCalories, destRestDayCalories) - destTdee * cycleDays);
               destTdee = IFCalc.calcTdee(IFCalc.calcBmr(self.gender(), self.age(), destWeight), self.activityLevelFactor());
               destWorkoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.workoutDayPercentage());
               destRestDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.restDayPercentage());
