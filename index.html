@@ -460,6 +460,20 @@
 
       }());
 
+      function ceil(val, digit) {
+        if (!val || isNaN(val)) {
+          return val;
+        }
+        if (!digit) {
+          return Math.ceil(val);
+        }
+        if (isNaN(digit) || digit < 0) {
+          return val;
+        }
+        var tmp = Math.pow(10, digit);
+        return Math.ceil(val * tmp) / tmp;
+      }
+      
       function zeroPadding(val, digit) {
         if (!val || !digit || isNaN(digit)) {
           return val;
@@ -551,8 +565,8 @@
               destRestDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.restDayPercentage());
               days += cycleDays;
             }
-            self.targetWeight(destWeight);
-            self.targetBodyFat(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight);
+            self.targetWeight(ceil(destWeight,1));
+            self.targetBodyFat(ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight));
           }
         });
       }
