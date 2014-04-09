@@ -397,6 +397,13 @@
           return Math.ceil(bmr * activityLevel);
         };
 
+        IFCalc.getLBM = function(weight, bodyFatPercentage) {
+          if (!weight || !bodyFatPercentage || isNaN(weight) || isNaN(bodyFatPercentage)) {
+            return "";
+          }
+          return weight * (100 - bodyFatPercentage / 100);
+        };
+
         IFCalc.getCaloriesPercentageOfTdee = function(tdee, percentage) {
           if (!tdee || !percentage || isNaN(tdee) || isNaN(percentage)) {
             return "";
@@ -435,14 +442,14 @@
           return Math.ceil((tdee - protein * proteinCaloriesPerGram - fat * fatCaloriesPerGram) / carbCaloriesPerGram);
         };
 
-        IFCalc.getCaloriesPerCycle = function(cycleDays, workoutDays, tdee, workoutDayCalories, restDayCalories) {
-          if (!cycleDays || !workoutDays || !tdee || !workoutDayCalories || !restDayCalories || isNaN(cycleDays) || isNaN(workoutDays) || isNaN(tdee) || isNaN(workoutDayCalories) || isNaN(restDayCalories)) {
+        IFCalc.getCaloriesPerCycle = function(cycleDays, workoutDays, workoutDayCalories, restDayCalories) {
+          if (!cycleDays || !workoutDays || !workoutDayCalories || !restDayCalories || isNaN(cycleDays) || isNaN(workoutDays) || isNaN(workoutDayCalories) || isNaN(restDayCalories)) {
             return "";
           }
-          return Math.ceil(tdee * cycleDays - workoutDays * workoutDayCalories - (cycleDays - workoutDays) * restDayCalories);
+          return Math.ceil(workoutDays * workoutDayCalories - (cycleDays - workoutDays) * restDayCalories);
         };
 
-        IFCalc.getFatWeightOfCalories = function(fatCalories){
+        IFCalc.getFatWeightOfCalories = function(fatCalories) {
           if (!fatCalories || isNaN(fatCalories)) {
             return "";
           }
@@ -522,7 +529,25 @@
         this.endDate = ko.observable(after12weeks.getFullYear() + "-" + zeroPadding((after12weeks.getMonth() + 1), 2) + "-" + zeroPadding(after12weeks.getDate(), 2));
         this.endDate.subscribe(function(value) {
           if (value) {
-            self.targetWeight(IFCalc.getFatWeightOfCalories(IFCalc.getCaloriesPerCycle(7, 3, self.tdee(), self.workoutDayCalories(), self.restDayCalories())));
+            var endDate = new Date(value);
+            var beginDate = new Date(self.beginDate());
+            var cycleDays = 7;
+            var workoutDaysPerCycle = 3;
+            var destWeight = self.weight();
+            var destTdee = self.tdee();
+            var lbm = IFCalc.getLBM(self.weight(), self.bodyfat());
+            var bodyFatWeight = self.weight() - lbm;
+            var days = 0;
+            var duration = (endDate.getTime() - beginDate.getTime()) / 24 / 60 / 60 / 1000;
+            if (duration < 1)
+              return;
+            while (days < duration) {
+              destWeight += IFCalc.getFatWeightOfCalories(destTdee * cycleDays - IFCalc.getCaloriesPerCycle(cycleDays, workoutDaysPerCycle, self.workoutDayCalories(), self.restDayCalories()));
+              destTdee = IFCalc.calcTdee(IFCalc.calcBmr(self.gender(), self.age(), destWeight), self.activityLevelFactor());
+              days += duration;
+            }
+            self.targetWeight(destWeight);
+            self.targetBodyFat(100 * bodyFatWeight / destWeight);
           }
         });
       }
@@ -551,7 +576,8 @@
         // Attach a click listener to a button to trigger the flow.
         var signinButton = document.getElementById('signinButton');
         signinButton.addEventListener('click', function() {
-          gapi.auth.signIn(additionalParams); // Will use page level configuration
+          // Will use page level configuration
+          gapi.auth.signIn(additionalParams);
         });
 
         gapi.client.setApiKey(apiKey);
