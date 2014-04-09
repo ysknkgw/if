@@ -537,6 +537,7 @@
             duration++;
             var cycleDays = 7;
             var workoutDaysPerCycle = 3;
+            var srcWeight = new Number(self.weight());
             var destWeight = new Number(self.weight());
             var destTdee = new Number(self.tdee());
             var destWorkoutDayCalories = new Number(self.workoutDayCalories());
@@ -548,10 +549,10 @@
               destTdee = IFCalc.calcTdee(IFCalc.calcBmr(self.gender(), self.age(), destWeight), self.activityLevelFactor());
               destWorkoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.workoutDayPercentage());
               destRestDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.restDayPercentage());
-              days += duration;
+              days += cycleDays;
             }
             self.targetWeight(destWeight);
-            self.targetBodyFat(100 * bodyFatWeight / destWeight);
+            self.targetBodyFat(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight);
           }
         });
       }
