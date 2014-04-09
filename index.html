@@ -434,6 +434,21 @@
           }
           return Math.ceil((tdee - protein * proteinCaloriesPerGram - fat * fatCaloriesPerGram) / carbCaloriesPerGram);
         };
+
+        IFCalc.getCaloriesPerCycle = function(cycleDays, workoutDays, tdee, workoutDayCalories, restDayCalories) {
+          if (!cycleDays || !workoutDays || !tdee || !workoutDayCalories || !restDayCalories || isNaN(cycleDays) || isNaN(workoutDays) || isNaN(tdee) || isNaN(workoutDayCalories) || isNaN(restDayCalories)) {
+            return "";
+          }
+          return Math.ceil(tdee * cycleDays - workoutDays * workoutDayCalories - (cycleDays - workoutDays) * restDayCalories);
+        };
+
+        IFCalc.getFatWeightOfCalories = function(fatCalories){
+          if (!fatCalories || isNaN(fatCalories)) {
+            return "";
+          }
+          return fatCalories / fatCaloriesPerKg;
+        };
+
         return IFCalc;
 
       }());
@@ -505,6 +520,11 @@
         this.beginDate = ko.observable(today.getFullYear() + "-" + zeroPadding((today.getMonth() + 1), 2) + "-" + zeroPadding(today.getDate(), 2));
         var after12weeks = new Date(today.getTime() + 12 * 7 * 24 * 60 * 60 * 1000);
         this.endDate = ko.observable(after12weeks.getFullYear() + "-" + zeroPadding((after12weeks.getMonth() + 1), 2) + "-" + zeroPadding(after12weeks.getDate(), 2));
+        this.endDate.subscribe(function(value) {
+          if (value) {
+            self.targetWeight(IFCalc.getFatWeightOfCalories(IFCalc.getCaloriesPerCycle(7, 3, self.tdee(), self.workoutDayCalories(), self.restDayCalories())));
+          }
+        });
       }
 
       // Activates knockout.js
