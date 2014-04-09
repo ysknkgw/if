@@ -574,7 +574,7 @@
               days += cycleDays;
             }
             self.targetWeight(IFUtil.ceil(destWeight, 1));
-            self.targetBodyFat(IFUtil.ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight), 1);
+            self.targetBodyFat(IFUtil.ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight, 1));
           }
         });
       }
