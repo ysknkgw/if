@@ -460,29 +460,37 @@
 
       }());
 
-      function ceil(val, digit) {
-        if (!val || isNaN(val)) {
+      var IFUtil = (function() {
+        // constructor
+        function IFUtil() {
+        }
+
+        IFUtil.ceil = function(val, digit) {
+          if (!val || isNaN(val)) {
+            return val;
+          }
+          if (!digit) {
+            return Math.ceil(val);
+          }
+          if (isNaN(digit) || digit < 0) {
+            return val;
+          }
+          var tmp = Math.pow(10, digit);
+          return Math.ceil(val * tmp) / tmp;
+        };
+
+        IFUtil.zeroPadding = function(val, digit) {
+          if (!val || !digit || isNaN(digit)) {
+            return val;
+          }
+          while (String(val).length < digit) {
+            val = "0" + val;
+          }
           return val;
-        }
-        if (!digit) {
-          return Math.ceil(val);
-        }
-        if (isNaN(digit) || digit < 0) {
-          return val;
-        }
-        var tmp = Math.pow(10, digit);
-        return Math.ceil(val * tmp) / tmp;
-      }
-      
-      function zeroPadding(val, digit) {
-        if (!val || !digit || isNaN(digit)) {
-          return val;
-        }
-        while (String(val).length < digit) {
-          val = "0" + val;
-        }
-        return val;
-      }
+        };
+
+        return IFUtil;
+      }());
 
       function AppViewModel() {
         var self = this;
@@ -538,9 +546,9 @@
         this.targetWeight = ko.observable();
         this.targetBodyFat = ko.observable();
         var today = new Date();
-        this.beginDate = ko.observable(today.getFullYear() + "-" + zeroPadding((today.getMonth() + 1), 2) + "-" + zeroPadding(today.getDate(), 2));
+        this.beginDate = ko.observable(today.getFullYear() + "-" + IFUtil.zeroPadding((today.getMonth() + 1), 2) + "-" + IFUtil.zeroPadding(today.getDate(), 2));
         var after12weeks = new Date(today.getTime() + 12 * 7 * 24 * 60 * 60 * 1000);
-        this.endDate = ko.observable(after12weeks.getFullYear() + "-" + zeroPadding((after12weeks.getMonth() + 1), 2) + "-" + zeroPadding(after12weeks.getDate(), 2));
+        this.endDate = ko.observable(after12weeks.getFullYear() + "-" + IFUtil.zeroPadding((after12weeks.getMonth() + 1), 2) + "-" + IFUtil.zeroPadding(after12weeks.getDate(), 2));
         this.endDate.subscribe(function(value) {
           if (value) {
             var endDate = new Date(value);
@@ -565,8 +573,8 @@
               destRestDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.restDayPercentage());
               days += cycleDays;
             }
-            self.targetWeight(ceil(destWeight,1));
-            self.targetBodyFat(ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight));
+            self.targetWeight(IFUtil.ceil(destWeight, 1));
+            self.targetBodyFat(IFUtil.ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight), 1);
           }
         });
       }
