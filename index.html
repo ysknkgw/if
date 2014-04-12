@@ -585,7 +585,7 @@
               destTdee = IFCalc.calcTdee(IFCalc.calcBmr(self.gender(), self.age(), destWeight), self.activityLevelFactor());
               destWorkoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.workoutDayPercentage());
               destRestDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.restDayPercentage());
-              destBmr = IFCalc.calcBmr(self.gender(), self.age(), destWeight());
+              destBmr = IFCalc.calcBmr(self.gender(), self.age(), destWeight);
               days += cycleDays;
               self.bodyPlanPerCycles.push({Date: destDate, Weight: IFUtil.ceil(destWeight, 1), BFP: IFUtil.ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight, 1), BMR: destBmr, TDEE: IFCalc.calcTdee(destBmr, self.activityLevelFactor()), RestDayCalories: destRestDayCalories, WorkoutDayCalories: destWorkoutDayCalories});
             }
