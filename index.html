@@ -53,7 +53,7 @@
       </div><!-- /.container-fluid -->
     </nav>
     <div class="container">
-      <div class="col-sm-6">
+      <div class="col-sm-12">
         <h3>身体の状態</h3>
         <!--
                     <form class="form-horizontal" role="form">
@@ -499,7 +499,15 @@
           return val;
         };
 
+        IFUtil.getDateString = function(date) {
+          if (!date || date instanceof Date) {
+            return "";
+          }
+          return date.getFullYear() + "-" + IFUtil.zeroPadding((date.getMonth() + 1), 2) + "-" + IFUtil.zeroPadding(date.getDate(), 2);
+        };
+
         return IFUtil;
+
       }());
 
       function AppViewModel() {
@@ -579,15 +587,16 @@
             var days = 0;
             var destBmr = IFCalc.calcBmr(self.gender(), self.age(), destWeight);
             self.bodyPlanPerCycles.removeAll();
-            self.bodyPlanPerCycles.push({Date: destDate, Weight: destWeight, BFP: self.bodyfat(), BMR: destBmr, TDEE: IFCalc.calcTdee(destBmr, self.activityLevelFactor()), RestDayCalories: destRestDayCalories, WorkoutDayCalories: destWorkoutDayCalories});
+            self.bodyPlanPerCycles.push({Date: IFUtil.getDateString(destDate), Weight: destWeight, BFP: self.bodyfat(), BMR: destBmr, TDEE: IFCalc.calcTdee(destBmr, self.activityLevelFactor()), RestDayCalories: destRestDayCalories, WorkoutDayCalories: destWorkoutDayCalories});
             while (days < duration) {
               destWeight += IFCalc.getFatWeightOfCalories(IFCalc.getCaloriesPerCycle(cycleDays, workoutDaysPerCycle, destWorkoutDayCalories, destRestDayCalories) - destTdee * cycleDays);
               destTdee = IFCalc.calcTdee(IFCalc.calcBmr(self.gender(), self.age(), destWeight), self.activityLevelFactor());
               destWorkoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.workoutDayPercentage());
               destRestDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.restDayPercentage());
               destBmr = IFCalc.calcBmr(self.gender(), self.age(), destWeight);
+              destDate = new Date(destDate.getTime() + cycleDays * 24 * 60 * 60 * 1000);
               days += cycleDays;
-              self.bodyPlanPerCycles.push({Date: destDate, Weight: IFUtil.ceil(destWeight, 1), BFP: IFUtil.ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight, 1), BMR: destBmr, TDEE: IFCalc.calcTdee(destBmr, self.activityLevelFactor()), RestDayCalories: destRestDayCalories, WorkoutDayCalories: destWorkoutDayCalories});
+              self.bodyPlanPerCycles.push({Date: IFUtil.getDateString(destDate), Weight: IFUtil.ceil(destWeight, 1), BFP: IFUtil.ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight, 1), BMR: destBmr, TDEE: IFCalc.calcTdee(destBmr, self.activityLevelFactor()), RestDayCalories: destRestDayCalories, WorkoutDayCalories: destWorkoutDayCalories});
             }
             self.targetWeight(IFUtil.ceil(destWeight, 1));
             self.targetBodyFat(IFUtil.ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight, 1));
