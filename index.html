@@ -577,7 +577,7 @@
             var destRestDayCalories = new Number(self.restDayCalories());
             var bodyFatWeight = destWeight - IFCalc.getLBM(destWeight, self.bodyfat());
             var days = 0;
-            var destBmr = IFCalc.calcBmr(self.gender(), self.age(), destWeight());
+            var destBmr = IFCalc.calcBmr(self.gender(), self.age(), destWeight);
             self.bodyPlanPerCycles.removeAll();
             self.bodyPlanPerCycles.push({Date: destDate, Weight: destWeight, BFP: self.bodyfat(), BMR: destBmr, TDEE: IFCalc.calcTdee(destBmr, self.activityLevelFactor()), RestDayCalories: destRestDayCalories, WorkoutDayCalories: destWorkoutDayCalories});
             while (days < duration) {
