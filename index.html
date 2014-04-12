@@ -175,31 +175,6 @@
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
       var IFTBLID;
 
-      function handleClientLoad() {
-        gapi.client.setApiKey(apiKey);
-        window.setTimeout(checkAuth, 1);
-      }
-
-      function checkAuth() {
-        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
-      }
-
-      function handleAuthResult(authResult) {
-        var unauthorized = document.getElementById('unauthorized');
-        if (authResult && !authResult.error) {
-          unauthorized.style.visibility = 'hidden';
-          makeApiCall();
-        } else {
-          unauthorized.style.visibility = '';
-          document.getElementById('authorize-button').onclick = handleAuthClick;
-        }
-      }
-
-      function handleAuthClick(event) {
-        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult);
-        return false;
-      }
-
       function makeApiCall() {
         gapi.client.load('plus', 'v1', function() {
           var request = gapi.client.plus.people.get({
@@ -387,7 +362,6 @@
         this.date = ko.observable(today.getFullYear() + "-" + zeroPadding((today.getMonth() + 1), 2) + "-" + zeroPadding(today.getDate(), 2));
       }
 
-      // Activates knockout.js
       ko.applyBindings(new AppViewModel());
 
       (function() {
@@ -399,36 +373,22 @@
         s.parentNode.insertBefore(po, s);
       })();
 
-      /* Executed when the APIs finish loading */
       function render() {
-
-        // Additional params including the callback, the rest of the params will
-        // come from the page-level configuration.
         var additionalParams = {
           'callback': signinCallback
         };
-
-        // Attach a click listener to a button to trigger the flow.
         var signinButton = document.getElementById('signinButton');
         signinButton.addEventListener('click', function() {
-          gapi.auth.signIn(additionalParams); // Will use page level configuration
+          gapi.auth.signIn(additionalParams);
         });
-
         gapi.client.setApiKey(apiKey);
       }
 
       function signinCallback(authResult) {
         if (authResult['status']['signed_in']) {
-          // Update the app to reflect a signed in user
-          // Hide the sign-in button now that the user is authorized, for example:
           document.getElementById('signinButton').setAttribute('style', 'display: none');
           makeApiCall();
         } else {
-          // Update the app to reflect a signed out user
-          // Possible error values:
-          //   "user_signed_out" - User is signed-out
-          //   "access_denied" - User denied access to your app
-          //   "immediate_failed" - Could not automatically log in the user
           console.log('Sign-in state: ' + authResult['error']);
         }
       }
@@ -442,8 +402,5 @@
         s.parentNode.insertBefore(po, s);
       })();
     </script>
-    <!--
-       <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-    -->
   </body>
 </html>
