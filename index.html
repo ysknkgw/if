@@ -231,8 +231,18 @@
         </div>
         <div class="table-responsive">
           <table class="table">
-            <thead><tr><th>日付</th><th>体重</th></tr></thead>
-            <tbody></tbody>
+            <thead><tr><th>日付</th><th>体重</th><th>体脂肪率</th>
+<!--
+<th>基礎代謝量</th><th>総エネルギー消費量</th><th>休息日カロリー</th><th>トレーニング日カロリー</th></tr>
+-->
+            </thead>
+            <tbody data-bind="foreach: bodyPlanPerCycles">
+              <tr>
+                <td data-bind="text: Date"></td>
+                <td data-bind="text: Weight"></td>
+                <td data-bind="text: BFP"></td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
@@ -243,6 +253,14 @@
     <script type="text/javascript">
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
       var IFTBLID;
+      var IFTBL = [
+        {name: "Date", type: "DATETIME"},
+        {name: "Weight", type: "NUMBER"},
+        {name: "BFP", type: "NUMBER"},
+        {name: "LBM", type: "NUMBER"},
+        {name: "Fat", type: "NUMBER"},
+        {name: "TDEE", type: "NUMBER"}
+      ];
 
       function makeApiCall() {
         gapi.client.load('plus', 'v1', function() {
@@ -265,6 +283,7 @@
             for (var i = 0; i < result.length; i++) {
               if (result[i]) {
                 if (result[i].name === "IFTBL") {
+                  IFTBLID = result[i].tableId;
                   isExistsIFTBL = true;
                   break;
                 }
@@ -547,6 +566,7 @@
             var destRestDayCalories = new Number(self.restDayCalories());
             var bodyFatWeight = destWeight - IFCalc.getLBM(destWeight, self.bodyfat());
             var days = 0;
+            self.bodyPlanPerCycles.push({Date: self.beginDate(), Weight: destWeight, BFP: self.bodyfat()});
             while (days < duration) {
               destWeight += IFCalc.getFatWeightOfCalories(IFCalc.getCaloriesPerCycle(cycleDays, workoutDaysPerCycle, destWorkoutDayCalories, destRestDayCalories) - destTdee * cycleDays);
               destTdee = IFCalc.calcTdee(IFCalc.calcBmr(self.gender(), self.age(), destWeight), self.activityLevelFactor());
@@ -558,6 +578,7 @@
             self.targetBodyFat(IFUtil.ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight, 1));
           }
         });
+        this.bodyPlanPerCycles = ko.observableArray([]);
       }
 
       ko.applyBindings(new AppViewModel());
