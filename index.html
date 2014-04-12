@@ -500,7 +500,7 @@
         };
 
         IFUtil.getDateString = function(date) {
-          if (!date || date instanceof Date) {
+          if (!date || !(date instanceof Date)) {
             return "";
           }
           return date.getFullYear() + "-" + IFUtil.zeroPadding((date.getMonth() + 1), 2) + "-" + IFUtil.zeroPadding(date.getDate(), 2);
