@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>if</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <!--
-        <style type="text/css">
-            .container { padding-left: 0px; padding-right: 0px; }
-        </style>
-    -->
     <meta name="google-signin-clientid" content="1019598927602.apps.googleusercontent.com" />
     <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/fusiontables" />
     <meta name="google-signin-requestvisibleactions" content="http://schemas.google.com/AddActivity" />
@@ -36,32 +31,16 @@
               <img id="account-img" src="" alt="" class="img-circle" />
               <span id="account-name"></span>
             </span>
-            <!--
-                        <div id="account">
-                          <span id="unauthorized" style="visibility: hidden">
-                            <img id="guest-img" src="" alt="" class="img-circle" />
-                            <button id="authorize-button" class="btn btn-primary">Google認証</button>
-                          </span>
-                          <span id="authorized" style="visibility: hidden">
-                            <img id="account-img" src="" alt="" class="img-circle" />
-                            <span id="account-name"></span>
-                          </span>
-                        </div>
-            -->
           </div>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
     <div class="container">
       <div class="col-sm-12">
-        <h3>身体の状態</h3>
-        <!--
-                    <form class="form-horizontal" role="form">
-        -->
-        <div class="form-horizonal">
-          <div class="form-group">
-            <label class="control-label col-sm-3 text-right">性別</label>
-            <div class="col-sm-3">
+        <h3>基本情報</h3>
+          <div class="form-group col-sm-4">
+            <label class="control-label col-sm-6 text-right">性別</label>
+            <div class="col-sm-6">
               <label class="radio-inline">
                 <input type="radio" name="gender" value="male" data-bind="checked: gender" /> 男性
               </label>
@@ -70,18 +49,18 @@
               </label>
             </div>
           </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3 text-right">年齢(歳)</label>
-            <div class="col-sm-3">
+          <div class="form-group col-sm-4">
+            <label class="control-label col-sm-6 text-right">年齢(歳)</label>
+            <div class="col-sm-6">
               <input name="age" type="number" class="form-control" placeholder="" data-bind="value: age" />
             </div>
           </div>
-          <div class="form-group">
-            <label class="control-label col-sm-3 text-right">基礎代謝基準値(kcal/kg/日)</label>
-            <div class="col-sm-3">
+          <div class="form-group col-sm-4">
+            <label class="control-label col-sm-6 text-right">基礎代謝基準値(kcal/kg/日)</label>
+            <div class="col-sm-6">
               <input name="bmu" type="number" class="form-control" placeholder="" data-bind="value: bmu" />
             </div>
-          </div>          
+          </div>
           <div class="form-group">
             <label class="control-label col-sm-3 text-right">生活習慣での運動</label>
             <div class="col-sm-3">
@@ -118,20 +97,6 @@
               <input name="bodyfat" type="number" class="form-control" placeholder="" data-bind="value: bodyfat" />
             </div>
           </div>
-          <!--
-                    <div class="form-group row">
-                      <label class="control-label col-sm-6 text-right">基礎代謝量(kcal/日)</label>
-                      <div class="col-sm-6">
-                        <input name="bmr" type="number" class="form-control" placeholder="" data-bind="value: bmr" />
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="control-label col-sm-6 text-right">総エネルギー消費量(kcal/日)</label>
-                      <div class="col-sm-6">
-                        <input name="tdee" type="number" class="form-control" placeholder="" data-bind="value: tdee" />
-                      </div>
-                    </div>
-          -->
           <div class="form-group">
             <label class="control-label col-sm-6 text-right">プラン</label>
             <div class="col-sm-6">
@@ -154,58 +119,6 @@
               <input name="workoutdaypercentage" type="number" class="form-control" data-bind="value: workoutDayPercentage" />
             </div>
           </div>
-          <!--
-                    <h3>休息日の栄養</h3>
-                    <div class="form-group row">
-                      <label class="control-label col-sm-6 text-right">カロリー</label>
-                      <div class="col-sm-6">
-                        <input name="restdaycalories" type="number" class="form-control" data-bind="value: restDayCalories" />
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="control-label col-sm-6 text-right">蛋白質(g)</label>
-                      <div class="col-sm-6">
-                        <input name="restdayprotein" type="number" class="form-control" placeholder="" data-bind="value: restDayProtein" />
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="control-label col-sm-6 text-right">脂質(g)</label>
-                      <div class="col-sm-6">
-                        <input name="restdayfat" type="number" class="form-control" placeholder="" data-bind="value: restDayFat" />
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="control-label col-sm-6 text-right">炭水化物(g)</label>
-                      <div class="col-sm-6">
-                        <input name="restdaycarb" type="number" class="form-control" placeholder="" data-bind="value: restDayCarb" />
-                      </div>
-                    </div>
-                    <h3>トレーニング日の栄養</h3>
-                    <div class="form-group row">
-                      <label class="control-label col-sm-6 text-right">カロリー</label>
-                      <div class="col-sm-6">
-                        <input name="workoutdaycalories" type="number" class="form-control" data-bind="value: workoutDayCalories" />
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="control-label col-sm-6 text-right">蛋白質(g)</label>
-                      <div class="col-sm-6">
-                        <input name="workoutdayprotein" type="number" class="form-control" placeholder="" data-bind="value: workoutDayProtein" />
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="control-label col-sm-6 text-right">脂質(g)</label>
-                      <div class="col-sm-6">
-                        <input name="workoutdayfat" type="number" class="form-control" placeholder="" data-bind="value: workoutDayFat" />
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="control-label col-sm-6 text-right">炭水化物(g)</label>
-                      <div class="col-sm-6">
-                        <input name="workoutdaycarb" type="number" class="form-control" placeholder="" data-bind="value: workoutDayCarb" />
-                      </div>
-                    </div>
-          -->
           <h3>予定</h3>
           <div class="form-group">
             <label class="control-label col-sm-3 text-right">周期(日数)</label>
@@ -249,14 +162,6 @@
               <input name="targetbodyfat" type="dest" class="form-control" data-bind="value: targetBodyFat" />
             </div>
           </div>
-          <!--
-          <div class="form-group">
-            <div class="col-sm-offset-6 col-sm-6">
-              <button class="btn btn-default" type="submit">Submit</button>        
-            </div>
-          </div>
-        </form>
-          -->
         </div>
         <div class="table-responsive">
           <table class="table">
@@ -285,7 +190,6 @@
           </table>
         </div>
       </div>
-    </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
