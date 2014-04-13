@@ -486,7 +486,7 @@
             bodyPlanPerCycles.push({
               Date: IFUtil.getDateString(date),
               Weight: IFUtil.ceil(weight, 1),
-              LBM: IFUtil.ceil(weight - bodyFatWeight),
+              LBM: IFUtil.ceil(weight - bodyFatWeight, 1),
               BFP: IFUtil.ceil(100 * bodyFatWeight / weight, 1),
               BMR: IFUtil.ceil(bmr),
               TDEE: IFUtil.ceil(tdee),
