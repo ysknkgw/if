@@ -598,11 +598,11 @@
         var self = this;
         this.gender = ko.observable();
         this.gender.subscribe(function(value) {
-          IFCalc.getAgeSpecificBsalMetabolicUnit(value, self.age);
+          self.bmu(IFCalc.getAgeSpecificBsalMetabolicUnit(value, self.age));
         });
         this.age = ko.observable();
         this.age.subscribe(function(value) {
-          IFCalc.getAgeSpecificBsalMetabolicUnit(self.gender, value);
+          self.bmu(IFCalc.getAgeSpecificBsalMetabolicUnit(self.gender, value));
         });
         this.bmu = ko.observable();
 //        this.bmu.subscribe(function(value) {
