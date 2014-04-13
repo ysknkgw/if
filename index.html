@@ -424,7 +424,7 @@
           var tdee = new Number(bmr * activityLevelFactor);
           var workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
           var restDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
-          bodyPlanPerCycles.push({Date: IFUtil.getDateString(date), Weight: IFUtil.ceil(weight, 1), BFP: IFUtil.ceil(beginBodyFat, 1), BMR: IFUtil.ceil(bmr), TDEE: IFUtil.ceil(tdee), RestDayCalories: restDayCalories, WorkoutDayCalories: workoutDayCalories});
+          bodyPlanPerCycles.push({Date: IFUtil.getDateString(date), Weight: IFUtil.ceil(weight, 1), BFP: IFUtil.ceil(beginBodyFat, 1), BMR: IFUtil.ceil(bmr), TDEE: IFUtil.ceil(tdee), RestDayCalories: IFUtil.ceil(restDayCalories), WorkoutDayCalories: IFUtil.ceil(workoutDayCalories)});
           for (var i = 0; i < cyclesToTry; i++) {
             var diffWeight = IFCalc.getFatWeightOfCalories(IFCalc.getCaloriesPerCycle(daysPerCycle, workoutsPerCycle, workoutDayCalories, restDayCalories) - tdee * daysPerCycle);
             weight += diffWeight;
@@ -436,7 +436,7 @@
             workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
             restDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
             date = new Date(date.getTime() + daysPerCycle * 24 * 60 * 60 * 1000);
-            bodyPlanPerCycles.push({Date: IFUtil.getDateString(date), Weight: IFUtil.ceil(weight, 1), BFP: IFUtil.ceil(100 * bodyFatWeight / weight, 1), BMR: IFUtil.ceil(bmr), TDEE: IFUtil.ceil(tdee), RestDayCalories: restDayCalories, WorkoutDayCalories: workoutDayCalories});
+            bodyPlanPerCycles.push({Date: IFUtil.getDateString(date), Weight: IFUtil.ceil(weight, 1), BFP: IFUtil.ceil(100 * bodyFatWeight / weight, 1), BMR: IFUtil.ceil(bmr), TDEE: IFUtil.ceil(tdee), RestDayCalories: IFUtil.ceil(restDayCalories), WorkoutDayCalories: IFUtil.ceil(workoutDayCalories)});
           }
           return bodyPlanPerCycles;
         };
