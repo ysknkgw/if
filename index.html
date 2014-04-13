@@ -437,16 +437,17 @@
           }
           var date = new Date(beginDate);
           var weight = new Number(beginWeight);
-          var lbm = IFCalc.getLBM(weight, beginBodyFat);
-          var bodyFatWeight = new Number(weight - IFCalc.getLBM(weight, beginBodyFat));
+          var bfp = new Number(beginBodyFat);
+          var lbm = IFCalc.getLBM(weight, bfp);
+          var bodyFatWeight = new Number(weight - IFCalc.getLBM(weight, bfp));
           var bmr = new Number(bmu * weight);
           var tdee = new Number(bmr * activityLevelFactor);
           var workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
-          var workoutDayProteins = IFCalc.getDailyProteinsGrams(weight, beginBodyFat);
+          var workoutDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
           var workoutDayFats = IFCalc.getWorkoutDayFatGrams(tdee);
           var workoutDayCarbs = IFCalc.getCarbGrams(tdee, workoutDayProteins, workoutDayFats);
           var restDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
-          var restDayProteins = IFCalc.getDailyProteinsGrams(weight, beginBodyFat);
+          var restDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
           var restDayFats = IFCalc.getRestDayFatGrams(tdee);
           var restDayCarbs = IFCalc.getCarbGrams(tdee, restDayProteins, restDayFats);
           var bodyPlanPerCycles = new Array();
@@ -454,7 +455,7 @@
             Date: IFUtil.getDateString(date),
             Weight: IFUtil.ceil(weight, 1),
             LBM: IFUtil.ceil(lbm, 1),
-            BFP: IFUtil.ceil(beginBodyFat, 1),
+            BFP: IFUtil.ceil(bfp, 1),
             BMR: IFUtil.ceil(bmr),
             TDEE: IFUtil.ceil(tdee),
             RestDayCalories: IFUtil.ceil(restDayCalories),
@@ -472,14 +473,15 @@
             if (diffWeight < 0) {
               bodyFatWeight += diffWeight;
             }
+            bfp = 100 * bodyFatWeight / weight;
             bmr = new Number(bmu * weight);
             tdee = new Number(bmr * activityLevelFactor);
             workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
-            workoutDayProteins = IFCalc.getDailyProteinsGrams(weight, beginBodyFat);
+            workoutDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
             workoutDayFats = IFCalc.getWorkoutDayFatGrams(tdee);
             workoutDayCarbs = IFCalc.getCarbGrams(tdee, workoutDayProteins, workoutDayFats);
             restDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
-            restDayProteins = IFCalc.getDailyProteinsGrams(weight, beginBodyFat);
+            restDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
             restDayFats = IFCalc.getRestDayFatGrams(tdee);
             restDayCarbs = IFCalc.getCarbGrams(tdee, restDayProteins, restDayFats);
             date = new Date(date.getTime() + daysPerCycle * 24 * 60 * 60 * 1000);
@@ -487,7 +489,7 @@
               Date: IFUtil.getDateString(date),
               Weight: IFUtil.ceil(weight, 1),
               LBM: IFUtil.ceil(weight - bodyFatWeight, 1),
-              BFP: IFUtil.ceil(100 * bodyFatWeight / weight, 1),
+              BFP: IFUtil.ceil(bfp, 1),
               BMR: IFUtil.ceil(bmr),
               TDEE: IFUtil.ceil(tdee),
               RestDayCalories: IFUtil.ceil(restDayCalories),
