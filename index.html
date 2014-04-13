@@ -334,14 +334,14 @@
               break;
             }
           }
-          return Math.ceil(weight * bsalMetabolicUnit);
+          return weight * bsalMetabolicUnit;
         };
 
         IFCalc.calcTdee = function(bmr, activityLevel) {
           if (!bmr || !activityLevel || isNaN(bmr) || isNaN(activityLevel)) {
             return "";
           }
-          return Math.ceil(bmr * activityLevel);
+          return bmr * activityLevel;
         };
 
         IFCalc.getLBM = function(weight, bodyFatPercentage) {
@@ -355,7 +355,7 @@
           if (!tdee || !percentage || isNaN(tdee) || isNaN(percentage)) {
             return "";
           }
-          return Math.ceil(tdee + tdee * percentage / 100);
+          return tdee + tdee * percentage / 100;
         };
 
         IFCalc.getDailyProteinsGrams = function(weight, percentageOfBodyFat) {
@@ -363,30 +363,30 @@
             return "";
           }
           if (!percentageOfBodyFat || isNaN(percentageOfBodyFat)) {
-            return Math.ceil(weight * 2.0);
+            return weight * 2.0;
           }
-          return Math.ceil((weight - (weight * percentageOfBodyFat / 100)) * 2.5);
+          return (weight - (weight * percentageOfBodyFat / 100)) * 2.5;
         };
 
         IFCalc.getRestDayFatGrams = function(tdee) {
           if (!tdee || isNaN(tdee)) {
             return "";
           }
-          return Math.ceil(tdee * 0.3 / fatCaloriesPerGram);
+          return tdee * 0.3 / fatCaloriesPerGram;
         };
 
         IFCalc.getWorkoutDayFatGrams = function(tdee) {
           if (!tdee || isNaN(tdee)) {
             return "";
           }
-          return Math.ceil(tdee * 0.2 / fatCaloriesPerGram);
+          return tdee * 0.2 / fatCaloriesPerGram;
         };
 
         IFCalc.getCarbGrams = function(tdee, protein, fat) {
           if (!tdee || !protein || !fat || isNaN(tdee) || isNaN(protein) || isNaN(fat)) {
             return "";
           }
-          return Math.ceil((tdee - protein * proteinCaloriesPerGram - fat * fatCaloriesPerGram) / carbCaloriesPerGram);
+          return (tdee - protein * proteinCaloriesPerGram - fat * fatCaloriesPerGram) / carbCaloriesPerGram;
         };
 
         IFCalc.getCaloriesPerCycle = function(cycleDays, workoutDays, workoutDayCalories, restDayCalories) {
