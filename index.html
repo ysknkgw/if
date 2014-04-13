@@ -393,7 +393,7 @@
           if (!cycleDays || !workoutDays || !workoutDayCalories || !restDayCalories || isNaN(cycleDays) || isNaN(workoutDays) || isNaN(workoutDayCalories) || isNaN(restDayCalories)) {
             return "";
           }
-          return Math.ceil((workoutDays * workoutDayCalories) + ((cycleDays - workoutDays) * restDayCalories));
+          return (workoutDays * workoutDayCalories) + ((cycleDays - workoutDays) * restDayCalories);
         };
 
         IFCalc.getFatWeightOfCalories = function(fatCalories) {
@@ -428,7 +428,9 @@
           for (var i = 0; i < cyclesToTry; i++) {
             var diffWeight = IFCalc.getFatWeightOfCalories(IFCalc.getCaloriesPerCycle(daysPerCycle, workoutsPerCycle, workoutDayCalories, restDayCalories) - tdee * daysPerCycle);
             weight += diffWeight;
-            bodyFatWeight += diffWeight;
+            if (diffWeight < 0) {
+              bodyFatWeight += diffWeight;
+            }
             bmr = new Number(bmu * weight);
             tdee = new Number(bmr * activityLevelFactor);
             workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
@@ -493,10 +495,6 @@
           self.bmu(IFCalc.getAgeSpecificBsalMetabolicUnit(self.gender(), value));
         });
         this.bmu = ko.observable();
-        //        this.bmu.subscribe(function(value) {
-        //          self.bodyPlanPerCycles.removeAll();
-        //          this.bodyPlanPerCycles.push(IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.bmu(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.beginDate(), self.weight(), self.bodyFat()));
-        //        });
         this.weight = ko.observable();
         this.bodyfat = ko.observable();
         this.activityLevelFactor = ko.observable();
