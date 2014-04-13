@@ -151,7 +151,7 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th colspan="5"></th>
+              <th colspan="5">身体</th>
               <th colspan="4">休息日</th>
               <th colspan="4">トレーニング日</th>
             </tr>
@@ -435,8 +435,8 @@
           }
           var date = new Date(beginDate);
           var weight = new Number(beginWeight);
+          var lbm = IFCalc.getLBM(weight, beginBodyFat);
           var bodyFatWeight = new Number(weight - IFCalc.getLBM(weight, beginBodyFat));
-          var bodyPlanPerCycles = new Array();
           var bmr = new Number(bmu * weight);
           var tdee = new Number(bmr * activityLevelFactor);
           var workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
@@ -447,9 +447,11 @@
           var restDayProteins = IFCalc.getDailyProteinsGrams(weight, beginBodyFat);
           var restDayFats = IFCalc.getRestDayFatGrams(tdee);
           var restDayCarbs = IFCalc.getCarbGrams(tdee, restDayProteins, restDayFats);
+          var bodyPlanPerCycles = new Array();
           bodyPlanPerCycles.push({
             Date: IFUtil.getDateString(date),
             Weight: IFUtil.ceil(weight, 1),
+            LBM: IFUtil.ceil(lbm, 1),
             BFP: IFUtil.ceil(beginBodyFat, 1),
             BMR: IFUtil.ceil(bmr),
             TDEE: IFUtil.ceil(tdee),
@@ -482,6 +484,7 @@
             bodyPlanPerCycles.push({
               Date: IFUtil.getDateString(date),
               Weight: IFUtil.ceil(weight, 1),
+              LBM: IFUtil.ceil(weight - bodyFatWeight),
               BFP: IFUtil.ceil(100 * bodyFatWeight / weight, 1),
               BMR: IFUtil.ceil(bmr),
               TDEE: IFUtil.ceil(tdee),
