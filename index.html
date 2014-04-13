@@ -670,7 +670,9 @@
           var rows = IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.bmu(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.beginDate(), self.weight(), self.bodyfat());
           if (rows) {
             self.bodyPlanPerCycles.removeAll();
-            self.bodyPlanPerCycles.push(rows);
+            for (var i = 0; i < rows.length; i++) {
+              self.bodyPlanPerCycles.push(rows[i]);
+            }
           }
         }, this);
       }
