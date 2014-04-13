@@ -80,12 +80,6 @@
           </div>
         </div>
         <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">身長(cm)</label>
-          <div class="col-sm-6">
-            <input name="height" type="number" class="form-control" placeholder="">
-          </div>
-        </div>
-        <div class="form-group col-sm-6">
           <label class="control-label col-sm-6 text-right">体重(kg)</label>
           <div class="col-sm-6">
             <input name="weight" type="number" class="form-control" placeholder="" data-bind="value: weight" />
@@ -199,6 +193,27 @@
     <script type="text/javascript">
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
       var IFTBLID;
+      var IFTBL = {
+        name: "IFTBL",
+        columns: [
+          {name: "Date", type: "DATETIME"},
+          {name: "Weight", type: "NUMBER"},
+          {name: "LBM", type: "NUMBER"},
+          {name: "Fat", type: "NUMBER"},
+          {name: "BFP", type: "NUMBER"},
+          {name: "TDEE", type: "NUMBER"},
+          {name: "BMU", type: "NUMBER"},
+          {name: "ActivityLevelFactor", type: "NUMBER"},
+          {name: "RestDayPercentage", type: "NUMBER"},
+          {name: "WorkoutDayPercentage", type: "NUMBER"},
+          {name: "DaysPerCycle", type: "NUMBER"},
+          {name: "WorkoutsPerCycle", type: "NUMBER"},
+          {name: "CyclesToTry", type: "NUMBER"},
+          {name: "Actual", type: "NUMBER"}
+        ],
+        description: "Body Information.",
+        isExportable: true
+      };
 
       function makeApiCall() {
         gapi.client.load('plus', 'v1', function() {
@@ -223,6 +238,11 @@
                 if (result[i].name === "IFTBL") {
                   IFTBLID = result[i].tableId;
                   isExistsIFTBL = true;
+                  getIfTableRecords(function(result) {
+                    if (result) {
+                      // TODO: 結果を表示
+                    }
+                  });
                   break;
                 }
               }
@@ -245,27 +265,79 @@
         xhr.open('POST', 'https://www.googleapis.com/fusiontables/v1/tables');
         xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({
-          name: "IFTBL",
-          columns: [
-            {name: "Date", type: "DATETIME"},
-            {name: "Weight", type: "NUMBER"},
-            {name: "LBM", type: "NUMBER"},
-            {name: "Fat", type: "NUMBER"},
-            {name: "BFP", type: "NUMBER"},
-            {name: "TDEE", type: "NUMBER"},
-            {name: "BMU", type: "NUMBER"},
-            {name: "ActivityLevelFactor", type: "NUMBER"},
-            {name: "RestDayPercentage", type: "NUMBER"},
-            {name: "WorkoutDayPercentage", type: "NUMBER"},
-            {name: "DaysPerCycle", type: "NUMBER"},
-            {name: "WorkoutsPerCycle", type: "NUMBER"},
-            {name: "CyclesToTry", type: "NUMBER"},
-            {name: "Actual", type: "NUMBER"}
-          ],
-          description: "Body Information.",
-          isExportable: true
-        }));
+        xhr.send(JSON.stringify(IFTBL));
+      }
+
+      function insertIntoIfTable(rows, callback) {
+        if (!rows || rows.length < 1) {
+          return null;
+        }
+        for (var i = 0; i < rows.length; i++) {
+          var query = "INSERT INTO " + IFTBLID;
+          var names = "";
+          var values = "";
+          for (var key in rows[i]) {
+            if (names.length === 0) {
+              names += "(";
+            } else {
+              names += ", ";
+            }
+            if (values.length === 0) {
+              values += "(";
+            } else {
+              values += ", ";
+            }
+            names += key;
+            values += rows[i][key];
+          }
+          names += ")";
+          values += ")";
+          query += " " + names + " " + values + ";";
+        }
+        var encodedQuery = encodeURIComponent(query);
+
+        // Construct the URL
+        var url = ['https://www.googleapis.com/fusiontables/v1/query'];
+        url.push('?sql=' + encodedQuery);
+        url.push('&key=' + apiKey);
+        url.push('&callback=?');
+
+        // Send the JSONP request using jQuery
+        $.ajax({
+          url: url.join(''),
+          dataType: 'jsonp',
+          success: function(data) {
+            callback(data);
+          }
+        });
+      }
+
+      function getIfTableRecords(callback) {
+        var query = "SELECT ";
+        for (var i = 0; i < IFTBL.columns.length; i++) {
+          if (i !== 0) {
+            query += ", ";
+          }
+          query += IFTBL.columns[i].name;
+        }
+        query += " FROM " + IFTBLID;
+        query += " ORDER BY Date";
+        var encodedQuery = encodeURIComponent(query);
+
+        // Construct the URL
+        var url = ['https://www.googleapis.com/fusiontables/v1/query'];
+        url.push('?sql=' + encodedQuery);
+        url.push('&key=' + apiKey);
+        url.push('&callback=?');
+
+        // Send the JSONP request using jQuery
+        $.ajax({
+          url: url.join(''),
+          dataType: 'jsonp',
+          success: function(data) {
+            callback(data);
+          }
+        });
       }
 
       function retrieveAllTables(callback) {
@@ -584,39 +656,10 @@
         });
         this.restDayPercentage = ko.observable();
         this.workoutDayPercentage = ko.observable();
-        this.restDayCalories = ko.computed(function() {
-          return IFCalc.getCaloriesPercentageOfTdee(this.tdee(), this.restDayPercentage());
-        }, this);
-        this.workoutDayCalories = ko.computed(function() {
-          return IFCalc.getCaloriesPercentageOfTdee(this.tdee(), this.workoutDayPercentage());
-        }, this);
-        this.restDayProtein = ko.computed(function() {
-          return IFCalc.getDailyProteinsGrams(this.weight(), this.bodyfat());
-        }, this);
-        this.restDayFat = ko.computed(function() {
-          return IFCalc.getRestDayFatGrams(this.tdee());
-        }, this);
-        this.restDayCarb = ko.computed(function() {
-          return IFCalc.getCarbGrams(this.tdee(), this.restDayProtein(), this.restDayFat());
-        }, this);
-        this.workoutDayProtein = ko.computed(function() {
-          return IFCalc.getDailyProteinsGrams(this.weight(), this.bodyfat());
-        }, this);
-        this.workoutDayFat = ko.computed(function() {
-          return IFCalc.getWorkoutDayFatGrams(this.tdee());
-        }, this);
-        this.workoutDayCarb = ko.computed(function() {
-          return IFCalc.getCarbGrams(this.tdee(), this.workoutDayProtein(), this.workoutDayFat());
-        }, this);
         this.daysPerCycle = ko.observable(7);
         this.workoutsPerCycle = ko.observable(3);
         this.cyclesToTry = ko.observable(12);
-        this.targetWeight = ko.observable();
-        this.targetBodyFat = ko.observable();
         this.beginDate = ko.observable(IFUtil.getDateString(new Date()));
-        this.endDate = ko.computed(function() {
-          return IFUtil.getDateString((new Date(this.beginDate()).getTime() + this.cyclesToTry() * this.daysPerCycle() * 24 * 60 * 60 * 1000));
-        }, this);
         this.bodyPlanPerCycles = ko.observableArray([]);
         this.calcTableValues = ko.computed(function() {
           var rows = IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.bmu(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.beginDate(), self.weight(), self.bodyfat());
@@ -625,6 +668,11 @@
             for (var i = 0; i < rows.length; i++) {
               self.bodyPlanPerCycles.push(rows[i]);
             }
+            insertIntoIfTable(rows, function(result){
+              if(result){
+                // TODO: 結果表示
+              }
+            });
           }
         }, this);
       }
