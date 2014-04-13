@@ -173,7 +173,7 @@
             </tr>
           </thead>
           <tbody data-bind="foreach: bodyPlanPerCycles">
-            <tr>
+            <tr data-bind="css: { success: isActual }">
               <td data-bind="text: Date"></td>
               <td data-bind="text: Weight"></td>
               <td data-bind="text: LBM"></td>
@@ -199,14 +199,6 @@
     <script type="text/javascript">
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
       var IFTBLID;
-      var IFTBL = [
-        {name: "Date", type: "DATETIME"},
-        {name: "Weight", type: "NUMBER"},
-        {name: "BFP", type: "NUMBER"},
-        {name: "LBM", type: "NUMBER"},
-        {name: "Fat", type: "NUMBER"},
-        {name: "TDEE", type: "NUMBER"}
-      ];
 
       function makeApiCall() {
         gapi.client.load('plus', 'v1', function() {
@@ -261,7 +253,15 @@
             {name: "LBM", type: "NUMBER"},
             {name: "Fat", type: "NUMBER"},
             {name: "BFP", type: "NUMBER"},
-            {name: "TDEE", type: "NUMBER"}
+            {name: "TDEE", type: "NUMBER"},
+            {name: "BMU", type: "NUMBER"},
+            {name: "ActivityLevelFactor", type: "NUMBER"},
+            {name: "RestDayPercentage", type: "NUMBER"},
+            {name: "WorkoutDayPercentage", type: "NUMBER"},
+            {name: "DaysPerCycle", type: "NUMBER"},
+            {name: "WorkoutsPerCycle", type: "NUMBER"},
+            {name: "CyclesToTry", type: "NUMBER"},
+            {name: "Actual", type: "NUMBER"}
           ],
           description: "Body Information.",
           isExportable: true
@@ -452,6 +452,7 @@
           var restDayCarbs = IFCalc.getCarbGrams(tdee, restDayProteins, restDayFats);
           var bodyPlanPerCycles = new Array();
           bodyPlanPerCycles.push({
+            isActual: true,
             Date: IFUtil.getDateString(date),
             Weight: IFUtil.ceil(weight, 1),
             LBM: IFUtil.ceil(lbm, 1),
@@ -486,6 +487,7 @@
             restDayCarbs = IFCalc.getCarbGrams(tdee, restDayProteins, restDayFats);
             date = new Date(date.getTime() + daysPerCycle * 24 * 60 * 60 * 1000);
             bodyPlanPerCycles.push({
+              isActual: false,
               Date: IFUtil.getDateString(date),
               Weight: IFUtil.ceil(weight, 1),
               LBM: IFUtil.ceil(weight - bodyFatWeight, 1),
