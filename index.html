@@ -59,9 +59,9 @@
                     <form class="form-horizontal" role="form">
         -->
         <div class="form-horizonal">
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">性別</label>
-            <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">性別</label>
+            <div class="col-sm-3">
               <label class="radio-inline">
                 <input type="radio" name="gender" value="male" data-bind="checked: gender" /> 男性
               </label>
@@ -70,20 +70,20 @@
               </label>
             </div>
           </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">身長(cm)</label>
-            <div class="col-sm-6">
-              <input name="height" type="number" class="form-control" placeholder="">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">年齢(歳)</label>
-            <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">年齢(歳)</label>
+            <div class="col-sm-3">
               <input name="age" type="number" class="form-control" placeholder="" data-bind="value: age" />
             </div>
           </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">生活習慣での運動</label>
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">基礎代謝基準値(kcal/kg/日)</label>
+            <div class="col-sm-3">
+              <input name="bmu" type="number" class="form-control" placeholder="" data-bind="value: bmu" />
+            </div>
+          </div>          
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">生活習慣での運動</label>
             <div class="col-sm-3">
               <select name="activity" class="form-control" data-bind="value: activity">
                 <option value="1.2">座りがち</option>
@@ -93,40 +93,46 @@
                 <option value="1.9">かなりある</option>
               </select>
             </div>
-            <div class="col-sm-3">
-              <input name="activitylevelfactor" type="number" class="form-control" data-bind="value: activityLevelFactor" />
+            <div class="form-group">
+              <label class="control-label col-sm-3 text-right">身体活動レベル</label>
+              <div class="col-sm-3">
+                <input name="activitylevelfactor" type="number" class="form-control" data-bind="value: activityLevelFactor" />
+              </div>
             </div>
-            <!--
-            <div class="col-sm-offset-6 col-sm-6">
-              <span class="help-block">TDEE = BMR * Activity Level Factor</span>
-            </div>
-            -->
           </div>
-          <div class="form-group row">
+          <div class="form-group">
+            <label class="control-label col-sm-6 text-right">身長(cm)</label>
+            <div class="col-sm-6">
+              <input name="height" type="number" class="form-control" placeholder="">
+            </div>
+          </div>
+          <div class="form-group">
             <label class="control-label col-sm-6 text-right">体重(kg)</label>
             <div class="col-sm-6">
               <input name="weight" type="number" class="form-control" placeholder="" data-bind="value: weight" />
             </div>
           </div>
-          <div class="form-group row">
+          <div class="form-group">
             <label class="control-label col-sm-6 text-right">体脂肪率(%)</label>
             <div class="col-sm-6">
               <input name="bodyfat" type="number" class="form-control" placeholder="" data-bind="value: bodyfat" />
             </div>
           </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">基礎代謝量(kcal/日)</label>
-            <div class="col-sm-6">
-              <input name="bmr" type="number" class="form-control" placeholder="" data-bind="value: bmr" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">総エネルギー消費量(kcal/日)</label>
-            <div class="col-sm-6">
-              <input name="tdee" type="number" class="form-control" placeholder="" data-bind="value: tdee" />
-            </div>
-          </div>
-          <div class="form-group row">
+          <!--
+                    <div class="form-group row">
+                      <label class="control-label col-sm-6 text-right">基礎代謝量(kcal/日)</label>
+                      <div class="col-sm-6">
+                        <input name="bmr" type="number" class="form-control" placeholder="" data-bind="value: bmr" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="control-label col-sm-6 text-right">総エネルギー消費量(kcal/日)</label>
+                      <div class="col-sm-6">
+                        <input name="tdee" type="number" class="form-control" placeholder="" data-bind="value: tdee" />
+                      </div>
+                    </div>
+          -->
+          <div class="form-group">
             <label class="control-label col-sm-6 text-right">プラン</label>
             <div class="col-sm-6">
               <select name="actionplan" class="form-control" data-bind="value: actionPlan">
@@ -136,88 +142,111 @@
               </select>
             </div>
           </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">休息日/トレーニング日(%)</label>
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">休息日の摂取カロリー(%)</label>
             <div class="col-sm-3">
               <input name="restdaypercentage" type="number" class="form-control" data-bind="value: restDayPercentage" />
             </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">トレーニング日の摂取カロリー(%)</label>
             <div class="col-sm-3">
               <input name="workoutdaypercentage" type="number" class="form-control" data-bind="value: workoutDayPercentage" />
             </div>
           </div>
-          <h3>休息日の栄養</h3>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">カロリー</label>
-            <div class="col-sm-6">
-              <input name="restdaycalories" type="number" class="form-control" data-bind="value: restDayCalories" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">蛋白質(g)</label>
-            <div class="col-sm-6">
-              <input name="restdayprotein" type="number" class="form-control" placeholder="" data-bind="value: restDayProtein" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">脂質(g)</label>
-            <div class="col-sm-6">
-              <input name="restdayfat" type="number" class="form-control" placeholder="" data-bind="value: restDayFat" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">炭水化物(g)</label>
-            <div class="col-sm-6">
-              <input name="restdaycarb" type="number" class="form-control" placeholder="" data-bind="value: restDayCarb" />
-            </div>
-          </div>
-          <h3>トレーニング日の栄養</h3>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">カロリー</label>
-            <div class="col-sm-6">
-              <input name="workoutdaycalories" type="number" class="form-control" data-bind="value: workoutDayCalories" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">蛋白質(g)</label>
-            <div class="col-sm-6">
-              <input name="workoutdayprotein" type="number" class="form-control" placeholder="" data-bind="value: workoutDayProtein" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">脂質(g)</label>
-            <div class="col-sm-6">
-              <input name="workoutdayfat" type="number" class="form-control" placeholder="" data-bind="value: workoutDayFat" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">炭水化物(g)</label>
-            <div class="col-sm-6">
-              <input name="workoutdaycarb" type="number" class="form-control" placeholder="" data-bind="value: workoutDayCarb" />
-            </div>
-          </div>
+          <!--
+                    <h3>休息日の栄養</h3>
+                    <div class="form-group row">
+                      <label class="control-label col-sm-6 text-right">カロリー</label>
+                      <div class="col-sm-6">
+                        <input name="restdaycalories" type="number" class="form-control" data-bind="value: restDayCalories" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="control-label col-sm-6 text-right">蛋白質(g)</label>
+                      <div class="col-sm-6">
+                        <input name="restdayprotein" type="number" class="form-control" placeholder="" data-bind="value: restDayProtein" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="control-label col-sm-6 text-right">脂質(g)</label>
+                      <div class="col-sm-6">
+                        <input name="restdayfat" type="number" class="form-control" placeholder="" data-bind="value: restDayFat" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="control-label col-sm-6 text-right">炭水化物(g)</label>
+                      <div class="col-sm-6">
+                        <input name="restdaycarb" type="number" class="form-control" placeholder="" data-bind="value: restDayCarb" />
+                      </div>
+                    </div>
+                    <h3>トレーニング日の栄養</h3>
+                    <div class="form-group row">
+                      <label class="control-label col-sm-6 text-right">カロリー</label>
+                      <div class="col-sm-6">
+                        <input name="workoutdaycalories" type="number" class="form-control" data-bind="value: workoutDayCalories" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="control-label col-sm-6 text-right">蛋白質(g)</label>
+                      <div class="col-sm-6">
+                        <input name="workoutdayprotein" type="number" class="form-control" placeholder="" data-bind="value: workoutDayProtein" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="control-label col-sm-6 text-right">脂質(g)</label>
+                      <div class="col-sm-6">
+                        <input name="workoutdayfat" type="number" class="form-control" placeholder="" data-bind="value: workoutDayFat" />
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="control-label col-sm-6 text-right">炭水化物(g)</label>
+                      <div class="col-sm-6">
+                        <input name="workoutdaycarb" type="number" class="form-control" placeholder="" data-bind="value: workoutDayCarb" />
+                      </div>
+                    </div>
+          -->
           <h3>予定</h3>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">目標体重</label>
-            <div class="col-sm-6">
-              <input name="targetweight" type="dest" class="form-control" data-bind="value: targetWeight" />
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">周期(日数)</label>
+            <div class="col-sm-3">
+              <input name="dayspercycle" type="number" class="form-control" data-bind="value: daysPerCycle" />
             </div>
           </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">目標体脂肪率</label>
-            <div class="col-sm-6">
-              <input name="targetbodyfat" type="dest" class="form-control" data-bind="value: targetBodyFat" />
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">周期内トレーニング日数</label>
+            <div class="col-sm-3">
+              <input name="workoutspercycle" type="number" class="form-control" data-bind="value: workoutsPerCycle" />
             </div>
           </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">開始日</label>
-            <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">実行周期数</label>
+            <div class="col-sm-3">
+              <input name="cyclestotry" type="number" class="form-control" data-bind="value: cyclesToTry" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">開始日</label>
+            <div class="col-sm-3">
               <input name="begindate" type="date" class="form-control" data-bind="value: beginDate" />
             </div>
           </div>
-          <div class="form-group row">
-            <label class="control-label col-sm-6 text-right">終了日</label>
-            <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">終了日</label>
+            <div class="col-sm-3">
               <input name="enddate" type="date" class="form-control" data-bind="value: endDate" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">目標体重</label>
+            <div class="col-sm-3">
+              <input name="targetweight" type="dest" class="form-control" data-bind="value: targetWeight" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3 text-right">目標体脂肪率</label>
+            <div class="col-sm-3">
+              <input name="targetbodyfat" type="dest" class="form-control" data-bind="value: targetBodyFat" />
             </div>
           </div>
           <!--
@@ -380,6 +409,26 @@
         function IFCalc() {
         }
 
+        IFCalc.getAgeSpecificBsalMetabolicUnit = function(gender, age) {
+          if (!age || isNaN(age)) {
+            return "";
+          }
+          var bsalMetabolicUnit = 0;
+          for (var i = 0; i < ageSpecificBsalMetabolicUnit.length; i++) {
+            if (ageSpecificBsalMetabolicUnit[i].min <= age && age <= ageSpecificBsalMetabolicUnit[i].max) {
+              if (gender === "male") {
+                bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].male;
+              } else if (gender === "female") {
+                bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].female;
+              } else {
+                bsalMetabolicUnit = (ageSpecificBsalMetabolicUnit[i].male + ageSpecificBsalMetabolicUnit[i].female) * 0.5;
+              }
+              break;
+            }
+          }
+          return bsalMetabolicUnit;
+        };
+
         IFCalc.calcBmr = function(gender, age, weight) {
           if (!age || !weight || isNaN(age) || isNaN(weight)) {
             return "";
@@ -466,6 +515,41 @@
           return fatCalories / fatCaloriesPerKg;
         };
 
+        IFCalc.getPlanedRows = function(daysPerCycle, workoutsPerCycle, cyclesToTry, bmu, activityLevelFactor, restDayPercentage, workoutDayPercentage, beginDate, beginWeight, beginBodyFat) {
+          if (!daysPerCycle || isNaN(daysPerCycle)
+                  || !workoutsPerCycle || isNaN(workoutsPerCycle)
+                  || !cyclesToTry || isNaN(cyclesToTry)
+                  || !bmu || isNaN(bmu)
+                  || !activityLevelFactor || isNaN(activityLevelFactor)
+                  || !restDayPercentage || isNaN(restDayPercentage)
+                  || !workoutDayPercentage || isNaN(workoutDayPercentage)
+                  || !beginDate || !(date instanceof beginDate)
+                  || !beginWeight || isNaN(beginWeight)
+                  || !beginBodyFat || isNaN(beginBodyFat)) {
+            return null;
+          }
+          var date = new Date(beginDate);
+          var weight = new Number(beginWeight);
+          var bodyFatWeight = new Number(weight - IFCalc.getLBM(weight, beginBodyFat));
+          var bodyPlanPerCycles = new Array();
+          var bmr = new Number(bmu * weight);
+          var tdee = new Number(bmr * activityLevelFactor);
+          var workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
+          var restDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
+          bodyPlanPerCycles.push({Date: IFUtil.getDateString(date), Weight: weight, BFP: beginBodyFat, BMR: bmr, TDEE: tdee, RestDayCalories: restDayCalories, WorkoutDayCalories: workoutDayCalories});
+          for (var i = 0; i < cyclesToTry; i++) {
+            var diffWeight = IFCalc.getFatWeightOfCalories(IFCalc.getCaloriesPerCycle(daysPerCycle, workoutsPerCycle, workoutDayCalories, restDayCalories) - tdee * daysPerCycle);
+            weight += diffWeight;
+            bodyFatWeight += diffWeight;
+            bmr = new Number(bmu * weight);
+            tdee = new Number(bmr * activityLevelFactor);
+            workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
+            restDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
+            date = new Date(date.getTime() + cyclesToTry * 24 * 60 * 60 * 1000);
+            bodyPlanPerCycles.push({Date: IFUtil.getDateString(date), Weight: IFUtil.ceil(weight, 1), BFP: IFUtil.ceil(100 * bodyFatWeight / weight, 1), BMR: IFUtil.ceil(bmr), TDEE: IFUtil.ceil(tdee), RestDayCalories: restDayCalories, WorkoutDayCalories: workoutDayCalories});
+          }
+          return bodyPlanPerCycles;
+        };
         return IFCalc;
 
       }());
@@ -512,9 +596,20 @@
 
       function AppViewModel() {
         var self = this;
-        this.age = ko.observable();
-        this.weight = ko.observable();
         this.gender = ko.observable();
+        this.gender.subscribe(function(value) {
+          IFCalc.getAgeSpecificBsalMetabolicUnit(value, self.age);
+        });
+        this.age = ko.observable();
+        this.age.subscribe(function(value) {
+          IFCalc.getAgeSpecificBsalMetabolicUnit(self.gender, value);
+        });
+        this.bmu = ko.observable();
+//        this.bmu.subscribe(function(value) {
+//          self.bodyPlanPerCycles.removeAll();
+//          this.bodyPlanPerCycles.push(IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.bmu(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.beginDate(), self.weight(), self.bodyFat()));
+//        });
+        this.weight = ko.observable();
         this.bodyfat = ko.observable();
         this.activityLevelFactor = ko.observable();
         this.activity = ko.observable();
@@ -561,48 +656,20 @@
         this.workoutDayCarb = ko.computed(function() {
           return IFCalc.getCarbGrams(this.tdee(), this.workoutDayProtein(), this.workoutDayFat());
         }, this);
+        this.daysPerCycle = ko.observable(7);
+        this.workoutsPerCycle = ko.observable(3);
+        this.cyclesToTry = ko.observable(12);
         this.targetWeight = ko.observable();
         this.targetBodyFat = ko.observable();
-        var today = new Date();
-        this.beginDate = ko.observable(today.getFullYear() + "-" + IFUtil.zeroPadding((today.getMonth() + 1), 2) + "-" + IFUtil.zeroPadding(today.getDate(), 2));
-        var after12weeks = new Date(today.getTime() + 12 * 7 * 24 * 60 * 60 * 1000);
-        this.endDate = ko.observable(after12weeks.getFullYear() + "-" + IFUtil.zeroPadding((after12weeks.getMonth() + 1), 2) + "-" + IFUtil.zeroPadding(after12weeks.getDate(), 2));
-        this.endDate.subscribe(function(value) {
-          if (value) {
-            var endDate = new Date(value);
-            var beginDate = new Date(self.beginDate());
-            var duration = (endDate.getTime() - beginDate.getTime()) / 24 / 60 / 60 / 1000;
-            if (duration < 1)
-              return;
-            duration++;
-            var destDate = new Date(self.beginDate());
-            var cycleDays = 7;
-            var workoutDaysPerCycle = 3;
-            var srcWeight = new Number(self.weight());
-            var destWeight = new Number(self.weight());
-            var destTdee = new Number(self.tdee());
-            var destWorkoutDayCalories = new Number(self.workoutDayCalories());
-            var destRestDayCalories = new Number(self.restDayCalories());
-            var bodyFatWeight = destWeight - IFCalc.getLBM(destWeight, self.bodyfat());
-            var days = 0;
-            var destBmr = IFCalc.calcBmr(self.gender(), self.age(), destWeight);
-            self.bodyPlanPerCycles.removeAll();
-            self.bodyPlanPerCycles.push({Date: IFUtil.getDateString(destDate), Weight: destWeight, BFP: self.bodyfat(), BMR: destBmr, TDEE: IFCalc.calcTdee(destBmr, self.activityLevelFactor()), RestDayCalories: destRestDayCalories, WorkoutDayCalories: destWorkoutDayCalories});
-            while (days < duration) {
-              destWeight += IFCalc.getFatWeightOfCalories(IFCalc.getCaloriesPerCycle(cycleDays, workoutDaysPerCycle, destWorkoutDayCalories, destRestDayCalories) - destTdee * cycleDays);
-              destTdee = IFCalc.calcTdee(IFCalc.calcBmr(self.gender(), self.age(), destWeight), self.activityLevelFactor());
-              destWorkoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.workoutDayPercentage());
-              destRestDayCalories = IFCalc.getCaloriesPercentageOfTdee(destTdee, self.restDayPercentage());
-              destBmr = IFCalc.calcBmr(self.gender(), self.age(), destWeight);
-              destDate = new Date(destDate.getTime() + cycleDays * 24 * 60 * 60 * 1000);
-              days += cycleDays;
-              self.bodyPlanPerCycles.push({Date: IFUtil.getDateString(destDate), Weight: IFUtil.ceil(destWeight, 1), BFP: IFUtil.ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight, 1), BMR: destBmr, TDEE: IFCalc.calcTdee(destBmr, self.activityLevelFactor()), RestDayCalories: destRestDayCalories, WorkoutDayCalories: destWorkoutDayCalories});
-            }
-            self.targetWeight(IFUtil.ceil(destWeight, 1));
-            self.targetBodyFat(IFUtil.ceil(100 * (bodyFatWeight - (srcWeight - destWeight)) / destWeight, 1));
-          }
-        });
+        this.beginDate = ko.observable(IFUtil.getDateString(new Date()));
+        this.endDate = ko.computed(function() {
+          return IFUtil.getDateString((new Date(this.beginDate()).getTime() + this.cyclesToTry() * this.daysPerCycle() * 24 * 60 * 60 * 1000));
+        }, this);
         this.bodyPlanPerCycles = ko.observableArray([]);
+        this.calcTableValues = ko.computed(function() {
+          self.bodyPlanPerCycles.removeAll();
+          self.bodyPlanPerCycles.push(IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.bmu(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.beginDate(), self.weight(), self.bodyfat()));
+        }, this);
       }
 
       ko.applyBindings(new AppViewModel());
