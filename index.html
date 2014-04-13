@@ -310,6 +310,7 @@
         // Send the JSONP request using jQuery
         $.ajax({
           url: url.join(''),
+          headers: {'Authorization': 'Bearer ' + gapi.auth.getToken().access_token},
           dataType: 'jsonp',
           success: function(data) {
             callback(data);
@@ -342,6 +343,7 @@
         // Send the JSONP request using jQuery
         $.ajax({
           url: url.join(''),
+          headers: {'Authorization': 'Bearer ' + gapi.auth.getToken().access_token},
           dataType: 'jsonp',
           success: function(data) {
             callback(data);
