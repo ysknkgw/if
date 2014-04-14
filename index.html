@@ -305,16 +305,18 @@
         var encodedQuery = encodeURIComponent(query);
 
         // Construct the URL
-        var url = ['https://www.googleapis.com/fusiontables/v1/query'];
-        url.push('?sql=' + encodedQuery);
-        url.push('&key=' + apiKey);
-        url.push('&callback=?');
+        var url = 'https://www.googleapis.com/fusiontables/v1/query';
+//        url.push('?sql=' + encodedQuery);
+//        url.push('&key=' + apiKey);
+//        url.push('&callback=?');
 
         // Send the JSONP request using jQuery
         $.ajax({
-          url: url.join(''),
+          url: url,
+          type: 'POST',
           headers: {'Authorization': 'Bearer ' + gapi.auth.getToken().access_token},
           dataType: 'jsonp',
+          data:"sql=" + encodedQuery,
           success: function(data) {
             callback(data);
           }
