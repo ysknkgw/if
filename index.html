@@ -141,50 +141,53 @@
           </div>
         </div>
       </div>
-      <div class="table-responsive row">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th colspan="6">身体</th>
-              <th colspan="4">休息日</th>
-              <th colspan="4">トレーニング日</th>
-            </tr>
-            <tr>
-              <th>日付</th>
-              <th>体重</th>
-              <th>除脂肪体重</th>
-              <th>体脂肪率</th>
-              <th>基礎代謝量</th>
-              <th>消費量</th>
-              <th>カロリー</th>
-              <th>蛋白質(g)</th>
-              <th>炭水化物(g)</th>
-              <th>脂肪(g)</th>
-              <th>カロリー</th>
-              <th>蛋白質(g)</th>
-              <th>炭水化物(g)</th>
-              <th>脂肪(g)</th>
-            </tr>
-          </thead>
-          <tbody data-bind="foreach: bodyPlanPerCycles">
-            <tr data-bind="css: { success: isActual }">
-              <td data-bind="text: Date"></td>
-              <td data-bind="text: Weight"></td>
-              <td data-bind="text: LBM"></td>
-              <td data-bind="text: BFP"></td>
-              <td data-bind="text: BMR"></td>
-              <td data-bind="text: TDEE"></td>
-              <td data-bind="text: RestDayCalories"></td>
-              <td data-bind="text: RestDayProteins"></td>
-              <td data-bind="text: RestDayCarbs"></td>
-              <td data-bind="text: RestDayFats"></td>
-              <td data-bind="text: WorkoutDayCalories"></td>
-              <td data-bind="text: WorkoutDayProteins"></td>
-              <td data-bind="text: WorkoutDayCarbs"></td>
-              <td data-bind="text: WorkoutDayFats"></td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th colspan="6">身体</th>
+                <th colspan="4">休息日</th>
+                <th colspan="4">トレーニング日</th>
+              </tr>
+              <tr>
+                <th>日付</th>
+                <th>体重</th>
+                <th>除脂肪体重</th>
+                <th>体脂肪率</th>
+                <th>基礎代謝量</th>
+                <th>消費量</th>
+                <th>カロリー</th>
+                <th>蛋白質(g)</th>
+                <th>炭水化物(g)</th>
+                <th>脂肪(g)</th>
+                <th>カロリー</th>
+                <th>蛋白質(g)</th>
+                <th>炭水化物(g)</th>
+                <th>脂肪(g)</th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: bodyPlanPerCycles">
+              <tr data-bind="css: { success: Actual === 1 }">
+                <td data-bind="text: Date"></td>
+                <td data-bind="text: Weight"></td>
+                <td data-bind="text: LBM"></td>
+                <td data-bind="text: BFP"></td>
+                <td data-bind="text: BMR"></td>
+                <td data-bind="text: TDEE"></td>
+                <td data-bind="text: RestDayCalories"></td>
+                <td data-bind="text: RestDayProteins"></td>
+                <td data-bind="text: RestDayCarbs"></td>
+                <td data-bind="text: RestDayFats"></td>
+                <td data-bind="text: WorkoutDayCalories"></td>
+                <td data-bind="text: WorkoutDayProteins"></td>
+                <td data-bind="text: WorkoutDayCarbs"></td>
+                <td data-bind="text: WorkoutDayFats"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="btn" data-bind="click: insertRows">保存する</button>
       </div>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
@@ -535,7 +538,7 @@
           var restDayCarbs = IFCalc.getCarbGrams(tdee, restDayProteins, restDayFats);
           var bodyPlanPerCycles = new Array();
           bodyPlanPerCycles.push({
-            isActual: true,
+            Actual: 1,
             Date: IFUtil.getDateString(date),
             Weight: IFUtil.ceil(weight, 1),
             LBM: IFUtil.ceil(lbm, 1),
@@ -570,7 +573,7 @@
             restDayCarbs = IFCalc.getCarbGrams(tdee, restDayProteins, restDayFats);
             date = new Date(date.getTime() + daysPerCycle * 24 * 60 * 60 * 1000);
             bodyPlanPerCycles.push({
-              isActual: false,
+              Actual: 0,
               Date: IFUtil.getDateString(date),
               Weight: IFUtil.ceil(weight, 1),
               LBM: IFUtil.ceil(weight - bodyFatWeight, 1),
@@ -679,13 +682,19 @@
             for (var i = 0; i < rows.length; i++) {
               self.bodyPlanPerCycles.push(rows[i]);
             }
+          }
+        }, this);
+        // Operations
+        this.insertRows = function() {
+          var rows = IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.bmu(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.beginDate(), self.weight(), self.bodyfat());
+          if (rows) {
             insertIntoIfTable(rows, function(result){
-              if(result){
+            if(result){
                 // TODO: 結果表示
               }
             });
-          }
-        }, this);
+          }  
+        };
       }
 
       ko.applyBindings(new AppViewModel());
