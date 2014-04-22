@@ -56,11 +56,19 @@
           </div>
         </div>
         <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">基礎代謝基準値(kcal/kg/日)</label>
+          <label class="control-label col-sm-6 text-right">身長</label>
           <div class="col-sm-6">
-            <input name="bmu" type="number" class="form-control" placeholder="" data-bind="value: bmu" />
+            <input name="height" type="number" class="form-control" placeholder="" data-bind="value: height" />
           </div>
         </div>
+        <!--
+                <div class="form-group col-sm-6">
+                  <label class="control-label col-sm-6 text-right">基礎代謝基準値(kcal/kg/日)</label>
+                  <div class="col-sm-6">
+                    <input name="bmu" type="number" class="form-control" placeholder="" data-bind="value: bmu" />
+                  </div>
+                </div>
+        -->
         <div class="form-group col-sm-6">
           <label class="control-label col-sm-6 text-right">生活習慣での運動</label>
           <div class="col-sm-6">
@@ -316,7 +324,7 @@
           type: 'POST',
           headers: {'Authorization': 'Bearer ' + gapi.auth.getToken().access_token},
           dataType: 'jsonp',
-          data:"sql=" + encodedQuery,
+          data: "sql=" + encodedQuery,
           success: function(data) {
             callback(data);
           }
@@ -444,7 +452,31 @@
           return weight * bsalMetabolicUnit;
         };
 
-        IFCalc.calcTdee = function(bmr, activityLevel) {
+        IFCalc.calcBeeWithHbe = function(gender, age, weight, height) {
+          if (!gender || !age || !weight || !height || isNaN(age) || isNaN(weight) || isNaN(height)) {
+            return "";
+          }
+          if (gender === "male") {
+            return 66.473 + 13.7516 * weight + 5.0033 * height - 6.755 * age;
+          } else if (gender === "female") {
+            return 655.0955 + 9.5634 * weight + 1.8496 * height - 4.6756 * age;
+          }
+          return "";
+        };
+
+        IFCalc.calcBeeWithHbeForJapanese = function(gender, age, weight, height) {
+          if (!gender || !age || !weight || !height || isNaN(age) || isNaN(weight) || isNaN(height)) {
+            return "";
+          }
+          if (gender === "male") {
+            return 66 + 13.7 * weight + 5 * height - 6.8 * age;
+          } else if (gender === "female") {
+            return 665 + 9.6 * weight + 1.7 * height - 7 * age;
+          }
+          return "";
+        };
+
+    IFCalc.calcTdee = function(bmr, activityLevel) {
           if (!bmr || !activityLevel || isNaN(bmr) || isNaN(activityLevel)) {
             return "";
           }
@@ -510,11 +542,10 @@
           return fatCalories / fatCaloriesPerKg;
         };
 
-        IFCalc.getPlanedRows = function(daysPerCycle, workoutsPerCycle, cyclesToTry, bmu, activityLevelFactor, restDayPercentage, workoutDayPercentage, beginDate, beginWeight, beginBodyFat) {
+        IFCalc.getPlanedRows = function(daysPerCycle, workoutsPerCycle, cyclesToTry, activityLevelFactor, restDayPercentage, workoutDayPercentage, gender, age, height, beginDate, beginWeight, beginBodyFat) {
           if (!daysPerCycle || isNaN(daysPerCycle)
                   || !workoutsPerCycle || isNaN(workoutsPerCycle)
                   || !cyclesToTry || isNaN(cyclesToTry)
-                  || !bmu || isNaN(bmu)
                   || !activityLevelFactor || isNaN(activityLevelFactor)
                   || !restDayPercentage || isNaN(restDayPercentage)
                   || !workoutDayPercentage || isNaN(workoutDayPercentage)
@@ -528,7 +559,7 @@
           var bfp = new Number(beginBodyFat);
           var lbm = IFCalc.getLBM(weight, bfp);
           var bodyFatWeight = new Number(weight - IFCalc.getLBM(weight, bfp));
-          var bmr = new Number(bmu * weight);
+          var bmr = new Number(IFCalc.calcBeeWithHbeForJapanese(gender, age, weight, height));
           var tdee = new Number(bmr * activityLevelFactor);
           var workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
           var workoutDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
@@ -563,7 +594,7 @@
               bodyFatWeight += diffWeight;
             }
             bfp = 100 * bodyFatWeight / weight;
-            bmr = new Number(bmu * weight);
+            bmr = new Number(IFCalc.calcBeeWithHbeForJapanese(gender, age, weight, height));
             tdee = new Number(bmr * activityLevelFactor);
             workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
             workoutDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
@@ -641,14 +672,9 @@
       function AppViewModel() {
         var self = this;
         this.gender = ko.observable();
-        this.gender.subscribe(function(value) {
-          self.bmu(IFCalc.getAgeSpecificBsalMetabolicUnit(value, self.age()));
-        });
         this.age = ko.observable();
-        this.age.subscribe(function(value) {
-          self.bmu(IFCalc.getAgeSpecificBsalMetabolicUnit(self.gender(), value));
-        });
-        this.bmu = ko.observable();
+        this.height = ko.observable();
+//        this.bmu = ko.observable();
         this.weight = ko.observable();
         this.bodyfat = ko.observable();
         this.activityLevelFactor = ko.observable();
@@ -657,7 +683,7 @@
           self.activityLevelFactor(value);
         });
         this.bmr = ko.computed(function() {
-          return IFCalc.calcBmr(this.gender(), this.age(), this.weight());
+          return IFUtil.ceil(IFCalc.calcBeeWithHbeForJapanese(self.gender(), self.age(), self.weight(), self.height()));
         }, this);
         this.tdee = ko.computed(function() {
           return IFCalc.calcTdee(this.bmr(), this.activityLevelFactor());
