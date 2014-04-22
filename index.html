@@ -704,7 +704,7 @@
         this.beginDate = ko.observable(IFUtil.getDateString(new Date()));
         this.bodyPlanPerCycles = ko.observableArray([]);
         this.calcTableValues = ko.computed(function() {
-          var rows = IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.bmu(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.beginDate(), self.weight(), self.bodyfat());
+          var rows = IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.age(), self.height(), self.beginDate(), self.weight(), self.bodyfat());
           if (rows) {
             self.bodyPlanPerCycles.removeAll();
             for (var i = 0; i < rows.length; i++) {
@@ -714,7 +714,7 @@
         }, this);
         // Operations
         this.insertRows = function() {
-          var rows = IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.bmu(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.beginDate(), self.weight(), self.bodyfat());
+          var rows = IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.age(), self.height(), self.beginDate(), self.weight(), self.bodyfat());
           if (rows) {
             insertIntoIfTable(rows, function(result){
             if(result){
