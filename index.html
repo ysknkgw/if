@@ -476,7 +476,7 @@
           return "";
         };
 
-    IFCalc.calcTdee = function(bmr, activityLevel) {
+        IFCalc.calcTdee = function(bmr, activityLevel) {
           if (!bmr || !activityLevel || isNaN(bmr) || isNaN(activityLevel)) {
             return "";
           }
@@ -507,6 +507,16 @@
           return (weight - (weight * percentageOfBodyFat / 100)) * 2.5;
         };
 
+        IFCalc.getWorkoutDayProteinsGrams = function(lbm, calorieBalancePerCycle) {
+          if (!lbm || isNaN(lbm) || !calorieBalancePerCycle || isNaN(calorieBalancePerCycle)) {
+            return "";
+          }
+          if (calorieBalancePerCycle < 0) {
+            return lbm * 2.2;
+          }
+          return lbm * 1.8;
+        };
+
         IFCalc.getRestDayFatGrams = function(tdee) {
           if (!tdee || isNaN(tdee)) {
             return "";
@@ -533,6 +543,13 @@
             return "";
           }
           return (workoutDays * workoutDayCalories) + ((cycleDays - workoutDays) * restDayCalories);
+        };
+
+        IFCalc.getCalorieBalancePerCycle = function(cycleDays, workoutDays, workoutDayCalories, restDayCalories, tdee) {
+          if (!cycleDays || !workoutDays || !workoutDayCalories || !restDayCalories || !tdee || isNaN(cycleDays) || isNaN(workoutDays) || isNaN(workoutDayCalories) || isNaN(restDayCalories) || isNaN(tdee)) {
+            return "";
+          }
+          return ((workoutDays * workoutDayCalories) + ((cycleDays - workoutDays) * restDayCalories)) - tdee * cycleDays;
         };
 
         IFCalc.getFatWeightOfCalories = function(fatCalories) {
