@@ -517,6 +517,16 @@
           return lbm * 1.8;
         };
 
+        IFCalc.getRestDayProteinsGrams = function(lbm, calorieBalancePerCycle) {
+          if (!lbm || isNaN(lbm) || !calorieBalancePerCycle || isNaN(calorieBalancePerCycle)) {
+            return "";
+          }
+          if (calorieBalancePerCycle < 0) {
+            return lbm * 2.8;
+          }
+          return lbm * 2.2;
+        };
+
         IFCalc.getRestDayFatGrams = function(tdee) {
           if (!tdee || isNaN(tdee)) {
             return "";
