@@ -591,11 +591,11 @@
           var workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
           var workoutDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
           var workoutDayFats = IFCalc.getWorkoutDayFatGrams(tdee);
-          var workoutDayCarbs = IFCalc.getCarbGrams(tdee, workoutDayProteins, workoutDayFats);
+          var workoutDayCarbs = IFCalc.getCarbGrams(workoutDayCalories, workoutDayProteins, workoutDayFats);
           var restDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
           var restDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
           var restDayFats = IFCalc.getRestDayFatGrams(tdee);
-          var restDayCarbs = IFCalc.getCarbGrams(tdee, restDayProteins, restDayFats);
+          var restDayCarbs = IFCalc.getCarbGrams(restDayCalories, restDayProteins, restDayFats);
           var bodyPlanPerCycles = new Array();
           bodyPlanPerCycles.push({
             Actual: 1,
@@ -626,11 +626,11 @@
             workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
             workoutDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
             workoutDayFats = IFCalc.getWorkoutDayFatGrams(tdee);
-            workoutDayCarbs = IFCalc.getCarbGrams(tdee, workoutDayProteins, workoutDayFats);
+            workoutDayCarbs = IFCalc.getCarbGrams(workoutDayCalories, workoutDayProteins, workoutDayFats);
             restDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
             restDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
             restDayFats = IFCalc.getRestDayFatGrams(tdee);
-            restDayCarbs = IFCalc.getCarbGrams(tdee, restDayProteins, restDayFats);
+            restDayCarbs = IFCalc.getCarbGrams(restDayCalories, restDayProteins, restDayFats);
             date = new Date(date.getTime() + daysPerCycle * 24 * 60 * 60 * 1000);
             bodyPlanPerCycles.push({
               Actual: 0,
