@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
     <meta name="google-signin-clientid" content="1019598927602.apps.googleusercontent.com" />
     <meta name="google-signin-cookiepolicy" content="single_host_origin" />
-    <meta name="google-signin-callback" content="signinCallback" />
+<!--    <meta name="google-signin-callback" content="signinCallback" /> -->
     <meta name="google-signin-requestvisibleactions" content="http://schemas.google.com/AddActivity" />
     <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/fusiontables" />
   </head>
@@ -455,7 +455,7 @@
       function renderSigninButton() {
         var signinButton = document.getElementById('signinButton');
         signinButton.addEventListener('click', function() {
-          gapi.auth.signIn();
+          gapi.auth.signIn({'callback': signinCallback});
         });
         gapi.client.setApiKey(apiKey);
       }
