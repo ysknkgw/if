@@ -4,11 +4,12 @@
     <meta charset='utf-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>if</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
     <meta name="google-signin-clientid" content="1019598927602.apps.googleusercontent.com" />
-    <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/fusiontables" />
-    <meta name="google-signin-requestvisibleactions" content="http://schemas.google.com/AddActivity" />
     <meta name="google-signin-cookiepolicy" content="single_host_origin" />
+    <meta name="google-signin-callback" content="signinCallback" />
+    <meta name="google-signin-requestvisibleactions" content="http://schemas.google.com/AddActivity" />
+    <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/fusiontables" />
   </head>
   <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -198,10 +199,12 @@
         <button class="btn" data-bind="click: insertRows">保存する</button>
       </div>
     </div>
+    <script src="javascripts/ifi.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+      var ifi = new Ifi();
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
       var IFTBLID;
       var IFTBL = {
@@ -390,314 +393,9 @@
         retrievePageOfTables(initialRequest, []);
       }
 
-      var IFCalc = (function() {
-        var fatCaloriesPerKg = 7200;
-        var proteinCaloriesPerGram = 4;
-        var carbCaloriesPerGram = 4;
-        var fatCaloriesPerGram = 9;
-        var ageSpecificBsalMetabolicUnit = [
-          {min: 0, max: 2, male: 61.0, female: 59.7},
-          {min: 3, max: 5, male: 54.8, female: 52.2},
-          {min: 6, max: 7, male: 44.3, female: 41.9},
-          {min: 8, max: 9, male: 40.8, female: 38.3},
-          {min: 10, max: 11, male: 37.4, female: 34.8},
-          {min: 12, max: 14, male: 31.0, female: 29.6},
-          {min: 15, max: 17, male: 27.0, female: 25.3},
-          {min: 18, max: 29, male: 24.0, female: 22.1},
-          {min: 30, max: 49, male: 22.3, female: 21.7},
-          {min: 50, max: 99, male: 21.5, female: 20.7}
-        ];
-
-        // constructor
-        function IFCalc() {
-        }
-
-        IFCalc.getAgeSpecificBsalMetabolicUnit = function(gender, age) {
-          if (!age || isNaN(age)) {
-            return "";
-          }
-          var bsalMetabolicUnit = 0;
-          for (var i = 0; i < ageSpecificBsalMetabolicUnit.length; i++) {
-            if (ageSpecificBsalMetabolicUnit[i].min <= age && age <= ageSpecificBsalMetabolicUnit[i].max) {
-              if (gender === "male") {
-                bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].male;
-              } else if (gender === "female") {
-                bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].female;
-              } else {
-                bsalMetabolicUnit = (ageSpecificBsalMetabolicUnit[i].male + ageSpecificBsalMetabolicUnit[i].female) * 0.5;
-              }
-              break;
-            }
-          }
-          return bsalMetabolicUnit;
-        };
-
-        IFCalc.calcBmr = function(gender, age, weight) {
-          if (!age || !weight || isNaN(age) || isNaN(weight)) {
-            return "";
-          }
-          var bsalMetabolicUnit = 0;
-          for (var i = 0; i < ageSpecificBsalMetabolicUnit.length; i++) {
-            if (ageSpecificBsalMetabolicUnit[i].min <= age && age <= ageSpecificBsalMetabolicUnit[i].max) {
-              if (gender === "male") {
-                bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].male;
-              } else if (gender === "female") {
-                bsalMetabolicUnit = ageSpecificBsalMetabolicUnit[i].female;
-              } else {
-                bsalMetabolicUnit = (ageSpecificBsalMetabolicUnit[i].male + ageSpecificBsalMetabolicUnit[i].female) * 0.5;
-              }
-              break;
-            }
-          }
-          return weight * bsalMetabolicUnit;
-        };
-
-        IFCalc.calcBeeWithHbe = function(gender, age, weight, height) {
-          if (!gender || !age || !weight || !height || isNaN(age) || isNaN(weight) || isNaN(height)) {
-            return "";
-          }
-          if (gender === "male") {
-            return 66.473 + 13.7516 * weight + 5.0033 * height - 6.755 * age;
-          } else if (gender === "female") {
-            return 655.0955 + 9.5634 * weight + 1.8496 * height - 4.6756 * age;
-          }
-          return "";
-        };
-
-        IFCalc.calcBeeWithHbeForJapanese = function(gender, age, weight, height) {
-          if (!gender || !age || !weight || !height || isNaN(age) || isNaN(weight) || isNaN(height)) {
-            return "";
-          }
-          if (gender === "male") {
-            return 66 + 13.7 * weight + 5 * height - 6.8 * age;
-          } else if (gender === "female") {
-            return 665 + 9.6 * weight + 1.7 * height - 7 * age;
-          }
-          return "";
-        };
-
-        IFCalc.calcTdee = function(bmr, activityLevel) {
-          if (!bmr || !activityLevel || isNaN(bmr) || isNaN(activityLevel)) {
-            return "";
-          }
-          return bmr * activityLevel;
-        };
-
-        IFCalc.getLBM = function(weight, bodyFatPercentage) {
-          if (!weight || !bodyFatPercentage || isNaN(weight) || isNaN(bodyFatPercentage)) {
-            return "";
-          }
-          return weight * (100 - bodyFatPercentage) / 100;
-        };
-
-        IFCalc.getCaloriesPercentageOfTdee = function(tdee, percentage) {
-          if (!tdee || !percentage || isNaN(tdee) || isNaN(percentage)) {
-            return "";
-          }
-          return tdee + tdee * percentage / 100;
-        };
-
-        IFCalc.getDailyProteinsGrams = function(weight, percentageOfBodyFat) {
-          if (!weight || isNaN(weight)) {
-            return "";
-          }
-          if (!percentageOfBodyFat || isNaN(percentageOfBodyFat)) {
-            return weight * 2.0;
-          }
-          return (weight - (weight * percentageOfBodyFat / 100)) * 2.5;
-        };
-
-        IFCalc.getWorkoutDayProteinsGrams = function(lbm, calorieBalancePerCycle) {
-          if (!lbm || isNaN(lbm) || !calorieBalancePerCycle || isNaN(calorieBalancePerCycle)) {
-            return "";
-          }
-          if (calorieBalancePerCycle < 0) {
-            return lbm * 2.2;
-          }
-          return lbm * 1.8;
-        };
-
-        IFCalc.getRestDayProteinsGrams = function(lbm, calorieBalancePerCycle) {
-          if (!lbm || isNaN(lbm) || !calorieBalancePerCycle || isNaN(calorieBalancePerCycle)) {
-            return "";
-          }
-          if (calorieBalancePerCycle < 0) {
-            return lbm * 2.8;
-          }
-          return lbm * 2.2;
-        };
-
-        IFCalc.getRestDayFatGrams = function(tdee) {
-          if (!tdee || isNaN(tdee)) {
-            return "";
-          }
-          return tdee * 0.3 / fatCaloriesPerGram;
-        };
-
-        IFCalc.getWorkoutDayFatGrams = function(tdee) {
-          if (!tdee || isNaN(tdee)) {
-            return "";
-          }
-          return tdee * 0.2 / fatCaloriesPerGram;
-        };
-
-        IFCalc.getCarbGrams = function(tdee, protein, fat) {
-          if (!tdee || !protein || !fat || isNaN(tdee) || isNaN(protein) || isNaN(fat)) {
-            return "";
-          }
-          return (tdee - protein * proteinCaloriesPerGram - fat * fatCaloriesPerGram) / carbCaloriesPerGram;
-        };
-
-        IFCalc.getCaloriesPerCycle = function(cycleDays, workoutDays, workoutDayCalories, restDayCalories) {
-          if (!cycleDays || !workoutDays || !workoutDayCalories || !restDayCalories || isNaN(cycleDays) || isNaN(workoutDays) || isNaN(workoutDayCalories) || isNaN(restDayCalories)) {
-            return "";
-          }
-          return (workoutDays * workoutDayCalories) + ((cycleDays - workoutDays) * restDayCalories);
-        };
-
-        IFCalc.getCalorieBalancePerCycle = function(cycleDays, workoutDays, workoutDayCalories, restDayCalories, tdee) {
-          if (!cycleDays || !workoutDays || !workoutDayCalories || !restDayCalories || !tdee || isNaN(cycleDays) || isNaN(workoutDays) || isNaN(workoutDayCalories) || isNaN(restDayCalories) || isNaN(tdee)) {
-            return "";
-          }
-          return ((workoutDays * workoutDayCalories) + ((cycleDays - workoutDays) * restDayCalories)) - tdee * cycleDays;
-        };
-
-        IFCalc.getFatWeightOfCalories = function(fatCalories) {
-          if (!fatCalories || isNaN(fatCalories)) {
-            return "";
-          }
-          return fatCalories / fatCaloriesPerKg;
-        };
-
-        IFCalc.getPlanedRows = function(daysPerCycle, workoutsPerCycle, cyclesToTry, activityLevelFactor, restDayPercentage, workoutDayPercentage, gender, age, height, beginDate, beginWeight, beginBodyFat) {
-          if (!daysPerCycle || isNaN(daysPerCycle)
-                  || !workoutsPerCycle || isNaN(workoutsPerCycle)
-                  || !cyclesToTry || isNaN(cyclesToTry)
-                  || !activityLevelFactor || isNaN(activityLevelFactor)
-                  || !restDayPercentage || isNaN(restDayPercentage)
-                  || !workoutDayPercentage || isNaN(workoutDayPercentage)
-                  || !beginDate
-                  || !beginWeight || isNaN(beginWeight)
-                  || !beginBodyFat || isNaN(beginBodyFat)) {
-            return null;
-          }
-          var date = new Date(beginDate);
-          var weight = new Number(beginWeight);
-          var bfp = new Number(beginBodyFat);
-          var lbm = IFCalc.getLBM(weight, bfp);
-          var bodyFatWeight = new Number(weight - IFCalc.getLBM(weight, bfp));
-          var bmr = new Number(IFCalc.calcBeeWithHbeForJapanese(gender, age, weight, height));
-          var tdee = new Number(bmr * activityLevelFactor);
-          var workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
-          var workoutDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
-          var workoutDayFats = IFCalc.getWorkoutDayFatGrams(tdee);
-          var workoutDayCarbs = IFCalc.getCarbGrams(workoutDayCalories, workoutDayProteins, workoutDayFats);
-          var restDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
-          var restDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
-          var restDayFats = IFCalc.getRestDayFatGrams(tdee);
-          var restDayCarbs = IFCalc.getCarbGrams(restDayCalories, restDayProteins, restDayFats);
-          var bodyPlanPerCycles = new Array();
-          bodyPlanPerCycles.push({
-            Actual: 1,
-            Date: IFUtil.getDateString(date),
-            Weight: IFUtil.ceil(weight, 1),
-            LBM: IFUtil.ceil(lbm, 1),
-            BFP: IFUtil.ceil(bfp, 1),
-            BMR: IFUtil.ceil(bmr),
-            TDEE: IFUtil.ceil(tdee),
-            RestDayCalories: IFUtil.ceil(restDayCalories),
-            RestDayProteins: IFUtil.ceil(restDayProteins, 1),
-            RestDayCarbs: IFUtil.ceil(restDayCarbs, 1),
-            RestDayFats: IFUtil.ceil(restDayFats, 1),
-            WorkoutDayCalories: IFUtil.ceil(workoutDayCalories),
-            WorkoutDayProteins: IFUtil.ceil(workoutDayProteins, 1),
-            WorkoutDayCarbs: IFUtil.ceil(workoutDayCarbs, 1),
-            WorkoutDayFats: IFUtil.ceil(workoutDayFats, 1)
-          });
-          for (var i = 0; i < cyclesToTry; i++) {
-            var diffWeight = IFCalc.getFatWeightOfCalories(IFCalc.getCaloriesPerCycle(daysPerCycle, workoutsPerCycle, workoutDayCalories, restDayCalories) - tdee * daysPerCycle);
-            weight += diffWeight;
-            if (diffWeight < 0) {
-              bodyFatWeight += diffWeight;
-            }
-            bfp = 100 * bodyFatWeight / weight;
-            bmr = new Number(IFCalc.calcBeeWithHbeForJapanese(gender, age, weight, height));
-            tdee = new Number(bmr * activityLevelFactor);
-            workoutDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
-            workoutDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
-            workoutDayFats = IFCalc.getWorkoutDayFatGrams(tdee);
-            workoutDayCarbs = IFCalc.getCarbGrams(workoutDayCalories, workoutDayProteins, workoutDayFats);
-            restDayCalories = IFCalc.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
-            restDayProteins = IFCalc.getDailyProteinsGrams(weight, bfp);
-            restDayFats = IFCalc.getRestDayFatGrams(tdee);
-            restDayCarbs = IFCalc.getCarbGrams(restDayCalories, restDayProteins, restDayFats);
-            date = new Date(date.getTime() + daysPerCycle * 24 * 60 * 60 * 1000);
-            bodyPlanPerCycles.push({
-              Actual: 0,
-              Date: IFUtil.getDateString(date),
-              Weight: IFUtil.ceil(weight, 1),
-              LBM: IFUtil.ceil(weight - bodyFatWeight, 1),
-              BFP: IFUtil.ceil(bfp, 1),
-              BMR: IFUtil.ceil(bmr),
-              TDEE: IFUtil.ceil(tdee),
-              RestDayCalories: IFUtil.ceil(restDayCalories),
-              RestDayProteins: IFUtil.ceil(restDayProteins, 1),
-              RestDayCarbs: IFUtil.ceil(restDayCarbs, 1),
-              RestDayFats: IFUtil.ceil(restDayFats, 1),
-              WorkoutDayCalories: IFUtil.ceil(workoutDayCalories),
-              WorkoutDayProteins: IFUtil.ceil(workoutDayProteins, 1),
-              WorkoutDayCarbs: IFUtil.ceil(workoutDayCarbs, 1),
-              WorkoutDayFats: IFUtil.ceil(workoutDayFats, 1)
-            });
-          }
-          return bodyPlanPerCycles;
-        };
-        return IFCalc;
-
-      }());
-
-      var IFUtil = (function() {
-        // constructor
-        function IFUtil() {
-        }
-
-        IFUtil.ceil = function(val, digit) {
-          if (!val || isNaN(val)) {
-            return val;
-          }
-          if (!digit) {
-            return Math.ceil(val);
-          }
-          if (isNaN(digit) || digit < 0) {
-            return val;
-          }
-          var tmp = Math.pow(10, digit);
-          return Math.ceil(val * tmp) / tmp;
-        };
-
-        IFUtil.zeroPadding = function(val, digit) {
-          if (!val || !digit || isNaN(digit)) {
-            return val;
-          }
-          while (String(val).length < digit) {
-            val = "0" + val;
-          }
-          return val;
-        };
-
-        IFUtil.getDateString = function(date) {
-          if (!date || !(date instanceof Date)) {
-            return "";
-          }
-          return date.getFullYear() + "-" + IFUtil.zeroPadding((date.getMonth() + 1), 2) + "-" + IFUtil.zeroPadding(date.getDate(), 2);
-        };
-
-        return IFUtil;
-
-      }());
-
       function AppViewModel() {
         var self = this;
+        this.ifi = ifi;
         this.gender = ko.observable();
         this.age = ko.observable();
         this.height = ko.observable();
@@ -710,10 +408,10 @@
           self.activityLevelFactor(value);
         });
         this.bmr = ko.computed(function() {
-          return IFUtil.ceil(IFCalc.calcBeeWithHbeForJapanese(self.gender(), self.age(), self.weight(), self.height()));
+          return self.ifi.ceil(self.ifi.calcBeeWithHbeForJapanese(self.gender(), self.age(), self.weight(), self.height()));
         }, this);
         this.tdee = ko.computed(function() {
-          return IFCalc.calcTdee(this.bmr(), this.activityLevelFactor());
+          return self.ifi.calcTdee(this.bmr(), this.activityLevelFactor());
         }, this);
         this.actionPlan = ko.observable();
         this.actionPlan.subscribe(function(value) {
@@ -728,10 +426,10 @@
         this.daysPerCycle = ko.observable(7);
         this.workoutsPerCycle = ko.observable(3);
         this.cyclesToTry = ko.observable(12);
-        this.beginDate = ko.observable(IFUtil.getDateString(new Date()));
+        this.beginDate = ko.observable(ifi.getDateString(new Date()));
         this.bodyPlanPerCycles = ko.observableArray([]);
         this.calcTableValues = ko.computed(function() {
-          var rows = IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.gender(), self.age(), self.height(), self.beginDate(), self.weight(), self.bodyfat());
+          var rows = self.ifi.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.gender(), self.age(), self.height(), self.beginDate(), self.weight(), self.bodyfat());
           if (rows) {
             self.bodyPlanPerCycles.removeAll();
             for (var i = 0; i < rows.length; i++) {
@@ -741,7 +439,7 @@
         }, this);
         // Operations
         this.insertRows = function() {
-          var rows = IFCalc.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.gender(), self.age(), self.height(), self.beginDate(), self.weight(), self.bodyfat());
+          var rows = self.ifi.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.gender(), self.age(), self.height(), self.beginDate(), self.weight(), self.bodyfat());
           if (rows) {
             insertIntoIfTable(rows, function(result){
             if(result){
@@ -754,13 +452,10 @@
 
       ko.applyBindings(new AppViewModel());
 
-      function render() {
-        var additionalParams = {
-          'callback': signinCallback
-        };
+      function renderSigninButton() {
         var signinButton = document.getElementById('signinButton');
         signinButton.addEventListener('click', function() {
-          gapi.auth.signIn(additionalParams);
+          gapi.auth.signIn();
         });
         gapi.client.setApiKey(apiKey);
       }
@@ -778,7 +473,7 @@
         var po = document.createElement('script');
         po.type = 'text/javascript';
         po.async = true;
-        po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
+        po.src = 'https://apis.google.com/js/client:plusone.js?onload=renderSigninButton';
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(po, s);
       })();

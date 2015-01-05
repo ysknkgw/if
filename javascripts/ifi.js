@@ -5,12 +5,12 @@
 
   function Ifi(options) {
     this.options = options || {};
-    this.name = options.name || 'no name';
-    this.fatCaloriesPerKg = options.fatCaloriesPerKg || 7200;
-    this.proteinCaloriesPerGram = options.proteinCaloriesPerGram || 4;
-    this.carbCaloriesPerGram = options.carbCaloriesPerGram || 4;
-    this.fatCaloriesPerGram = options.fatCaloriesPerGram || 9;
-    this.ageSpecificBsalMetabolicUnit = options.ageSpecificBsalMetabolicUnit || [
+    this.name = this.options.name || 'no name';
+    this.fatCaloriesPerKg = this.options.fatCaloriesPerKg || 7200;
+    this.proteinCaloriesPerGram = this.options.proteinCaloriesPerGram || 4;
+    this.carbCaloriesPerGram = this.options.carbCaloriesPerGram || 4;
+    this.fatCaloriesPerGram = this.options.fatCaloriesPerGram || 9;
+    this.ageSpecificBsalMetabolicUnit = this.options.ageSpecificBsalMetabolicUnit || [
       {min: 0, max: 2, male: 61.0, female: 59.7},
       {min: 3, max: 5, male: 54.8, female: 52.2},
       {min: 6, max: 7, male: 44.3, female: 41.9},
@@ -36,8 +36,8 @@
   Ifi.prototype.get = function (key) {
     return this[key];
   };
-
-  Ifi.getAgeSpecificBsalMetabolicUnit = function getAgeSpecificBsalMetabolicUnit(gender, age) {
+ 
+  Ifi.prototype.getAgeSpecificBsalMetabolicUnit = function getAgeSpecificBsalMetabolicUnit(gender, age) {
     if (!age || isNaN(age)) {
       return '';
     }
@@ -57,8 +57,8 @@
     }
     return bsalMetabolicUnit;
   };
-  
-  Ifi.calcBmr = function calcBmr(gender, age, weight) {
+
+  Ifi.prototype.calcBmr = function calcBmr(gender, age, weight) {
     if (!age || !weight || isNaN(age) || isNaN(weight)) {
       return '';
     }
@@ -79,7 +79,7 @@
     return weight * bsalMetabolicUnit;
   };
 
-  Ifi.calcBeeWithHbe = function calcBeeWithHbe(gender, age, weight, height) {
+  Ifi.prototype.calcBeeWithHbe = function calcBeeWithHbe(gender, age, weight, height) {
     if (!gender || !age || !weight || !height || isNaN(age) || isNaN(weight) || isNaN(height)) {
       return '';
     }
@@ -91,7 +91,7 @@
     return '';
   };
 
-  Ifi.calcBeeWithHbeForJapanese = function calcBeeWithHbeForJapanese(gender, age, weight, height) {
+  Ifi.prototype.calcBeeWithHbeForJapanese = function calcBeeWithHbeForJapanese(gender, age, weight, height) {
     if (!gender || !age || !weight || !height || isNaN(age) || isNaN(weight) || isNaN(height)) {
       return '';
     }
@@ -103,28 +103,28 @@
     return '';
   };
 
-  Ifi.calcTdee = function calcTdee(bmr, activityLevel) {
+  Ifi.prototype.calcTdee = function calcTdee(bmr, activityLevel) {
     if (!bmr || !activityLevel || isNaN(bmr) || isNaN(activityLevel)) {
       return '';
     }
     return bmr * activityLevel;
   };
 
-  Ifi.getLBM = function getLBM(weight, bodyFatPercentage) {
+  Ifi.prototype.getLBM = function getLBM(weight, bodyFatPercentage) {
     if (!weight || !bodyFatPercentage || isNaN(weight) || isNaN(bodyFatPercentage)) {
       return '';
     }
     return weight * (100 - bodyFatPercentage) / 100;
   };
 
-  Ifi.getCaloriesPercentageOfTdee = function getCaloriesPercentageOfTdee(tdee, percentage) {
+  Ifi.prototype.getCaloriesPercentageOfTdee = function getCaloriesPercentageOfTdee(tdee, percentage) {
     if (!tdee || !percentage || isNaN(tdee) || isNaN(percentage)) {
       return '';
     }
     return tdee + tdee * percentage / 100;
   };
 
-  Ifi.getDailyProteinsGrams = function getDailyProteinsGrams(weight, percentageOfBodyFat) {
+  Ifi.prototype.getDailyProteinsGrams = function getDailyProteinsGrams(weight, percentageOfBodyFat) {
     if (!weight || isNaN(weight)) {
       return '';
     }
@@ -134,7 +134,7 @@
     return (weight - (weight * percentageOfBodyFat / 100)) * 2.5;
   };
 
-  Ifi.getWorkoutDayProteinsGrams = function getWorkoutDayProteinsGrams(lbm, calorieBalancePerCycle) {
+  Ifi.prototype.getWorkoutDayProteinsGrams = function getWorkoutDayProteinsGrams(lbm, calorieBalancePerCycle) {
     if (!lbm || isNaN(lbm) || !calorieBalancePerCycle || isNaN(calorieBalancePerCycle)) {
       return '';
     }
@@ -144,7 +144,7 @@
     return lbm * 1.8;
   };
 
-  Ifi.getRestDayProteinsGrams = function getRestDayProteinsGrams(lbm, calorieBalancePerCycle) {
+  Ifi.prototype.getRestDayProteinsGrams = function getRestDayProteinsGrams(lbm, calorieBalancePerCycle) {
     if (!lbm || isNaN(lbm) || !calorieBalancePerCycle || isNaN(calorieBalancePerCycle)) {
       return '';
     }
@@ -154,46 +154,161 @@
     return lbm * 2.2;
   };
 
-  Ifi.getRestDayFatGrams = function getRestDayFatGrams(tdee) {
+  Ifi.prototype.getRestDayFatGrams = function getRestDayFatGrams(tdee) {
     if (!tdee || isNaN(tdee)) {
       return '';
     }
     return tdee * 0.3 / this.fatCaloriesPerGram;
   };
 
-  Ifi.getWorkoutDayFatGrams = function getWorkoutDayFatGrams(tdee) {
+  Ifi.prototype.getWorkoutDayFatGrams = function getWorkoutDayFatGrams(tdee) {
     if (!tdee || isNaN(tdee)) {
       return '';
     }
     return tdee * 0.2 / this.fatCaloriesPerGram;
   };
 
-  Ifi.getCarbGrams = function getCarbGrams(tdee, protein, fat) {
+  Ifi.prototype.getCarbGrams = function getCarbGrams(tdee, protein, fat) {
     if (!tdee || !protein || !fat || isNaN(tdee) || isNaN(protein) || isNaN(fat)) {
       return '';
     }
     return (tdee - protein * this.proteinCaloriesPerGram - fat * this.fatCaloriesPerGram) / this.carbCaloriesPerGram;
   };
 
-  Ifi.getCaloriesPerCycle = function getCaloriesPerCycle(cycleDays, workoutDays, workoutDayCalories, restDayCalories) {
+  Ifi.prototype.getCaloriesPerCycle = function getCaloriesPerCycle(cycleDays, workoutDays, workoutDayCalories, restDayCalories) {
     if (!cycleDays || !workoutDays || !workoutDayCalories || !restDayCalories || isNaN(cycleDays) || isNaN(workoutDays) || isNaN(workoutDayCalories) || isNaN(restDayCalories)) {
       return '';
     }
     return (workoutDays * workoutDayCalories) + ((cycleDays - workoutDays) * restDayCalories);
   };
 
-  Ifi.getCalorieBalancePerCycle = function getCalorieBalancePerCycle(cycleDays, workoutDays, workoutDayCalories, restDayCalories, tdee) {
+  Ifi.prototype.getCalorieBalancePerCycle = function getCalorieBalancePerCycle(cycleDays, workoutDays, workoutDayCalories, restDayCalories, tdee) {
     if (!cycleDays || !workoutDays || !workoutDayCalories || !restDayCalories || !tdee || isNaN(cycleDays) || isNaN(workoutDays) || isNaN(workoutDayCalories) || isNaN(restDayCalories) || isNaN(tdee)) {
       return '';
     }
     return ((workoutDays * workoutDayCalories) + ((cycleDays - workoutDays) * restDayCalories)) - tdee * cycleDays;
   };
 
-  Ifi.getFatWeightOfCalories = function getFatWeightOfCalories(fatCalories) {
+  Ifi.prototype.getFatWeightOfCalories = function getFatWeightOfCalories(fatCalories) {
     if (!fatCalories || isNaN(fatCalories)) {
       return '';
     }
     return fatCalories / this.fatCaloriesPerKg;
+  };
+
+  Ifi.prototype.getPlanedRows = function getPlanedRows(daysPerCycle, workoutsPerCycle, cyclesToTry, activityLevelFactor, restDayPercentage, workoutDayPercentage, gender, age, height, beginDate, beginWeight, beginBodyFat) {
+    if (!daysPerCycle || isNaN(daysPerCycle)
+            || !workoutsPerCycle || isNaN(workoutsPerCycle)
+            || !cyclesToTry || isNaN(cyclesToTry)
+            || !activityLevelFactor || isNaN(activityLevelFactor)
+            || !restDayPercentage || isNaN(restDayPercentage)
+            || !workoutDayPercentage || isNaN(workoutDayPercentage)
+            || !beginDate
+            || !beginWeight || isNaN(beginWeight)
+            || !beginBodyFat || isNaN(beginBodyFat)) {
+      return null;
+    }
+    var date = new Date(beginDate);
+    var weight = new Number(beginWeight);
+    var bfp = new Number(beginBodyFat);
+    var lbm = this.getLBM(weight, bfp);
+    var bodyFatWeight = new Number(weight - this.getLBM(weight, bfp));
+    var bmr = new Number(this.calcBeeWithHbeForJapanese(gender, age, weight, height));
+    var tdee = new Number(bmr * activityLevelFactor);
+    var workoutDayCalories = this.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
+    var workoutDayProteins = this.getDailyProteinsGrams(weight, bfp);
+    var workoutDayFats = this.getWorkoutDayFatGrams(tdee);
+    var workoutDayCarbs = this.getCarbGrams(workoutDayCalories, workoutDayProteins, workoutDayFats);
+    var restDayCalories = this.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
+    var restDayProteins = this.getDailyProteinsGrams(weight, bfp);
+    var restDayFats = this.getRestDayFatGrams(tdee);
+    var restDayCarbs = this.getCarbGrams(restDayCalories, restDayProteins, restDayFats);
+    var bodyPlanPerCycles = new Array();
+    bodyPlanPerCycles.push({
+      Actual: 1,
+      Date: this.getDateString(date),
+      Weight: this.ceil(weight, 1),
+      LBM: this.ceil(lbm, 1),
+      BFP: this.ceil(bfp, 1),
+      BMR: this.ceil(bmr),
+      TDEE: this.ceil(tdee),
+      RestDayCalories: this.ceil(restDayCalories),
+      RestDayProteins: this.ceil(restDayProteins, 1),
+      RestDayCarbs: this.ceil(restDayCarbs, 1),
+      RestDayFats: this.ceil(restDayFats, 1),
+      WorkoutDayCalories: this.ceil(workoutDayCalories),
+      WorkoutDayProteins: this.ceil(workoutDayProteins, 1),
+      WorkoutDayCarbs: this.ceil(workoutDayCarbs, 1),
+      WorkoutDayFats: this.ceil(workoutDayFats, 1)
+    });
+    for (var i = 0; i < cyclesToTry; i++) {
+      var diffWeight = this.getFatWeightOfCalories(this.getCaloriesPerCycle(daysPerCycle, workoutsPerCycle, workoutDayCalories, restDayCalories) - tdee * daysPerCycle);
+      weight += diffWeight;
+      if (diffWeight < 0) {
+        bodyFatWeight += diffWeight;
+      }
+      bfp = 100 * bodyFatWeight / weight;
+      bmr = new Number(this.calcBeeWithHbeForJapanese(gender, age, weight, height));
+      tdee = new Number(bmr * activityLevelFactor);
+      workoutDayCalories = this.getCaloriesPercentageOfTdee(tdee, workoutDayPercentage);
+      workoutDayProteins = this.getDailyProteinsGrams(weight, bfp);
+      workoutDayFats = this.getWorkoutDayFatGrams(tdee);
+      workoutDayCarbs = this.getCarbGrams(workoutDayCalories, workoutDayProteins, workoutDayFats);
+      restDayCalories = this.getCaloriesPercentageOfTdee(tdee, restDayPercentage);
+      restDayProteins = this.getDailyProteinsGrams(weight, bfp);
+      restDayFats = this.getRestDayFatGrams(tdee);
+      restDayCarbs = this.getCarbGrams(restDayCalories, restDayProteins, restDayFats);
+      date = new Date(date.getTime() + daysPerCycle * 24 * 60 * 60 * 1000);
+      bodyPlanPerCycles.push({
+        Actual: 0,
+        Date: this.getDateString(date),
+        Weight: this.ceil(weight, 1),
+        LBM: this.ceil(weight - bodyFatWeight, 1),
+        BFP: this.ceil(bfp, 1),
+        BMR: this.ceil(bmr),
+        TDEE: this.ceil(tdee),
+        RestDayCalories: this.ceil(restDayCalories),
+        RestDayProteins: this.ceil(restDayProteins, 1),
+        RestDayCarbs: this.ceil(restDayCarbs, 1),
+        RestDayFats: this.ceil(restDayFats, 1),
+        WorkoutDayCalories: this.ceil(workoutDayCalories),
+        WorkoutDayProteins: this.ceil(workoutDayProteins, 1),
+        WorkoutDayCarbs: this.ceil(workoutDayCarbs, 1),
+        WorkoutDayFats: this.ceil(workoutDayFats, 1)
+      });
+    }
+    return bodyPlanPerCycles;
+  };
+
+  Ifi.prototype.ceil = function ceil(val, digit) {
+    if (!val || isNaN(val)) {
+      return val;
+    }
+    if (!digit) {
+      return Math.ceil(val);
+    }
+    if (isNaN(digit) || digit < 0) {
+      return val;
+    }
+    var tmp = Math.pow(10, digit);
+    return Math.ceil(val * tmp) / tmp;
+  };
+
+  Ifi.prototype.zeroPadding = function zeroPadding(val, digit) {
+    if (!val || !digit || isNaN(digit)) {
+      return val;
+    }
+    while (String(val).length < digit) {
+      val = "0" + val;
+    }
+    return val;
+  };
+
+  Ifi.prototype.getDateString = function getDateString(date) {
+    if (!date || !(date instanceof Date)) {
+      return "";
+    }
+    return date.getFullYear() + "-" + this.zeroPadding((date.getMonth() + 1), 2) + "-" + this.zeroPadding(date.getDate(), 2);
   };
 
   global.Ifi = Ifi;
