@@ -226,20 +226,20 @@
     var bodyPlanPerCycles = new Array();
     bodyPlanPerCycles.push({
       Actual: 1,
-      Date: this.getDateString(date),
-      Weight: this.ceil(weight, 1),
-      LBM: this.ceil(lbm, 1),
-      BFP: this.ceil(bfp, 1),
-      BMR: this.ceil(bmr),
-      TDEE: this.ceil(tdee),
-      RestDayCalories: this.ceil(restDayCalories),
-      RestDayProteins: this.ceil(restDayProteins, 1),
-      RestDayCarbs: this.ceil(restDayCarbs, 1),
-      RestDayFats: this.ceil(restDayFats, 1),
-      WorkoutDayCalories: this.ceil(workoutDayCalories),
-      WorkoutDayProteins: this.ceil(workoutDayProteins, 1),
-      WorkoutDayCarbs: this.ceil(workoutDayCarbs, 1),
-      WorkoutDayFats: this.ceil(workoutDayFats, 1)
+      Date: IfiUtil.getDateString(date),
+      Weight: IfiUtil.ceil(weight, 1),
+      LBM: IfiUtil.ceil(lbm, 1),
+      BFP: IfiUtil.ceil(bfp, 1),
+      BMR: IfiUtil.ceil(bmr),
+      TDEE: IfiUtil.ceil(tdee),
+      RestDayCalories: IfiUtil.ceil(restDayCalories),
+      RestDayProteins: IfiUtil.ceil(restDayProteins, 1),
+      RestDayCarbs: IfiUtil.ceil(restDayCarbs, 1),
+      RestDayFats: IfiUtil.ceil(restDayFats, 1),
+      WorkoutDayCalories: IfiUtil.ceil(workoutDayCalories),
+      WorkoutDayProteins: IfiUtil.ceil(workoutDayProteins, 1),
+      WorkoutDayCarbs: IfiUtil.ceil(workoutDayCarbs, 1),
+      WorkoutDayFats: IfiUtil.ceil(workoutDayFats, 1)
     });
     for (var i = 0; i < cyclesToTry; i++) {
       var diffWeight = this.getFatWeightOfCalories(this.getCaloriesPerCycle(daysPerCycle, workoutsPerCycle, workoutDayCalories, restDayCalories) - tdee * daysPerCycle);
@@ -261,54 +261,23 @@
       date = new Date(date.getTime() + daysPerCycle * 24 * 60 * 60 * 1000);
       bodyPlanPerCycles.push({
         Actual: 0,
-        Date: this.getDateString(date),
-        Weight: this.ceil(weight, 1),
-        LBM: this.ceil(weight - bodyFatWeight, 1),
-        BFP: this.ceil(bfp, 1),
-        BMR: this.ceil(bmr),
-        TDEE: this.ceil(tdee),
-        RestDayCalories: this.ceil(restDayCalories),
-        RestDayProteins: this.ceil(restDayProteins, 1),
-        RestDayCarbs: this.ceil(restDayCarbs, 1),
-        RestDayFats: this.ceil(restDayFats, 1),
-        WorkoutDayCalories: this.ceil(workoutDayCalories),
-        WorkoutDayProteins: this.ceil(workoutDayProteins, 1),
-        WorkoutDayCarbs: this.ceil(workoutDayCarbs, 1),
-        WorkoutDayFats: this.ceil(workoutDayFats, 1)
+        Date: IfiUtil.getDateString(date),
+        Weight: IfiUtil.ceil(weight, 1),
+        LBM: IfiUtil.ceil(weight - bodyFatWeight, 1),
+        BFP: IfiUtil.ceil(bfp, 1),
+        BMR: IfiUtil.ceil(bmr),
+        TDEE: IfiUtil.ceil(tdee),
+        RestDayCalories: IfiUtil.ceil(restDayCalories),
+        RestDayProteins: IfiUtil.ceil(restDayProteins, 1),
+        RestDayCarbs: IfiUtil.ceil(restDayCarbs, 1),
+        RestDayFats: IfiUtil.ceil(restDayFats, 1),
+        WorkoutDayCalories: IfiUtil.ceil(workoutDayCalories),
+        WorkoutDayProteins: IfiUtil.ceil(workoutDayProteins, 1),
+        WorkoutDayCarbs: IfiUtil.ceil(workoutDayCarbs, 1),
+        WorkoutDayFats: IfiUtil.ceil(workoutDayFats, 1)
       });
     }
     return bodyPlanPerCycles;
-  };
-
-  Ifi.prototype.ceil = function ceil(val, digit) {
-    if (!val || isNaN(val)) {
-      return val;
-    }
-    if (!digit) {
-      return Math.ceil(val);
-    }
-    if (isNaN(digit) || digit < 0) {
-      return val;
-    }
-    var tmp = Math.pow(10, digit);
-    return Math.ceil(val * tmp) / tmp;
-  };
-
-  Ifi.prototype.zeroPadding = function zeroPadding(val, digit) {
-    if (!val || !digit || isNaN(digit)) {
-      return val;
-    }
-    while (String(val).length < digit) {
-      val = "0" + val;
-    }
-    return val;
-  };
-
-  Ifi.prototype.getDateString = function getDateString(date) {
-    if (!date || !(date instanceof Date)) {
-      return "";
-    }
-    return date.getFullYear() + "-" + this.zeroPadding((date.getMonth() + 1), 2) + "-" + this.zeroPadding(date.getDate(), 2);
   };
 
   global.Ifi = Ifi;

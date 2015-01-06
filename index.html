@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
     <meta name="google-signin-clientid" content="1019598927602.apps.googleusercontent.com" />
     <meta name="google-signin-cookiepolicy" content="single_host_origin" />
-<!--    <meta name="google-signin-callback" content="signinCallback" /> -->
+    <!--    <meta name="google-signin-callback" content="signinCallback" /> -->
     <meta name="google-signin-requestvisibleactions" content="http://schemas.google.com/AddActivity" />
     <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/fusiontables" />
   </head>
@@ -38,8 +38,8 @@
     </nav>
     <div class="container">
       <div class="row">
-        <h3>基本情報</h3>
         <div class="form-group col-sm-6">
+          <h3>基本情報</h3>
           <label class="control-label col-sm-6 text-right">性別</label>
           <div class="col-sm-6">
             <label class="radio-inline">
@@ -124,8 +124,8 @@
         </div>
       </div>
       <div class="row">
-        <h3>予定</h3>
         <div class="form-group col-sm-6">
+          <h3>予定</h3>
           <label class="control-label col-sm-6 text-right">周期(日数)</label>
           <div class="col-sm-6">
             <input name="dayspercycle" type="number" class="form-control" data-bind="value: daysPerCycle" />
@@ -199,6 +199,7 @@
         <button class="btn" data-bind="click: insertRows">保存する</button>
       </div>
     </div>
+    <script src="javascripts/ifiUtil.js"></script>
     <script src="javascripts/ifi.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
@@ -230,19 +231,19 @@
       };
 
       function makeApiCall() {
-        gapi.client.load('plus', 'v1', function() {
+        gapi.client.load('plus', 'v1', function () {
           var request = gapi.client.plus.people.get({
             'userId': 'me'
           });
-          request.execute(function(resp) {
+          request.execute(function (resp) {
             document.getElementById('account-img').src = resp.image.url;
             document.getElementById('account-name').innerHTML = resp.displayName;
             document.getElementById('authorized').style.visibility = '';
           });
         });
 
-        gapi.client.load('tables', 'v1', function() {
-          retrieveAllTables(function(result) {
+        gapi.client.load('tables', 'v1', function () {
+          retrieveAllTables(function (result) {
             var isExistsIFTBL = false;
             if (!result) {
               return;
@@ -252,7 +253,7 @@
                 if (result[i].name === "IFTBL") {
                   IFTBLID = result[i].tableId;
                   isExistsIFTBL = true;
-                  getIfTableRecords(function(result) {
+                  getIfTableRecords(function (result) {
                     if (result) {
                       // TODO: 結果を表示
                     }
@@ -270,7 +271,7 @@
 
       function createTable() {
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
           if (xhr.readyState === 4 && xhr.status === 200) {
             var resp = JSON.parse(xhr.responseText);
             IFTBLID = resp.tableId;
@@ -328,7 +329,7 @@
           headers: {'Authorization': 'Bearer ' + gapi.auth.getToken().access_token},
           dataType: 'jsonp',
           data: "sql=" + encodedQuery,
-          success: function(data) {
+          success: function (data) {
             callback(data);
           }
         });
@@ -361,15 +362,15 @@
           url: url.join(''),
           headers: {'Authorization': 'Bearer ' + gapi.auth.getToken().access_token},
           dataType: 'jsonp',
-          success: function(data) {
+          success: function (data) {
             callback(data);
           }
         });
       }
 
       function retrieveAllTables(callback) {
-        var retrievePageOfTables = function(xhr, result) {
-          xhr.onreadystatechange = function() {
+        var retrievePageOfTables = function (xhr, result) {
+          xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
               var resp = JSON.parse(xhr.responseText);
               result = result.concat(resp.items);
@@ -394,52 +395,52 @@
       }
 
       function AppViewModel() {
-        var self = this;
-        this.ifi = ifi;
-        this.gender = ko.observable();
-        this.age = ko.observable();
-        this.height = ko.observable();
-//        this.bmu = ko.observable();
-        this.weight = ko.observable();
-        this.bodyfat = ko.observable();
-        this.activityLevelFactor = ko.observable();
-        this.activity = ko.observable();
-        this.activity.subscribe(function(value) {
-          self.activityLevelFactor(value);
+        var _this = this;
+        _this.ifi = ifi;
+        _this.gender = ko.observable();
+        _this.age = ko.observable();
+        _this.height = ko.observable();
+//        _this.bmu = ko.observable();
+        _this.weight = ko.observable();
+        _this.bodyfat = ko.observable();
+        _this.activityLevelFactor = ko.observable();
+        _this.activity = ko.observable();
+        _this.activity.subscribe(function(value) {
+          _this.activityLevelFactor(value);
         });
-        this.bmr = ko.computed(function() {
-          return self.ifi.ceil(self.ifi.calcBeeWithHbeForJapanese(self.gender(), self.age(), self.weight(), self.height()));
-        }, this);
-        this.tdee = ko.computed(function() {
-          return self.ifi.calcTdee(this.bmr(), this.activityLevelFactor());
-        }, this);
-        this.actionPlan = ko.observable();
-        this.actionPlan.subscribe(function(value) {
+        _this.bmr = ko.computed(function() {
+          return IfiUtil.ceil(_this.ifi.calcBeeWithHbeForJapanese(_this.gender(), _this.age(), _this.weight(), _this.height()));
+        }, _this);
+        _this.tdee = ko.computed(function() {
+          return _this.ifi.calcTdee(_this.bmr(), _this.activityLevelFactor());
+        }, _this);
+        _this.actionPlan = ko.observable();
+        _this.actionPlan.subscribe(function(value) {
           if (value) {
             var vals = value.split("/");
-            self.restDayPercentage(vals[0]);
-            self.workoutDayPercentage(vals[1]);
+            _this.restDayPercentage(vals[0]);
+            _this.workoutDayPercentage(vals[1]);
           }
         });
-        this.restDayPercentage = ko.observable();
-        this.workoutDayPercentage = ko.observable();
-        this.daysPerCycle = ko.observable(7);
-        this.workoutsPerCycle = ko.observable(3);
-        this.cyclesToTry = ko.observable(12);
-        this.beginDate = ko.observable(ifi.getDateString(new Date()));
-        this.bodyPlanPerCycles = ko.observableArray([]);
-        this.calcTableValues = ko.computed(function() {
-          var rows = self.ifi.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.gender(), self.age(), self.height(), self.beginDate(), self.weight(), self.bodyfat());
+        _this.restDayPercentage = ko.observable();
+        _this.workoutDayPercentage = ko.observable();
+        _this.daysPerCycle = ko.observable(7);
+        _this.workoutsPerCycle = ko.observable(3);
+        _this.cyclesToTry = ko.observable(12);
+        _this.beginDate = ko.observable(IfiUtil.getDateString(new Date()));
+        _this.bodyPlanPerCycles = ko.observableArray([]);
+        _this.calcTableValues = ko.computed(function() {
+          var rows = _this.ifi.getPlanedRows(_this.daysPerCycle(), _this.workoutsPerCycle(), _this.cyclesToTry(), _this.activityLevelFactor(), _this.restDayPercentage(), _this.workoutDayPercentage(), _this.gender(), _this.age(), _this.height(), _this.beginDate(), _this.weight(), _this.bodyfat());
           if (rows) {
-            self.bodyPlanPerCycles.removeAll();
+            _this.bodyPlanPerCycles.removeAll();
             for (var i = 0; i < rows.length; i++) {
-              self.bodyPlanPerCycles.push(rows[i]);
+              _this.bodyPlanPerCycles.push(rows[i]);
             }
           }
-        }, this);
+        }, _this);
         // Operations
-        this.insertRows = function() {
-          var rows = self.ifi.getPlanedRows(self.daysPerCycle(), self.workoutsPerCycle(), self.cyclesToTry(), self.activityLevelFactor(), self.restDayPercentage(), self.workoutDayPercentage(), self.gender(), self.age(), self.height(), self.beginDate(), self.weight(), self.bodyfat());
+        _this.insertRows = function() {
+          var rows = _this.ifi.getPlanedRows(_this.daysPerCycle(), _this.workoutsPerCycle(), _this.cyclesToTry(), _this.activityLevelFactor(), _this.restDayPercentage(), _this.workoutDayPercentage(), _this.gender(), _this.age(), _this.height(), _this.beginDate(), _this.weight(), _this.bodyfat());
           if (rows) {
             insertIntoIfTable(rows, function(result){
             if(result){
