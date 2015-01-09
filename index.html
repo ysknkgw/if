@@ -3,45 +3,31 @@
   <head>
     <meta charset='utf-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>if</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
     <meta name="google-signin-clientid" content="1019598927602.apps.googleusercontent.com" />
     <meta name="google-signin-cookiepolicy" content="single_host_origin" />
     <!--    <meta name="google-signin-callback" content="signinCallback" /> -->
     <meta name="google-signin-requestvisibleactions" content="http://schemas.google.com/AddActivity" />
     <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/fusiontables" />
+    <title>if</title>
+    <link rel="stylesheet" href="css/uikit.min.css" />
   </head>
   <body>
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">if</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="navbar-collapse-1">
-          <div class="navbar-text navbar-right">
+    <nav class="uk-navbar uk-navbar-attached" role="navigation">
+      <div class="uk-container uk-container-center">
             <span id="signinButton"><span class="g-signin" data-theme="light"></span></span>
             <span id="authorized" style="visibility: hidden">
               <img id="account-img" src="" alt="" class="img-circle" />
               <span id="account-name"></span>
             </span>
-          </div>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
+             <a href="#ifi-offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
+      </div>
     </nav>
-    <div class="container">
-      <div class="row">
-        <div class="form-group col-sm-6">
+    <div class="uk-container uk-container-center">
+      <div class="uk-grid">
+        <div class="uk-form uk-width-1-2">
           <h3>基本情報</h3>
-          <label class="control-label col-sm-6 text-right">性別</label>
-          <div class="col-sm-6">
+          <label class="control-label uk-width-1-2 text-right">性別</label>
+          <div class="uk-width-1-2 uk-form-controls uk-form-controls-text">
             <label class="radio-inline">
               <input type="radio" name="gender" value="male" data-bind="checked: gender" /> 男性
             </label>
@@ -50,29 +36,29 @@
             </label>
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">年齢(歳)</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">年齢(歳)</label>
+          <div class="uk-width-1-2">
             <input name="age" type="number" class="form-control" placeholder="" data-bind="value: age" />
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">身長</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">身長</label>
+          <div class="uk-width-1-2">
             <input name="height" type="number" class="form-control" placeholder="" data-bind="value: height" />
           </div>
         </div>
         <!--
-                <div class="form-group col-sm-6">
-                  <label class="control-label col-sm-6 text-right">基礎代謝基準値(kcal/kg/日)</label>
-                  <div class="col-sm-6">
+                <div class="uk-form uk-width-1-2">
+                  <label class="control-label uk-width-1-2 text-right">基礎代謝基準値(kcal/kg/日)</label>
+                  <div class="uk-width-1-2">
                     <input name="bmu" type="number" class="form-control" placeholder="" data-bind="value: bmu" />
                   </div>
                 </div>
         -->
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">生活習慣での運動</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">生活習慣での運動</label>
+          <div class="uk-width-1-2">
             <select name="activity" class="form-control" data-bind="value: activity">
               <option value="1.2">座りがち</option>
               <option value="1.375">軽くある</option>
@@ -82,27 +68,27 @@
             </select>
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">身体活動レベル</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">身体活動レベル</label>
+          <div class="uk-width-1-2">
             <input name="activitylevelfactor" type="number" class="form-control" data-bind="value: activityLevelFactor" />
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">体重(kg)</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">体重(kg)</label>
+          <div class="uk-width-1-2">
             <input name="weight" type="number" class="form-control" placeholder="" data-bind="value: weight" />
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">体脂肪率(%)</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">体脂肪率(%)</label>
+          <div class="uk-width-1-2">
             <input name="bodyfat" type="number" class="form-control" placeholder="" data-bind="value: bodyfat" />
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">プラン</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">プラン</label>
+          <div class="uk-width-1-2">
             <select name="actionplan" class="form-control" data-bind="value: actionPlan">
               <option value="-30/10">減量</option>
               <option value="-20/20">肉体改造</option>
@@ -110,47 +96,47 @@
             </select>
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">休息日の摂取カロリー(%)</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">休息日の摂取カロリー(%)</label>
+          <div class="uk-width-1-2">
             <input name="restdaypercentage" type="number" class="form-control" data-bind="value: restDayPercentage" />
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">トレーニング日の摂取カロリー(%)</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">トレーニング日の摂取カロリー(%)</label>
+          <div class="uk-width-1-2">
             <input name="workoutdaypercentage" type="number" class="form-control" data-bind="value: workoutDayPercentage" />
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="form-group col-sm-6">
+      <div class="uk-grid">
+        <div class="uk-form uk-width-1-2">
           <h3>予定</h3>
-          <label class="control-label col-sm-6 text-right">周期(日数)</label>
-          <div class="col-sm-6">
+          <label class="control-label uk-width-1-2 text-right">周期(日数)</label>
+          <div class="uk-width-1-2">
             <input name="dayspercycle" type="number" class="form-control" data-bind="value: daysPerCycle" />
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">周期内トレーニング日数</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">周期内トレーニング日数</label>
+          <div class="uk-width-1-2">
             <input name="workoutspercycle" type="number" class="form-control" data-bind="value: workoutsPerCycle" />
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">開始日</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">開始日</label>
+          <div class="uk-width-1-2">
             <input name="begindate" type="date" class="form-control" data-bind="value: beginDate" />
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <label class="control-label col-sm-6 text-right">実行周期数</label>
-          <div class="col-sm-6">
+        <div class="uk-form uk-width-1-2">
+          <label class="control-label uk-width-1-2 text-right">実行周期数</label>
+          <div class="uk-width-1-2">
             <input name="cyclestotry" type="number" class="form-control" data-bind="value: cyclesToTry" />
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="uk-grid">
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -196,14 +182,14 @@
             </tbody>
           </table>
         </div>
-        <button class="btn" data-bind="click: insertRows">保存する</button>
+        <button class="uk-button" data-bind="click: insertRows">保存する</button>
       </div>
     </div>
-    <script src="javascripts/ifiUtil.js"></script>
-    <script src="javascripts/ifi.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.0.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="js/uikit.min.js"></script>
+    <script src="js/ifiUtil.js"></script>
+    <script src="js/ifi.js"></script>
     <script type="text/javascript">
       var ifi = new Ifi();
       var apiKey = 'AIzaSyB9sZ7RcyzrzjU_AJG9CCTLPyZM_AX3888';
