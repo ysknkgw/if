@@ -8,137 +8,164 @@
     <!--    <meta name="google-signin-callback" content="signinCallback" /> -->
     <meta name="google-signin-requestvisibleactions" content="http://schemas.google.com/AddActivity" />
     <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/fusiontables" />
-    <title>if</title>
+    <title>ifi</title>
     <link rel="stylesheet" href="css/uikit.min.css" />
   </head>
   <body>
-    <nav class="uk-navbar uk-navbar-attached" role="navigation">
+    <div class="uk-navbar uk-navbar-attached">
       <div class="uk-container uk-container-center">
+        <div class="uk-grid uk-container-center">
+          <a href="#offcanvas-menu" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
+          <div class="uk-container-center uk-width-2-10 uk-width-small-4-10 uk-width-medium-2-10 uk-width-large-2-10">
+            <div class="uk-text-large uk-text-bold uk-text-muted uk-text-center uk-text-middle">IFI</div>
+          </div>
+          <div class="uk-width-5-10 uk-hidden-small">
+            <nav class="uk-navbar uk-hidden-small">
+              <ul class="uk-navbar-nav">
+                <li class="item-1 current active"><a href="/" >Home</a></li>
+                <li class="item-3"><a href="#setting" >Settings</a></li>
+                <li class="item-4"><a href="#plan" >Plan</a>
+                <li class="item-2"><a href="#chart">Chart</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="uk-container-center uk-width-3-10 uk-width-small-3-10">
             <span id="signinButton"><span class="g-signin" data-theme="light"></span></span>
             <span id="authorized" style="visibility: hidden">
               <img id="account-img" src="" alt="" class="img-circle" />
               <span id="account-name"></span>
             </span>
-             <a href="#ifi-offcanvas" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
+          </div>
+        </div>
       </div>
-    </nav>
+      <div id="offcanvas-menu" class="uk-offcanvas">
+        <div class="uk-offcanvas-bar">
+          <ul class="uk-navbar-nav">
+            <li class="item-1 current active"><a href="/" >Home</a></li>
+            <li class="item-3"><a href="#setting" >Settings</a></li>
+            <li class="item-4"><a href="#plan" >Plan</a>
+            <li class="item-2"><a href="#chart">Chart</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <div class="uk-container uk-container-center">
       <div class="uk-grid">
-        <div class="uk-form uk-width-1-2">
+        <div class="uk-width-10-10">
           <h3>基本情報</h3>
-          <label class="control-label uk-width-1-2 text-right">性別</label>
-          <div class="uk-width-1-2 uk-form-controls uk-form-controls-text">
-            <label class="radio-inline">
-              <input type="radio" name="gender" value="male" data-bind="checked: gender" /> 男性
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="gender" value="female" data-bind="checked: gender" /> 女性
-            </label>
-          </div>
         </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">年齢(歳)</label>
-          <div class="uk-width-1-2">
-            <input name="age" type="number" class="form-control" placeholder="" data-bind="value: age" />
+        <div class="uk-form uk-form-horizontal">
+          <div class="uk-form-row">
+            <label class="uk-form-label">性別</label>
+            <div class="uk-form-controls">
+              <label class="radio-inline">
+                <input type="radio" name="gender" value="male" data-bind="checked: gender" /> 男性
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="gender" value="female" data-bind="checked: gender" /> 女性
+              </label>
+            </div>
           </div>
-        </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">身長</label>
-          <div class="uk-width-1-2">
-            <input name="height" type="number" class="form-control" placeholder="" data-bind="value: height" />
+          <div class="uk-form-row">
+            <label class="uk-form-label">年齢(歳)</label>
+            <div class="uk-form-controls">
+              <input name="age" type="number" class="form-control" placeholder="" data-bind="value: age" />
+            </div>
           </div>
-        </div>
-        <!--
-                <div class="uk-form uk-width-1-2">
-                  <label class="control-label uk-width-1-2 text-right">基礎代謝基準値(kcal/kg/日)</label>
-                  <div class="uk-width-1-2">
-                    <input name="bmu" type="number" class="form-control" placeholder="" data-bind="value: bmu" />
-                  </div>
-                </div>
-        -->
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">生活習慣での運動</label>
-          <div class="uk-width-1-2">
-            <select name="activity" class="form-control" data-bind="value: activity">
-              <option value="1.2">座りがち</option>
-              <option value="1.375">軽くある</option>
-              <option value="1.55">適度に</option>
-              <option value="1.725">結構ある</option>
-              <option value="1.9">かなりある</option>
-            </select>
+          <div class="uk-form-row">
+            <label class="uk-form-label">身長</label>
+            <div class="uk-form-controls">
+              <input name="height" type="number" class="form-control" placeholder="" data-bind="value: height" />
+            </div>
           </div>
-        </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">身体活動レベル</label>
-          <div class="uk-width-1-2">
-            <input name="activitylevelfactor" type="number" class="form-control" data-bind="value: activityLevelFactor" />
+          <div class="uk-form-row">
+            <label class="uk-form-label">生活習慣での運動</label>
+            <div class="uk-form-controls">
+              <select name="activity" class="form-control" data-bind="value: activity">
+                <option value="1.2">座りがち</option>
+                <option value="1.375">軽くある</option>
+                <option value="1.55">適度に</option>
+                <option value="1.725">結構ある</option>
+                <option value="1.9">かなりある</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">体重(kg)</label>
-          <div class="uk-width-1-2">
-            <input name="weight" type="number" class="form-control" placeholder="" data-bind="value: weight" />
+          <div class="uk-form-row">
+            <label class="uk-form-label">身体活動レベル</label>
+            <div class="uk-form-controls">
+              <input name="activitylevelfactor" type="number" class="form-control" data-bind="value: activityLevelFactor" />
+            </div>
           </div>
-        </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">体脂肪率(%)</label>
-          <div class="uk-width-1-2">
-            <input name="bodyfat" type="number" class="form-control" placeholder="" data-bind="value: bodyfat" />
+          <div class="uk-form-row">
+            <label class="uk-form-label">体重(kg)</label>
+            <div class="uk-form-controls">
+              <input name="weight" type="number" class="form-control" placeholder="" data-bind="value: weight" />
+            </div>
           </div>
-        </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">プラン</label>
-          <div class="uk-width-1-2">
-            <select name="actionplan" class="form-control" data-bind="value: actionPlan">
-              <option value="-30/10">減量</option>
-              <option value="-20/20">肉体改造</option>
-              <option value="-10/30">増量</option>
-            </select>
-          </div>
-        </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">休息日の摂取カロリー(%)</label>
-          <div class="uk-width-1-2">
-            <input name="restdaypercentage" type="number" class="form-control" data-bind="value: restDayPercentage" />
-          </div>
-        </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">トレーニング日の摂取カロリー(%)</label>
-          <div class="uk-width-1-2">
-            <input name="workoutdaypercentage" type="number" class="form-control" data-bind="value: workoutDayPercentage" />
+          <div class="uk-form-row">
+            <label class="uk-form-label">体脂肪率(%)</label>
+            <div class="uk-form-controls">
+              <input name="bodyfat" type="number" class="form-control" placeholder="" data-bind="value: bodyfat" />
+            </div>
           </div>
         </div>
       </div>
       <div class="uk-grid">
-        <div class="uk-form uk-width-1-2">
+        <div class="uk-width-10-10">
           <h3>予定</h3>
-          <label class="control-label uk-width-1-2 text-right">周期(日数)</label>
-          <div class="uk-width-1-2">
-            <input name="dayspercycle" type="number" class="form-control" data-bind="value: daysPerCycle" />
-          </div>
         </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">周期内トレーニング日数</label>
-          <div class="uk-width-1-2">
-            <input name="workoutspercycle" type="number" class="form-control" data-bind="value: workoutsPerCycle" />
+        <div class="uk-form uk-form-horizontal">
+          <div class="uk-form-row">
+            <label class="uk-form-label">プラン</label>
+            <div class="uk-form-controls">
+              <select name="actionplan" class="form-control" data-bind="value: actionPlan">
+                <option value="-30/10">減量</option>
+                <option value="-20/20">肉体改造</option>
+                <option value="-10/30">増量</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">開始日</label>
-          <div class="uk-width-1-2">
-            <input name="begindate" type="date" class="form-control" data-bind="value: beginDate" />
+          <div class="uk-form-row">
+            <label class="uk-form-label">休息日の摂取カロリー(%)</label>
+            <div class="uk-form-controls">
+              <input name="restdaypercentage" type="number" class="form-control" data-bind="value: restDayPercentage" />
+            </div>
           </div>
-        </div>
-        <div class="uk-form uk-width-1-2">
-          <label class="control-label uk-width-1-2 text-right">実行周期数</label>
-          <div class="uk-width-1-2">
-            <input name="cyclestotry" type="number" class="form-control" data-bind="value: cyclesToTry" />
+          <div class="uk-form-row">
+            <label class="uk-form-label">トレーニング日の摂取カロリー(%)</label>
+            <div class="uk-form-controls">
+              <input name="workoutdaypercentage" type="number" class="form-control" data-bind="value: workoutDayPercentage" />
+            </div>
+          </div>
+          <div class="uk-form-row">
+            <label class="uk-form-label">周期(日数)</label>
+            <div class="uk-form-controls">
+              <input name="dayspercycle" type="number" class="form-control" data-bind="value: daysPerCycle" />
+            </div>
+          </div>
+          <div class="uk-form-row">
+            <label class="uk-form-label">周期内トレーニング日数</label>
+            <div class="uk-form-controls">
+              <input name="workoutspercycle" type="number" class="form-control" data-bind="value: workoutsPerCycle" />
+            </div>
+          </div>
+          <div class="uk-form-row">
+            <label class="uk-form-label">開始日</label>
+            <div class="uk-form-controls">
+              <input name="begindate" type="date" class="form-control" data-bind="value: beginDate" />
+            </div>
+          </div>
+          <div class="uk-form-row">
+            <label class="uk-form-label">実行周期数</label>
+            <div class="uk-form-controls">
+              <input name="cyclestotry" type="number" class="form-control" data-bind="value: cyclesToTry" />
+            </div>
           </div>
         </div>
       </div>
       <div class="uk-grid">
-        <div class="table-responsive">
-          <table class="table table-bordered">
+        <div class="uk-overflow-container">
+          <table class="uk-table uk-table-striped uk-table-condensed uk-text-nowrap">
             <thead>
               <tr>
                 <th colspan="6">身体</th>
@@ -182,7 +209,9 @@
             </tbody>
           </table>
         </div>
-        <button class="uk-button" data-bind="click: insertRows">保存する</button>
+<!--
+<button class="uk-button" data-bind="click: insertRows">保存する</button>
+-->
       </div>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
@@ -391,10 +420,10 @@
         _this.bodyfat = ko.observable();
         _this.activityLevelFactor = ko.observable();
         _this.activity = ko.observable();
-        _this.activity.subscribe(function(value) {
+        _this.activity.subscribe(function (value) {
           _this.activityLevelFactor(value);
         });
-        _this.bmr = ko.computed(function() {
+        _this.bmr = ko.computed(function () {
           return IfiUtil.ceil(_this.ifi.calcBeeWithHbeForJapanese(_this.gender(), _this.age(), _this.weight(), _this.height()));
         }, _this);
         _this.tdee = ko.computed(function() {
