@@ -3,52 +3,67 @@
   <head>
     <meta charset='utf-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
     <meta name="google-signin-clientid" content="1019598927602.apps.googleusercontent.com" />
     <meta name="google-signin-cookiepolicy" content="single_host_origin" />
-    <!--    <meta name="google-signin-callback" content="signinCallback" /> -->
+    <meta name="google-signin-callback" content="signinCallback" />
     <meta name="google-signin-requestvisibleactions" content="http://schemas.google.com/AddActivity" />
     <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/fusiontables" />
-    <title>ifi</title>
+    -->
+    <title>iFi</title>
     <link rel="stylesheet" href="css/uikit.min.css" />
+    <style>
+      div#___signin_0 {
+        vertical-align: middle !important;
+      }
+    </style>
   </head>
   <body>
     <div class="uk-navbar uk-navbar-attached">
-      <div class="uk-container uk-container-center">
-        <div class="uk-grid uk-container-center">
-          <a href="#offcanvas-menu" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
-          <div class="uk-container-center uk-width-2-10 uk-width-small-4-10 uk-width-medium-2-10 uk-width-large-2-10">
-            <div class="uk-text-large uk-text-bold uk-text-muted uk-text-center uk-text-middle">IFI</div>
-          </div>
-          <div class="uk-width-5-10 uk-hidden-small">
-            <nav class="uk-navbar uk-hidden-small">
-              <ul class="uk-navbar-nav">
-                <li class="item-1 current active"><a href="/" >Home</a></li>
-                <li class="item-3"><a href="#setting" >Settings</a></li>
-                <li class="item-4"><a href="#plan" >Plan</a>
-                <li class="item-2"><a href="#chart">Chart</a></li>
-              </ul>
-            </nav>
-          </div>
-          <div class="uk-container-center uk-width-3-10 uk-width-small-3-10">
-            <span id="signinButton"><span class="g-signin" data-theme="light"></span></span>
-            <span id="authorized" style="visibility: hidden">
-              <img id="account-img" src="" alt="" class="img-circle" />
-              <span id="account-name"></span>
+      <a href="#offcanvas-menu" class="uk-navbar-toggle uk-visible-small" data-uk-offcanvas></a>
+      <a class="uk-navbar-brand uk-hidden-small" href="/if/">iFi</a>
+      <div class="uk-hidden-small">
+        <ul class="uk-navbar-nav">
+          <li class="item-1 current active"><a href="/" >Home</a></li>
+          <li class="item-3"><a href="#setting" >Settings</a></li>
+          <li class="item-4"><a href="#plan" >Plan</a>
+          <li class="item-2"><a href="#chart">Chart</a></li>
+        </ul>
+      </div>
+      <div class="uk-navbar-flip">
+        <div class ="uk-navbar-content">
+          <span id="signinButton">
+            <span
+              class="g-signin"
+              data-clientid="1019598927602.apps.googleusercontent.com"
+              data-callback="signinCallback"
+              data-cookiepolicy="single_host_origin"
+              data-requestvisibleactions="http://schemas.google.com/AddActivity"
+              data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/fusiontables"
+              data-theme="light">
             </span>
-          </div>
+          </span>
+          <span id="authorized" style="visibility: hidden">
+            <img id="account-img" src="" alt="" class="img-circle" />
+            <span id="account-name"></span>
+          </span>
         </div>
       </div>
-      <div id="offcanvas-menu" class="uk-offcanvas">
-        <div class="uk-offcanvas-bar">
-          <ul class="uk-navbar-nav">
-            <li class="item-1 current active"><a href="/" >Home</a></li>
-            <li class="item-3"><a href="#setting" >Settings</a></li>
-            <li class="item-4"><a href="#plan" >Plan</a>
-            <li class="item-2"><a href="#chart">Chart</a></li>
-          </ul>
-        </div>
+      <div class="uk-visible-small uk-navbar-brand uk-navbar-center">iFi</div>
+    </div>
+    <div id="offcanvas-menu" class="uk-offcanvas">
+      <div class="uk-offcanvas-bar">
+        <ul class="uk-navbar-nav">
+          <li class="item-1 current active"><a href="/" >Home</a></li>
+          <li class="item-3"><a href="#setting" >Settings</a></li>
+          <li class="item-4"><a href="#plan" >Plan</a>
+          <li class="item-2"><a href="#chart">Chart</a></li>
+        </ul>
       </div>
     </div>
+    <!--
+      </div>
+    -->
     <div class="uk-container uk-container-center">
       <div class="uk-grid">
         <div class="uk-width-10-10">
@@ -209,9 +224,9 @@
             </tbody>
           </table>
         </div>
-<!--
-<button class="uk-button" data-bind="click: insertRows">保存する</button>
--->
+        <!--
+        <button class="uk-button" data-bind="click: insertRows">保存する</button>
+        -->
       </div>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
@@ -426,7 +441,7 @@
         _this.bmr = ko.computed(function () {
           return IfiUtil.ceil(_this.ifi.calcBeeWithHbeForJapanese(_this.gender(), _this.age(), _this.weight(), _this.height()));
         }, _this);
-        _this.tdee = ko.computed(function() {
+        _this.tdee = ko.computed(function () {
           return _this.ifi.calcTdee(_this.bmr(), _this.activityLevelFactor());
         }, _this);
         _this.actionPlan = ko.observable();
@@ -476,15 +491,28 @@
         gapi.client.setApiKey(apiKey);
       }
 
+function signinCallback(authResult) {
+  if (authResult['access_token']) {
+    // 正常に承認されました
+    // ユーザーが認証されたのでログイン ボタンを非表示にします。例:
+    document.getElementById('signinButton').setAttribute('style', 'display: none');
+  } else if (authResult['error']) {
+    // エラーが発生しました。
+    // 可能性のあるエラー コード:
+    //   「access_denied」 - ユーザーがアプリへのアクセスを拒否しました
+    //   「immediate_failed」 - ユーザーを自動的にログインできませんでした
+    // console.log（「There was an error: 」 + authResult[「エラー」]）;
+  }
+}      /**
       function signinCallback(authResult) {
         if (authResult['status']['signed_in']) {
-          document.getElementById('signinButton').setAttribute('style', 'display: none');
+          document.getElementById('signinButton').setAttribute('style', 'visibility: hidden');
           makeApiCall();
         } else {
           console.log('Sign-in state: ' + authResult['error']);
         }
       }
-
+*/
       (function() {
         var po = document.createElement('script');
         po.type = 'text/javascript';
